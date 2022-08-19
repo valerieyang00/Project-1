@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    text-align: center;
+}
+.grid {
+    min-width: 100vh;
+    min-height: 80vh;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 8fr 1fr;
+    grid-template-areas: "header header header header"
+                         "start start start start"
+                         "timer score score bestscore"
+                         "canvas canvas canvas bestscore"
+                         "text text instructions bestscore";
+    justify-content: center;
+    
+}
+
+.header {
+    grid-area: header;
+
+}
+
+.start {
+    grid-area: start;
+
+}
+
+.aside-top-left {
+    grid-area: timer;
+}
+
+.aside-top-right {
+    grid-area: score;
+}
+
+.aside-right {
+    grid-area: bestscore;
+}
+
+.main {
+    grid-area: canvas;
+}
+
+.aside-btm-left {
+    grid-area: text;
+}
+
+.aside-btm-right {
+    grid-area: instructions;
+}
