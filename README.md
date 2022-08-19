@@ -27,3 +27,8 @@ The ants will come out from 4 side of the room, trying to reach the treasures pl
 * Make "items" like Fish to appear randomly in the gameroom for 3 seconds, if kitty eats the fish, it slows down the ants speed for 5 seconds + bonus points
 * Make "traps" appear randomly in the gameroom for 3 seconds, if kitty steps on the trap, Game over.
 
+### Potential Roadblocks
+* Having many different sets of timers will complicate the loops to be written
+* Setting ideal time for each game action that makes the game enjoyable
+
+
