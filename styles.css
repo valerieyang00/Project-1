@@ -1,52 +1,96 @@
 body {
     display: flex;
     text-align: center;
+    background-color: black;
 }
 .grid {
     min-width: 100vh;
     min-height: 80vh;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 8fr 1fr;
+    grid-template-rows: 0.3fr 0.3fr 0.5fr 6fr 0.7fr;
     grid-template-areas: "header header header header"
                          "start start start start"
                          "timer score score bestscore"
                          "canvas canvas canvas bestscore"
-                         "text text instructions bestscore";
+                         "text text text instructions";
     justify-content: center;
+    font-family: 'Space Mono', monospace;
+    color: blanchedalmond;
     
 }
 
 .header {
     grid-area: header;
+    font-family: 'Silkscreen', cursive;
+    color: orange;
+    font-size: 25px;
 
 }
 
 .start {
     grid-area: start;
+    
 
 }
 
 .aside-top-left {
     grid-area: timer;
+    border-left: solid 5px lightskyblue;
+    border-top: solid 5px lightskyblue;
+    border-right: solid 5px lightskyblue;
+    
 }
 
 .aside-top-right {
     grid-area: score;
+    border-top: solid 5px lightskyblue;
+    border-right: solid 5px lightskyblue;
+    
 }
 
 .aside-right {
     grid-area: bestscore;
+    border-top: solid 5px lightskyblue;
+    border-right: solid 5px lightskyblue;
+    border-bottom: solid 5px lightskyblue;
+    
+    
 }
 
-.main {
+main {
     grid-area: canvas;
+    border: solid 5px lightskyblue;
+    margin: 0;
+    
 }
 
 .aside-btm-left {
     grid-area: text;
+    border-left: solid 5px lightskyblue;
+    border-right: solid 5px lightskyblue;
+    border-bottom: solid 5px lightskyblue;
+    
 }
 
 .aside-btm-right {
     grid-area: instructions;
+    border-right: solid 5px lightskyblue;
+    border-bottom: solid 5px lightskyblue;
+    
+    
 }
+
+#startBtn {
+    font-family: 'Silkscreen', cursive;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#canvas {
+    height: 850px;
+    width: 1000px;
+
+}
+
