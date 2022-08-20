@@ -1,27 +1,30 @@
 // const for HTML elements
 
-const startBtn = document.querySelector("#startBtn")
-const canvas = document.querySelector("canvas")
+    const startBtn = document.querySelector("#startBtn")
+    const canvas = document.querySelector("canvas")
 
 //context for canvas
-const ctx = canvas.getContext("2d")
-canvas.setAttribute('height', getComputedStyle(canvas)['height'])
-canvas.setAttribute('width', getComputedStyle(canvas)['width'])
+    const ctx = canvas.getContext("2d")
+    canvas.setAttribute('height', getComputedStyle(canvas)['height'])
+    canvas.setAttribute('width', getComputedStyle(canvas)['width'])
 
 //images for canvas and game pieces
-const background = new Image()
-const treasureImage = new Image()
-const kittyImage = new Image()
-background.src = "./media/v882-kul-46.jpg"
-treasureImage.src = "./media/My project-1 (1).png"
-kittyImage.src = "./media/cat.png"
+    const background = new Image()
+    const treasureImage = new Image()
+    const kittyImage = new Image()
+    background.src = "./media/v882-kul-46.jpg"
+    treasureImage.src = "./media/My project-1 (1).png"
+    kittyImage.src = "./media/cat.png"
 
-background.onload = () => {
+    background.onload = () => {
     ctx.drawImage(background, 0, 0, 1000, 850)
-}
-treasureImage.onload = () => {
+    }
+
+    treasureImage.onload = () => {
     ctx.drawImage(treasureImage, 330, 305, 340, 240)
-}
+    }
+
+ 
 
 //functions to render and move kitty around
 
@@ -33,14 +36,13 @@ class Crawler {
     this.height = height
     this.image = image
     }
-    draw(ctx) {
-        this.image.onload = () => {
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+    renderImages() {
+    this.image.onload = () => {    
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height)}}
     }
-}}
 
 const kitty = new Crawler(200,200,100,100,kittyImage)
-console.log(Crawler)
+
 
 function movementHandler(e) {
     const speed = 10 // how many pixels kitty moves
@@ -81,8 +83,6 @@ function movementHandler(e) {
 
 document.addEventListener("keydown", movementHandler)
 
-
-
 // ant bases set up
 class staticObj {
     constructor(x, y, width, height, color) {
@@ -105,19 +105,25 @@ const baseRight = new staticObj(881, 375, 10, 100, "blue")
 
 
 //game loops 
-const gameLoopInterval = setInterval(gameLoop, 60)
+window.requestAnimationFrame(gameLoop)
+
 function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     baseTop.render();
     baseBtm.render();
     baseLeft.render();
     baseRight.render();
-   
+    kitty.renderKitty();
 
 
-   
+
+window.requestAnimationFrame(gameLoop)
 }
 
-canvas.addEventListener("click", (e) => {
-    console.log(e.offsetX, e.offsetY)
-})
+
+
+
+// canvas.addEventListener("click", (e) => {
+//     console.log(e.offsetX, e.offsetY)
+// })
 
