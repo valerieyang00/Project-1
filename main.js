@@ -26,6 +26,12 @@ let gameArea = {
         canvas.setAttribute('height', getComputedStyle(canvas)['height']);
         canvas.setAttribute('width', getComputedStyle(canvas)['width']);
         this.interval = setInterval(updateGameArea, 60);
+        document.addEventListener ("keydown", function (e) {
+            gameArea.key = e.key;
+        })
+        document.addEventListener ("keyup", function (e) {
+            gameArea.key = false;
+        })
     },
     clear : function() {
         this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
@@ -41,8 +47,8 @@ let baseLeft;
 let baseRight;
 
 function startGame () {
-    background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "image")
-    treasure = new component(330, 305, 340, 240, "./media/My project-1 (1).png", "image")
+    background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "background")
+    treasure = new component(330, 305, 340, 240, "./media/My project-1 (1).png", "background")
     kitty = new component (200, 200, 100, 100, "./media/cat.png", "image" )
     baseTop = new component(450, 99, 100, 10, "blue")
     baseBtm = new component(450, 744, 100, 10, "blue")
@@ -55,7 +61,7 @@ function startGame () {
 class component {
     constructor (x, y, width, height, color, type) {
     this.type = type;
-    if (type == "image") {
+    if (type == "image" || type == "background") {
         this.image = new Image();
         this.image.src = color;
     }    
@@ -68,8 +74,8 @@ class component {
     this.color = color;
     this.render = () => {
         const ctx = gameArea.context;
-        if (this.type == "image") {
-        window.onload = () => {
+        if (this.type == "image" || this.type == "background") {
+        this.image.onload = () => {
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height)};
         } else {
             ctx.fillStyle = this.color;
@@ -78,6 +84,11 @@ class component {
     this.newPos = () => {
         this.x += this.speedX;
         this.y += this.speedY;
+        if (this.type == "background") {
+            if (this.x == -(this.width)) {
+                this.x = 0;
+            }
+        }
     }}}
 
 function updateGameArea() {
@@ -86,8 +97,16 @@ function updateGameArea() {
     baseBtm.render();
     baseLeft.render();
     baseRight.render();
+    background.newPos();
     background.render();
+    treasure.newPos();
     treasure.render();
+    kitty.speedX = 0;
+    kitty.speedY = 0;
+    if (gameArea.key && gameArea.key == "arrowUp") {moveUp};
+    if (gameArea.key && gameArea.key == "arrowDown") {moveDown};
+    if (gameArea.key && gameArea.key == "arrowLeft") {moveLeft};
+    if (gameArea.key && gameArea.key == "arrowRight") {moveRight};
     kitty.newPos();
     kitty.render();
 }
