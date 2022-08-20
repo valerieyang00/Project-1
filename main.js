@@ -32,8 +32,8 @@ start : function () {
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
     const antsInterval = setInterval(function () {
-        antsTop.push(new component(500, 10, 5, 5, "white"))
-        antsBtm.push(new component(500, 840, 5, 5, "white"))
+        antsTop.push(new component(500, 15, 5, 5, "white"))
+        antsBtm.push(new component(500, 835, 5, 5, "white"))
         antsLeft.push(new component(10, 425, 5, 5, "white"))
         antsRight.push(new component(990, 425, 5, 5, "white"))}, 1000)},
 clear : function() {
@@ -51,8 +51,8 @@ let baseRight;
 
 function startGame () {
 // background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "background")
-treasure = new component(350, 325, 300, 200, "yellow")
-kitty = new component (200, 200, 80, 80, "orange" )
+treasure = new component(400, 320, 200, 180, "./media/ImageNameHere (1).png", "image")
+kitty = new component (200, 200, 120, 120, "./media/cat.png", "image")
 baseTop = new component(450, 10, 100, 10, "blue")
 baseBtm = new component(450, 830, 100, 10, "blue")
 baseLeft = new component(0, 375, 10, 100, "blue")
@@ -78,8 +78,7 @@ if (type == "image" || type == "background") {
     render () {
     const ctx = gameArea.context;
     if (this.type == "image" || this.type == "background") {
-    this.image.onload = () => {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)};
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     } else {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height)}
