@@ -90,6 +90,9 @@ main {
 }
 
 #canvas {
+    background-image: url("./media/v882-kul-46.jpg");
+    background-position: center;
+    background-size: 1300px;
     height: 850px;
     width: 1000px;
 

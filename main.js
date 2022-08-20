@@ -51,8 +51,8 @@ let baseRight;
 
 function startGame () {
 // background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "background")
-treasure = new component(400, 320, 200, 180, "./media/ImageNameHere (1).png", "image")
-kitty = new component (200, 200, 120, 120, "./media/cat.png", "image")
+treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image")
+kitty = new component (200, 200, 120, 120, "./media/Cat 15.png", "image")
 baseTop = new component(450, 10, 100, 10, "blue")
 baseBtm = new component(450, 830, 100, 10, "blue")
 baseLeft = new component(0, 375, 10, 100, "blue")
