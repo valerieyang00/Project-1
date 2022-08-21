@@ -2,7 +2,7 @@
 
 const startBtn = document.querySelector("#startBtn")
 const resetBtn = document.querySelector("#resetBtn")
-const displayText = document.querySelector(".aside-btm-left")
+const displayText = document.querySelector(".aside-btm")
 const displayTime = document.querySelector(".aside-top-left")
 const displayScore = document.querySelector(".aside-top-right")
 const displayNo1 = document.querySelector("#first")

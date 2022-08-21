@@ -2,6 +2,7 @@ body {
     display: flex;
     text-align: center;
     background-color: black;
+    font-size: 20px;
 }
 .grid {
     min-width: 100vh;
@@ -10,7 +11,7 @@ body {
     grid-template-columns: 2fr 1fr 1fr 1fr;
     grid-template-rows: 0.3fr 0.3fr 0.5fr 6fr 0.7fr;
     grid-template-areas: "header header header header"
-                         "start start start ins"
+                         "start start start start"
                          "timer score score bestscore"
                          "canvas canvas canvas bestscore"
                          "text text text text";
@@ -29,12 +30,10 @@ body {
 }
 
 .start {
-     grid-area: start; 
+     grid-area: start;
+     display: flex;
+     justify-content: space-evenly; 
 
-}
-
-.ins {
-    grid-area: ins;
 }
 
 .aside-top-left {
@@ -42,6 +41,7 @@ body {
     border-left: solid 5px lightskyblue;
     border-top: solid 5px lightskyblue;
     border-right: solid 5px lightskyblue;
+    padding-top: 20px;
     
 }
 
@@ -49,6 +49,7 @@ body {
     grid-area: score;
     border-top: solid 5px lightskyblue;
     border-right: solid 5px lightskyblue;
+    padding-top: 20px;
     
 }
 
@@ -57,7 +58,7 @@ body {
     border-top: solid 5px lightskyblue;
     border-right: solid 5px lightskyblue;
     border-bottom: solid 5px lightskyblue;
-    
+    padding-top: 20px;   
     
 }
 
@@ -73,6 +74,8 @@ main {
     border-left: solid 5px lightskyblue;
     border-right: solid 5px lightskyblue;
     border-bottom: solid 5px lightskyblue;
+    padding-top: 10px;
+    font-size: 40px;
     
 }
 
@@ -83,7 +86,8 @@ main {
     padding: 10px;
     margin-bottom: 20px;
     margin-left: 10px;
-    background-color: lightpink;
+    background-color: lightgoldenrodyellow;
+    width: 189px;
 
 }
 
@@ -91,12 +95,15 @@ main {
     font-size: 15px;
     padding: 5px;
     margin-top: 15px;
-    background-color: lightblue;
+    background-color: lightseagreen;
 }
 
 #insBtn {
-    background-color: lightblue;
-    margin-left: -70px;
+    background-color: lightseagreen;
+}
+
+#resetBtn {
+    background-color: lightcoral;
 }
 
 
