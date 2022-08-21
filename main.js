@@ -1,7 +1,7 @@
 // const for HTML elements
 
 const startBtn = document.querySelector("#startBtn")
-const resetBtn = document.querySelector("#reset")
+const resetBtn = document.querySelector("#resetBtn")
 const displayText = document.querySelector(".aside-btm-left")
 // const canvas = document.querySelector("canvas")
 
@@ -54,11 +54,11 @@ let baseRight;
 function startGame () {
 // background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "background")
 treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image")
-kitty = new component (200, 200, 120, 120, "./media/Cat 15.png", "image")
-baseTop = new component(450, 10, 100, 10, "blue")
-baseBtm = new component(450, 830, 100, 10, "blue")
-baseLeft = new component(0, 375, 10, 100, "blue")
-baseRight = new component(990, 375, 10, 100, "blue")
+kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image")
+baseTop = new component(375, 10, 250, 30, "#24225C")
+baseBtm = new component(375, 810, 250, 30, "#24225C")
+baseLeft = new component(0, 300, 30, 250, "#24225C")
+baseRight = new component(970, 300, 30, 250, "#24225C")
 gameArea.start();
 
 }
@@ -97,7 +97,7 @@ treasure.render();
 kitty.render();
 
 for(let i = 0; i < antsTop.length; i++) {
-    antsTop[i].y += 3
+    antsTop[i].y += 1
     antsTop[i].render();
     if(detectHit(antsTop[i], treasure)) {
         endGame();
@@ -111,7 +111,7 @@ for(let i = 0; i < antsBtm.length; i++) {
     }
 }
 for(let i = 0; i < antsLeft.length; i++) {
-    antsLeft[i].x += 1
+    antsLeft[i].x += 5
     antsLeft[i].render();
     if(detectHit(antsLeft[i], treasure)) {
         endGame();
@@ -123,6 +123,8 @@ for(let i = 0; i < antsRight.length; i++) {
     if(detectHit(antsRight[i], treasure)) {
         endGame();
     }
+
+if(detectHit())    
 }}
 
 
@@ -132,10 +134,18 @@ for(let i = 0; i < antsRight.length; i++) {
 //event listeners
 
 startBtn.addEventListener("click", startGame)
+resetBtn.addEventListener("click", () => {
+    endGame();
+    gameArea.clear();
+    antsTop = []
+    antsBtm = []
+    antsLeft = []
+    antsRight = []
+    antsInterval = null
+    constructor = null})
 
 function movementHandler(e) {
     const speed = 50;
-    if (kitty.alive === true) {
         switch (e.keyCode) {
             case(38):
                 // move the hero up
@@ -177,7 +187,7 @@ function movementHandler(e) {
                 break
         }
     }   
-}
+
 
 document.addEventListener("keydown", movementHandler)
 
@@ -197,10 +207,8 @@ function detectHit(objOne, objTwo) {
 }
 
 function endGame () {
-    kitty.alive = false
     displayText.innerText = "Game Over"
-    
-
+    clearInterval(gameArea.interval)
 }
 
 
