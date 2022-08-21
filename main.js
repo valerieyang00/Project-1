@@ -32,6 +32,9 @@ function countSeconds () {
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
         endGame(); 
+        bestScore.push(score)
+        bestScoreCalc();
+        score = 0;
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -69,23 +72,19 @@ let antsBtm = []
 let antsLeft = []
 let antsRight = []
 let antsInterval = null;
-let antTimeTop= 1000;
-let antTimeBtm= 1000;
-let antTimeLeft= 1000;
-let antTimeRight= 1000;
+let antTimeTop = 1000;
+let antTimeBtm = 1000;
+let antTimeLeft = 1000;
+let antTimeRight = 1000;
+let brAntT = "./media/brown ant Down.png"
+let brAntB = "./media/brown ant Up.png"
+let brAntL = "./media/brown ant Right.png"
+let brAntR = "./media/brown ant Left.png"
+let redAntT = "./media/red ant Down.png"
+let redAntB = "./media/red ant Up.png"
+let redAntL = "./media/red ant Right.png"
+let redAntR = "./media/red ant Left.png"
 
-// let topInterval = setInterval(function () {
-//     antsTop.push(new component(500, 15, 5, 5, "white"))
-//     }, antTimeTop);
-// let btmInterval = setInterval(function () {
-//     antsBtm.push(new component(500, 835, 5, 5, "white"))
-//     }, antTimeBtm);
-// let leftInterval = setInterval(function () {
-//     antsLeft.push(new component(10, 425, 5, 5, "white"))
-//     }, antTimeLeft);
-// let rightInterval = setInterval(function () {
-//     antsRight.push(new component(990, 425, 5, 5, "white"))
-//     }, antTimeRight)
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -97,19 +96,20 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    // this.topInterval = setInterval(function () {
-    //     antsTop.push(new component(500, 15, 5, 5, "white"))
-    //     }, antTimeTop);
-    // this.btmInterval = setInterval(function () {
-    //     antsBtm.push(new component(500, 835, 5, 5, "white"))
-    //     }, antTimeBtm);
-    // this.leftInterval = setInterval(function () {
-    //     antsLeft.push(new component(10, 425, 5, 5, "white"))
-    //     }, antTimeLeft);
-    // this.rightInterval = setInterval(function () {
-    //     antsRight.push(new component(990, 425, 5, 5, "white"))
-    //     }, antTimeRight)
+    this.topInterval = setInterval(function () {
+        antsTop.push(new component(500, 15, 25, 10, brAntT, "image"))
+        }, antTimeTop);
+    this.btmInterval = setInterval(function () {
+        antsBtm.push(new component(500, 835, 25, 10, brAntB, "image"))
+        }, antTimeBtm);
+    this.leftInterval = setInterval(function () {
+        antsLeft.push(new component(10, 425, 10, 25, brAntL, "image"))
+        }, antTimeLeft);
+    this.rightInterval = setInterval(function () {
+        antsRight.push(new component(990, 425, 10, 25, brAntR, "image"))
+        }, antTimeRight)
     this.timerInterval = setInterval(countSeconds, 1000)
+    score = 0;
     this.scoreInterval = setInterval(scoreTracker, 60)},
 
 clear : function() {
@@ -122,6 +122,7 @@ let baseTop;
 let baseBtm;
 let baseLeft;
 let baseRight;
+
 
 
 function startGame () {
@@ -169,28 +170,28 @@ treasure.render();
 kitty.render();
 
 for(let i = 0; i < antsTop.length; i++) {
-    antsTop[i].y += 1
+    antsTop[i].y += 1.3
     antsTop[i].render();
     if(detectHit(antsTop[i], treasure)) {
         endGame();
     }
 }
 for(let i = 0; i < antsBtm.length; i++) {
-    antsBtm[i].y -= 1
+    antsBtm[i].y -= 1.3
     antsBtm[i].render();
     if(detectHit(antsBtm[i], treasure)) {
         endGame();
     }
 }
 for(let i = 0; i < antsLeft.length; i++) {
-    antsLeft[i].x += 1
+    antsLeft[i].x += 1.3
     antsLeft[i].render();
     if(detectHit(antsLeft[i], treasure)) {
         endGame();
     }
 }
 for(let i = 0; i < antsRight.length; i++) {
-    antsRight[i].x -= 1
+    antsRight[i].x -= 1.3
     antsRight[i].render();
     if(detectHit(antsRight[i], treasure)) {
         endGame();
@@ -216,12 +217,18 @@ if (detectHit(kitty,baseRight)) {
     // clearInterval(this.topInterval)
     // setTimeout(this.topInterval, 3000)
     }
+
+
 }}
 
 
 //event listeners
 
-startBtn.addEventListener("click", startGame)
+startBtn.addEventListener("click", () => {
+    startGame();
+    startBtn.disabled = true;
+})
+
 insBtn.addEventListener("click", () => {
     textIns.style.display = "block"
     canvas.style.display = "none"
@@ -248,9 +255,9 @@ resetBtn.addEventListener("click", () => {
     constructor = null
     bestScore.push(score)
     bestScoreCalc();
-    score = 0;
     sec = 0;
     min = 0;
+    startBtn.disabled = false;
 })
 
 function movementHandler(e) {
