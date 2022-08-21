@@ -3,21 +3,32 @@
 const startBtn = document.querySelector("#startBtn")
 const resetBtn = document.querySelector("#resetBtn")
 const displayText = document.querySelector(".aside-btm-left")
+const displayTime = document.querySelector(".aside-top-left")
 // const canvas = document.querySelector("canvas")
+// // canvas.addEventListener("click", (e) => {
+// //     console.log(e.offsetX, e.offsetY)
+// // })
 
-//context for canvas
-// const ctx = canvas.getContext("2d")
-// canvas.setAttribute('height', getComputedStyle(canvas)['height'])
-// canvas.setAttribute('width', getComputedStyle(canvas)['width'])
-// canvas.addEventListener("click", (e) => {
-//     console.log(e.offsetX, e.offsetY)
-// })
+//Time Display
+let sec = 0;
+let min = 0;
+function countSeconds () {
+    sec += 1;
+    if (sec < 10) {
+        displayTime.innerText = `00 : 0${sec}`
+    } else if (sec === 60) {
+        min += 1;
+        sec = 0;
+        displayTime.innerText = `0${min} : 0${sec}`
+        endGame(); 
+        clearInterval(gameArea.timerInterval)    
+    } else {
+        displayTime.innerText = `00 : ${sec}`
+    }
+}
 
-// const background = new Image()
-// background.src = "./media/v882-kul-46.jpg"
-// background.onload = () => {
-//     ctx.drawImage(background, 0, 0, 1000, 850)
-//     }
+
+// Ants set up
 let antsTop = []
 let antsBtm = []
 let antsLeft = []
@@ -62,7 +73,8 @@ start : function () {
         }, antTimeLeft);
     this.rightInterval = setInterval(function () {
         antsRight.push(new component(990, 425, 5, 5, "white"))
-        }, antTimeRight)},
+        }, antTimeRight)
+    this.timerInterval = setInterval(countSeconds, 1000)},
 
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
