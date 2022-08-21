@@ -62,7 +62,7 @@ main {
     grid-area: canvas;
     border: solid 5px lightskyblue;
     margin: 0;
-    
+   
 }
 
 .aside-btm-left {
@@ -81,12 +81,24 @@ main {
     
 }
 
-#startBtn, #resetBtn {
+#startBtn, #resetBtn, #insBtn, #hideIns {
     font-family: 'Silkscreen', cursive;
     font-size: 20px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     margin-left: 10px
+
+}
+
+#hideIns {
+    font-size: 15px;
+    padding: 5px;
+    margin-top: 15px;
+}
+
+#insBtn {
+    margin-left: 5px;
+    margin-top: 25px;
 }
 
 #canvas {
@@ -96,5 +108,13 @@ main {
     height: 850px;
     width: 1000px;
 
+}
+.instructions {
+    display: none;
+}
+
+#ul {
+    text-align: left;
+    padding-left: 100px;
 }
 

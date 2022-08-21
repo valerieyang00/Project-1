@@ -32,13 +32,28 @@
             <div id = "third">3.</div>        
         </div>
 
-        <main><canvas id="canvas"></canvas>
+        <main>
+          <div class = "instructions">
+            <h3>How to Play:</h3>
+            <p>Help the Kitty protect its treasures from the Ants!</p>
+            <ul id = "ul">
+              <li>Move Arrows Up/Down/Left/Right to move the Kitty</li>
+              <li>Hit any of the 4 ant bases to freeze the ants for 3 seconds and +30 points</li>
+              <li>Hit any of the White Ants to slow them down for 2 seconds. AVOID the Poisonous Red Ants</li>
+              <li>Press "h" key for Kitty to hiss and scare the ants to slow down for 2 seconds.<br> Only can be used 3 times in 1 game, -10 points per hiss</li>
+              <li>Max play time 1 minute, +100 bonus points</li>
+            </ul> 
+            <button id = "hideIns">Hide Instructions</button>
+          </div> 
+            <canvas id="canvas">
+            </canvas>
         </main>
         
 
         <div class = "aside-btm-left">text</div>
-
-        <div class = "aside-btm-right">instructions</div>
+        <div class = "aside-btm-right">
+          <button id = "insBtn">Instructions</button>
+        </div>
     </div>
     </div>
   </body>

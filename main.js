@@ -8,6 +8,9 @@ const displayScore = document.querySelector(".aside-top-right")
 const displayNo1 = document.querySelector("#first")
 const displayNo2 = document.querySelector("#second")
 const displayNo3 = document.querySelector("#third")
+const textIns = document.querySelector(".instructions")
+const insBtn = document.querySelector("#insBtn")
+const hideIns = document.querySelector("#hideIns")
 // const canvas = document.querySelector("canvas")
 // // canvas.addEventListener("click", (e) => {
 // //     console.log(e.offsetX, e.offsetY)
@@ -56,7 +59,6 @@ function bestScoreCalc () {
     displayNo3.innerText = `3. ${bestScore[2]}`
     }}
 
-    console.log(bestScore)
 
 
 
@@ -220,6 +222,17 @@ if (detectHit(kitty,baseRight)) {
 //event listeners
 
 startBtn.addEventListener("click", startGame)
+insBtn.addEventListener("click", () => {
+    textIns.style.display = "block"
+    canvas.style.display = "none"
+})
+
+hideIns.addEventListener("click", () => {
+    textIns.style.display = "none"
+    canvas.style.display = "block"
+})
+
+
 resetBtn.addEventListener("click", () => {
     endGame();
     gameArea.clear();
