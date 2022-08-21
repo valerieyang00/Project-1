@@ -23,9 +23,27 @@ let antsBtm = []
 let antsLeft = []
 let antsRight = []
 let antsInterval = null;
+let antTimeTop= 1000;
+let antTimeBtm= 1000;
+let antTimeLeft= 1000;
+let antTimeRight= 1000;
+
+// let topInterval = setInterval(function () {
+//     antsTop.push(new component(500, 15, 5, 5, "white"))
+//     }, antTimeTop);
+// let btmInterval = setInterval(function () {
+//     antsBtm.push(new component(500, 835, 5, 5, "white"))
+//     }, antTimeBtm);
+// let leftInterval = setInterval(function () {
+//     antsLeft.push(new component(10, 425, 5, 5, "white"))
+//     }, antTimeLeft);
+// let rightInterval = setInterval(function () {
+//     antsRight.push(new component(990, 425, 5, 5, "white"))
+//     }, antTimeRight)
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
+
 start : function () {
     this.canvas.width = 1000;
     this.canvas.height = 850;
@@ -33,16 +51,23 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    antsInterval = setInterval(function () {
+    this.topInterval = setInterval(function () {
         antsTop.push(new component(500, 15, 5, 5, "white"))
+        }, antTimeTop);
+    this.btmInterval = setInterval(function () {
         antsBtm.push(new component(500, 835, 5, 5, "white"))
+        }, antTimeBtm);
+    this.leftInterval = setInterval(function () {
         antsLeft.push(new component(10, 425, 5, 5, "white"))
-        antsRight.push(new component(990, 425, 5, 5, "white"))}, 1000)},
+        }, antTimeLeft);
+    this.rightInterval = setInterval(function () {
+        antsRight.push(new component(990, 425, 5, 5, "white"))
+        }, antTimeRight)},
+
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
 }}
 
-// let background;
 let treasure;
 let kitty;
 let baseTop;
@@ -52,7 +77,6 @@ let baseRight;
 
 
 function startGame () {
-// background = new component(0, 0, 1000, 850, "./media/v882-kul-46.jpg", "background")
 treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image")
 kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image")
 baseTop = new component(375, 10, 250, 30, "#24225C")
@@ -111,7 +135,7 @@ for(let i = 0; i < antsBtm.length; i++) {
     }
 }
 for(let i = 0; i < antsLeft.length; i++) {
-    antsLeft[i].x += 5
+    antsLeft[i].x += 1
     antsLeft[i].render();
     if(detectHit(antsLeft[i], treasure)) {
         endGame();
@@ -124,11 +148,27 @@ for(let i = 0; i < antsRight.length; i++) {
         endGame();
     }
 
-if(detectHit())    
+if (detectHit(kitty,baseTop)) {
+    console.log ("hithit")
+    clearInterval(gameArea.topInterval)
+    // setTimeout(gameArea.start, 3000)
+    }
+if (detectHit(kitty,baseBtm)) {
+    console.log ("hithit")
+    // clearInterval(this.topInterval)
+    // setTimeout(this.topInterval, 3000)
+    }
+if (detectHit(kitty,baseLeft)) {
+    console.log ("hithit")
+    // clearInterval(this.topInterval)
+    // setTimeout(this.topInterval, 3000)
+    }
+if (detectHit(kitty,baseRight)) {
+    console.log ("hithit")
+    // clearInterval(this.topInterval)
+    // setTimeout(this.topInterval, 3000)
+    }
 }}
-
-
-
 
 
 //event listeners
@@ -141,7 +181,11 @@ resetBtn.addEventListener("click", () => {
     antsBtm = []
     antsLeft = []
     antsRight = []
-    antsInterval = null
+    clearInterval(gameArea.interval);
+    clearInterval(gameArea.topInterval);
+    clearInterval(gameArea.btmInterval);
+    clearInterval(gameArea.leftInterval);
+    clearInterval(gameArea.rightInterval);
     constructor = null})
 
 function movementHandler(e) {
@@ -182,8 +226,7 @@ function movementHandler(e) {
             case(72):
                 kitty.x = 200;
                 kitty.y = 200;
-                // kitty.x = kitty.X
-                // kitty.y = kitty.Y
+
                 break
         }
     }   
@@ -210,5 +253,4 @@ function endGame () {
     displayText.innerText = "Game Over"
     clearInterval(gameArea.interval)
 }
-
 
