@@ -2,6 +2,7 @@
 
 const startBtn = document.querySelector("#startBtn")
 const resetBtn = document.querySelector("#reset")
+const displayText = document.querySelector(".aside-btm-left")
 // const canvas = document.querySelector("canvas")
 
 //context for canvas
@@ -21,6 +22,7 @@ let antsTop = []
 let antsBtm = []
 let antsLeft = []
 let antsRight = []
+let antsInterval = null;
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -31,7 +33,7 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    const antsInterval = setInterval(function () {
+    antsInterval = setInterval(function () {
         antsTop.push(new component(500, 15, 5, 5, "white"))
         antsBtm.push(new component(500, 835, 5, 5, "white"))
         antsLeft.push(new component(10, 425, 5, 5, "white"))
@@ -91,36 +93,39 @@ baseTop.render();
 baseBtm.render();
 baseLeft.render();
 baseRight.render();
-// background.newPos();
-// background.render();
-// treasure.newPos();
 treasure.render();
-// kitty.speedX = 0;
-// kitty.speedY = 0;
-// if (gameArea.key && gameArea.key == "arrowUp") {moveUp};
-// if (gameArea.key && gameArea.key == "arrowDown") {moveDown};
-// if (gameArea.key && gameArea.key == "arrowLeft") {moveLeft};
-// if (gameArea.key && gameArea.key == "arrowRight") {moveRight};
-// kitty.newPos();
 kitty.render();
 
 for(let i = 0; i < antsTop.length; i++) {
-    antsTop[i].y += 1
+    antsTop[i].y += 3
     antsTop[i].render();
+    if(detectHit(antsTop[i], treasure)) {
+        endGame();
+    }
 }
 for(let i = 0; i < antsBtm.length; i++) {
     antsBtm[i].y -= 1
     antsBtm[i].render();
+    if(detectHit(antsBtm[i], treasure)) {
+        endGame();
+    }
 }
 for(let i = 0; i < antsLeft.length; i++) {
     antsLeft[i].x += 1
     antsLeft[i].render();
+    if(detectHit(antsLeft[i], treasure)) {
+        endGame();
+    }
 }
 for(let i = 0; i < antsRight.length; i++) {
     antsRight[i].x -= 1
     antsRight[i].render();
-}
-}
+    if(detectHit(antsRight[i], treasure)) {
+        endGame();
+    }
+}}
+
+
 
 
 
@@ -138,7 +143,7 @@ function movementHandler(e) {
                 // kitty.y = kitty.Y
                 if (kitty.y < 0) {
                     kitty.y = 0
-                }
+                }            
                 break
             case(40):
                 // move the kitty down
@@ -175,5 +180,27 @@ function movementHandler(e) {
 }
 
 document.addEventListener("keydown", movementHandler)
+
+//detect collision
+
+function detectHit(objOne, objTwo) {
+    const left = objOne.x + objOne.width >= objTwo.x
+    const right = objOne.x <= objTwo.x + objTwo.width - 10
+    const top = objOne.y + objOne.height >= objTwo.y + 10
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 10
+    // console.log(top, left, right, bottom)
+    if (left && right && top && bottom) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function endGame () {
+    kitty.alive = false
+    displayText.innerText = "Game Over"
+    
+
+}
 
 
