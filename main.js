@@ -228,8 +228,8 @@ insBtn.addEventListener("click", () => {
 })
 
 hideIns.addEventListener("click", () => {
-    textIns.style.display = "none"
-    canvas.style.display = "block"
+    textIns.style.display= "none"
+    canvas.style.display = ""
 })
 
 

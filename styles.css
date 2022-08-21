@@ -10,10 +10,10 @@ body {
     grid-template-columns: 2fr 1fr 1fr 1fr;
     grid-template-rows: 0.3fr 0.3fr 0.5fr 6fr 0.7fr;
     grid-template-areas: "header header header header"
-                         "start start start start"
+                         "start start start ins"
                          "timer score score bestscore"
                          "canvas canvas canvas bestscore"
-                         "text text text instructions";
+                         "text text text text";
     justify-content: center;
     font-family: 'Space Mono', monospace;
     color: blanchedalmond;
@@ -29,9 +29,12 @@ body {
 }
 
 .start {
-    grid-area: start;
-    
+     grid-area: start; 
 
+}
+
+.ins {
+    grid-area: ins;
 }
 
 .aside-top-left {
@@ -65,7 +68,7 @@ main {
    
 }
 
-.aside-btm-left {
+.aside-btm {
     grid-area: text;
     border-left: solid 5px lightskyblue;
     border-right: solid 5px lightskyblue;
@@ -73,20 +76,14 @@ main {
     
 }
 
-.aside-btm-right {
-    grid-area: instructions;
-    border-right: solid 5px lightskyblue;
-    border-bottom: solid 5px lightskyblue;
-    
-    
-}
 
 #startBtn, #resetBtn, #insBtn, #hideIns {
     font-family: 'Silkscreen', cursive;
     font-size: 20px;
     padding: 10px;
     margin-bottom: 20px;
-    margin-left: 10px
+    margin-left: 10px;
+    background-color: lightpink;
 
 }
 
@@ -94,12 +91,15 @@ main {
     font-size: 15px;
     padding: 5px;
     margin-top: 15px;
+    background-color: lightblue;
 }
 
 #insBtn {
-    margin-left: 5px;
-    margin-top: 25px;
+    background-color: lightblue;
+    margin-left: -70px;
 }
+
+
 
 #canvas {
     background-image: url("./media/v882-kul-46.jpg");
@@ -111,6 +111,9 @@ main {
 }
 .instructions {
     display: none;
+    height: 850px;
+    width: 1000px;
+
 }
 
 #ul {
