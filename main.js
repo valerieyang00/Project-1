@@ -4,28 +4,61 @@ const startBtn = document.querySelector("#startBtn")
 const resetBtn = document.querySelector("#resetBtn")
 const displayText = document.querySelector(".aside-btm-left")
 const displayTime = document.querySelector(".aside-top-left")
+const displayScore = document.querySelector(".aside-top-right")
+const displayNo1 = document.querySelector("#first")
+const displayNo2 = document.querySelector("#second")
+const displayNo3 = document.querySelector("#third")
 // const canvas = document.querySelector("canvas")
 // // canvas.addEventListener("click", (e) => {
 // //     console.log(e.offsetX, e.offsetY)
 // // })
 
-//Time Display
+//Time Display including score increases per every 10 seconds played
 let sec = 0;
 let min = 0;
+let score = 0;
+let bestScore = []
+
 function countSeconds () {
     sec += 1;
     if (sec < 10) {
-        displayTime.innerText = `00 : 0${sec}`
+        displayTime.innerText = `Time : 00 : 0${sec}`
     } else if (sec === 60) {
         min += 1;
         sec = 0;
-        displayTime.innerText = `0${min} : 0${sec}`
+        score += 100;
+        displayTime.innerText = `Time : 0${min} : 0${sec}`
         endGame(); 
-        clearInterval(gameArea.timerInterval)    
     } else {
-        displayTime.innerText = `00 : ${sec}`
-    }
+        displayTime.innerText = `Time : 00 : ${sec}`
+        if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
+            score += 20;}
+    }}
+
+//ScoreTracker
+function scoreTracker () {
+    displayScore.innerText = `Score : ${score}`;
 }
+
+function bestScoreCalc () {
+    bestScore.sort(function(a, b){return b-a});
+    if (bestScore.length === 1) {
+        displayNo1.innerText = `1. ${bestScore[0]}`
+        displayNo2.innerText = `2. `
+        displayNo3.innerText = `3. `
+    } else if(bestScore.length === 2) {
+        displayNo1.innerText = `1. ${bestScore[0]}`
+        displayNo2.innerText = `2. ${bestScore[1]}`
+        displayNo3.innerText = `3. `
+    } else {
+    displayNo1.innerText = `1. ${bestScore[0]}`
+    displayNo2.innerText = `2. ${bestScore[1]}`
+    displayNo3.innerText = `3. ${bestScore[2]}`
+    }}
+
+    console.log(bestScore)
+
+
 
 
 // Ants set up
@@ -62,19 +95,20 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    this.topInterval = setInterval(function () {
-        antsTop.push(new component(500, 15, 5, 5, "white"))
-        }, antTimeTop);
-    this.btmInterval = setInterval(function () {
-        antsBtm.push(new component(500, 835, 5, 5, "white"))
-        }, antTimeBtm);
-    this.leftInterval = setInterval(function () {
-        antsLeft.push(new component(10, 425, 5, 5, "white"))
-        }, antTimeLeft);
-    this.rightInterval = setInterval(function () {
-        antsRight.push(new component(990, 425, 5, 5, "white"))
-        }, antTimeRight)
-    this.timerInterval = setInterval(countSeconds, 1000)},
+    // this.topInterval = setInterval(function () {
+    //     antsTop.push(new component(500, 15, 5, 5, "white"))
+    //     }, antTimeTop);
+    // this.btmInterval = setInterval(function () {
+    //     antsBtm.push(new component(500, 835, 5, 5, "white"))
+    //     }, antTimeBtm);
+    // this.leftInterval = setInterval(function () {
+    //     antsLeft.push(new component(10, 425, 5, 5, "white"))
+    //     }, antTimeLeft);
+    // this.rightInterval = setInterval(function () {
+    //     antsRight.push(new component(990, 425, 5, 5, "white"))
+    //     }, antTimeRight)
+    this.timerInterval = setInterval(countSeconds, 1000)
+    this.scoreInterval = setInterval(scoreTracker, 60)},
 
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
@@ -198,7 +232,13 @@ resetBtn.addEventListener("click", () => {
     clearInterval(gameArea.btmInterval);
     clearInterval(gameArea.leftInterval);
     clearInterval(gameArea.rightInterval);
-    constructor = null})
+    constructor = null
+    bestScore.push(score)
+    bestScoreCalc();
+    score = 0;
+    sec = 0;
+    min = 0;
+})
 
 function movementHandler(e) {
     const speed = 50;
@@ -238,7 +278,7 @@ function movementHandler(e) {
             case(72):
                 kitty.x = 200;
                 kitty.y = 200;
-
+                score -= 10;
                 break
         }
     }   
@@ -264,5 +304,6 @@ function detectHit(objOne, objTwo) {
 function endGame () {
     displayText.innerText = "Game Over"
     clearInterval(gameArea.interval)
+    clearInterval(gameArea.timerInterval)
 }
 
