@@ -11,10 +11,10 @@ const displayNo3 = document.querySelector("#third")
 const textIns = document.querySelector(".instructions")
 const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
-// const canvas = document.querySelector("canvas")
-canvas.addEventListener("click", (e) => {
-    console.log(e.offsetX, e.offsetY)})
-// // })
+
+// canvas.addEventListener("click", (e) => {
+//     console.log(e.offsetX, e.offsetY)})
+
 
 //Time Display including score increases per every 10 seconds played
 let sec = 0;
@@ -40,7 +40,7 @@ function countSeconds () {
             score += 20;}
     }}
 
-//ScoreTracker
+//ScoreTrackers
 function scoreTracker () {
     displayScore.innerText = `Score : ${score}`;
 }
@@ -70,7 +70,6 @@ let antsTop = []
 let antsBtm = []
 let antsLeft = []
 let antsRight = []
-// let antsInterval = null;
 let antTimeTop = 1000;
 let antTimeBtm = 1000;
 let antTimeLeft = 1000;
@@ -81,6 +80,7 @@ let antLoopLeft = true;
 let antLoopRight = true;
 let inGame = true;
 
+//function for red ants generator
 function redPush(location) {
     switch(location) {
     case("top") :        
@@ -101,6 +101,7 @@ function redPush(location) {
         break
 }}
 
+//function for randomizing ants generator
 let random1 = 0.1;
 let random2 = 0.1;
 let random3 = 0.1;
@@ -146,6 +147,7 @@ let randomRight = () => {
     else if (inGame) {setTimeout(randomRight, antTimeRight)} 
     }
 
+//game area set up    
 let gameArea = {
 canvas : document.querySelector("canvas"),
 
@@ -174,13 +176,13 @@ clear : function() {
 }}
 
 
+// setting up canvas for game start & Game loop
 let treasure;
 let kitty;
 let baseTop;
 let baseBtm;
 let baseLeft;
 let baseRight;
-
 
 
 function startGame () {
@@ -240,7 +242,7 @@ itemTrap();
 }
 
 
-//event listeners
+//Event Listeners for all buttons
 
 startBtn.addEventListener("click", () => {
     startGame();
@@ -280,14 +282,13 @@ resetBtn.addEventListener("click", () => {
     startBtn.disabled = false;
 })
 
+// Key events for game character
 let numH = 0;
 function movementHandler(e) {
     const speed = 50;
         switch (e.keyCode) {
             case(38):
-                // move the hero up
                 kitty.y -= speed;
-                // kitty.y = kitty.Y
                 if (kitty.y < 0) {
                     kitty.y = 0
                 }    
@@ -296,9 +297,7 @@ function movementHandler(e) {
                 }        
                 break
             case(40):
-                // move the kitty down
                 kitty.y += speed;
-                // kitty.y = kitty.Y
                 if (kitty.y + kitty.height > canvas.height) {
                     kitty.y = canvas.height - kitty.height
                 }
@@ -307,9 +306,7 @@ function movementHandler(e) {
                 }  
                 break
             case(37):
-                // move the kitty left
                 kitty.x -= speed;
-                // kitty.x = kitty.X
                 if (kitty.x < 0) {
                     kitty.x = 0
                 }
@@ -318,9 +315,7 @@ function movementHandler(e) {
                 }  
                 break
             case(39):
-                // move the kitty right
                 kitty.x += speed;
-                // kitty.x = kitty.X
                 if (kitty.x + kitty.width > canvas.width) {
                     kitty.x = canvas.width - kitty.width
                 }
@@ -348,7 +343,7 @@ function movementHandler(e) {
 document.addEventListener("keydown", movementHandler)
 
 //detect collision
-
+//basic function for all collisions
 function detectHit(objOne, objTwo) {
     const left = objOne.x + objOne.width >= objTwo.x + 30
     const right = objOne.x <= objTwo.x + objTwo.width - 30
@@ -361,7 +356,7 @@ function detectHit(objOne, objTwo) {
         return false
     }
 }
-
+//collision between kitty and treasure to adjust for empty pixels around treasure
 function detectHitKT(objOne, objTwo) {
     const left = objOne.x + objOne.width >= objTwo.x + 50
     const right = objOne.x <= objTwo.x + objTwo.width - 55
@@ -374,6 +369,8 @@ function detectHitKT(objOne, objTwo) {
         return false
     }
 }
+
+//ants rendering function including detect hit between ants and treasure
 let speedT = 1.3
 let speedB = 1.3
 let speedL = 1.3
@@ -408,11 +405,11 @@ function hitAntTreasure () {
             endGame();
         }}}
  
+// detect kitty and bases: <state> booleans to avoid multiple detection in one play        
  let stateBaseTop = true;
  let stateBaseBtm = true;
  let stateBaseLeft = true;
  let stateBaseRight = true;       
- 
 
  function hitBases () {
     if (stateBaseTop) {
@@ -425,7 +422,6 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = true;
         stateBaseRight = true;
-        // console.log("hitTop")
         }}
     if (stateBaseBtm) {
     if (detectHit(kitty,baseBtm)) {
@@ -437,7 +433,6 @@ function hitAntTreasure () {
         stateBaseBtm = false;
         stateBaseLeft = true;
         stateBaseRight = true;
-        // console.log("hitBtm")
         }}
     if (stateBaseLeft) {
     if (detectHit(kitty,baseLeft)) {
@@ -449,7 +444,6 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = false;
         stateBaseRight = true;
-        // console.log("hitLeft")
         }}
     if (stateBaseRight) {
     if (detectHit(kitty,baseRight)) {
@@ -461,99 +455,78 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = true;
         stateBaseRight = false;
-        // console.log("hitRight")
         }}}          
            
+
+    //functions to reset to normal speed/loops after each collision activity    
     function restartTop () {
         antLoopTop = true;
         antTimeTop = 1000;
-        speedT = 1.5;
+        speedT = 1.3;
     }
     function restartBtm () {
         antLoopBtm = true;
         antTimeBtm = 1000;
-        speedB = 1.5;
+        speedB = 1.3;
     }
     function restartLeft () {
         antLoopLeft = true;
         antTimeLeft = 1000;
-        speedL = 1.5;
+        speedL = 1.3;
     }
     function restartRight () {
         antLoopRight = true;
         antTimeRight = 1000;
-        speedR = 1.5;
+        speedR = 1.3;
     }
 
-    stateAntsT = true;
-    stateAntsB  = true;
-    stateAntsL  = true;
-    stateAntsR  = true;    
 
+// detect kitty to ants (brown ants -- slow down speed to 0.1, red ants -- game over)    
     function hitAnts() {
         for(let i = 0; i < antsTop.length; i++) {
             if(stateAntsT && detectHit(kitty, antsTop[i])) {
-                console.log("hit,hit")
                 if(antsTop[i].desc === "red"){
                     endGame();
                 } else {
-                    speedT = 0.2;
+                    speedT = 0.1;
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)
-                    // setTimeout(() => {stateAntsT = false;},60)
-                    // stateAntsB  = true;
-                    // stateAntsL  = true;
-                    // stateAntsR  = true;
                 }}}
 
         for(let i = 0; i < antsBtm.length; i++) {
             if(stateAntsB && detectHit(kitty, antsBtm[i])) {
-                console.log("hit,hit")
                 if(antsBtm[i].desc === "red"){
                     endGame();
                 } else {
-                    speedB = 0.2;
+                    speedB = 0.1;
                     antTimeBtm = 3000;
                     setTimeout(restartBtm, 3000)
-                    // stateAntsT = true;
-                    // setTimeout(() => {stateAntsB = false;},60)
-                    // stateAntsL  = true;
-                    // stateAntsR  = true;
                 }}}
 
         for(let i = 0; i < antsLeft.length; i++) {
             if(stateAntsL && detectHit(kitty, antsLeft[i])) {
-                console.log("hit,hit")
                 if(antsLeft[i].desc === "red"){
                     endGame();
                 } else {
-                    speedL = 0.2;
+                    speedL = 0.1;
                     antTimeLeft = 3000;
                     setTimeout(restartLeft, 3000)
-                    // stateAntsT = true;
-                    // stateAntsB  = true;
-                    // setTimeout(() => {stateAntsL = false;},60)
-                    // stateAntsR  = true;
                 }}}
 
         for(let i = 0; i < antsRight.length; i++) {
             if(stateAntsR && detectHit(kitty, antsRight[i])) {
-                console.log("hit,hit")
                 if(antsRight[i].desc === "red"){
                     endGame();
                 } else {
-                    speedR = 0.2;
+                    speedR = 0.1;
                     antTimeRight = 3000;
                     setTimeout(restartRight, 3000)
-                    // stateAntsT = true;
-                    // stateAntsB  = true;
-                    // stateAntsL  = true;
-                    // setTimeout(() => {stateAntsR = false;},60);
                 }}}     
                 
                 
     }
 
+    // set up items (fish/trap) to random axis at certain times
 let xArrFish = [759, 366, 265, 698, 220, 643, 835, 64]
 let yArrFish = [788, 217, 732, 32, 210, 230, 618, 625]
 let randomPos = Math.round(Math.random() * 7)
@@ -610,7 +583,8 @@ function itemTrap () {
         endGame();
     }    
 }}
-    
+
+// game over before reset button
 function endGame () {
     displayText.innerText = "Game Over 😿"
     bestScore.push(score)
