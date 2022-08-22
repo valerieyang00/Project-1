@@ -189,57 +189,9 @@ baseLeft.render();
 baseRight.render();
 treasure.render();
 kitty.render();
-
-for(let i = 0; i < antsTop.length; i++) {
-    antsTop[i].y += 1.3
-    antsTop[i].render();
-    if(detectHit(antsTop[i], treasure)) {
-        endGame();
-    }
+hitAntTreasure();
+hitBases();
 }
-for(let i = 0; i < antsBtm.length; i++) {
-    antsBtm[i].y -= 1.3
-    antsBtm[i].render();
-    if(detectHit(antsBtm[i], treasure)) {
-        endGame();
-    }
-}
-for(let i = 0; i < antsLeft.length; i++) {
-    antsLeft[i].x += 1.3
-    antsLeft[i].render();
-    if(detectHit(antsLeft[i], treasure)) {
-        endGame();
-    }
-}
-for(let i = 0; i < antsRight.length; i++) {
-    antsRight[i].x -= 1.3
-    antsRight[i].render();
-    if(detectHit(antsRight[i], treasure)) {
-        endGame();
-    }
-
-if (detectHit(kitty,baseTop)) {
-    console.log ("hithit")
-    clearInterval(gameArea.topInterval)
-    // setTimeout(gameArea.start, 3000)
-    }
-if (detectHit(kitty,baseBtm)) {
-    console.log ("hithit")
-    // clearInterval(this.topInterval)
-    // setTimeout(this.topInterval, 3000)
-    }
-if (detectHit(kitty,baseLeft)) {
-    console.log ("hithit")
-    // clearInterval(this.topInterval)
-    // setTimeout(this.topInterval, 3000)
-    }
-if (detectHit(kitty,baseRight)) {
-    console.log ("hithit")
-    // clearInterval(this.topInterval)
-    // setTimeout(this.topInterval, 3000)
-    }
-
-}}
 
 
 //event listeners
@@ -362,6 +314,82 @@ function detectHitKT(objOne, objTwo) {
         return false
     }
 }
+
+function hitAntTreasure () {
+    for(let i = 0; i < antsTop.length; i++) {
+        antsTop[i].y += 1.3
+        antsTop[i].render();
+        if(detectHit(antsTop[i], treasure)) {
+            endGame();
+        }
+    }
+    for(let i = 0; i < antsBtm.length; i++) {
+        antsBtm[i].y -= 1.3
+        antsBtm[i].render();
+        if(detectHit(antsBtm[i], treasure)) {
+            endGame();
+        }
+    }
+    for(let i = 0; i < antsLeft.length; i++) {
+        antsLeft[i].x += 1.3
+        antsLeft[i].render();
+        if(detectHit(antsLeft[i], treasure)) {
+            endGame();
+        }
+    }
+    for(let i = 0; i < antsRight.length; i++) {
+        antsRight[i].x -= 1.3
+        antsRight[i].render();
+        if(detectHit(antsRight[i], treasure)) {
+            endGame();
+        }}}
+ 
+ let stateBaseTop = true;
+ let stateBaseBtm = true;
+ let stateBaseLeft = true;
+ let stateBaseRight = true;       
+ 
+
+ function hitBases () {
+    if (stateBaseTop) {
+    if (detectHit(kitty,baseTop)) {
+        score += 30;
+        stateBaseTop = false;
+        stateBaseBtm = true;
+        stateBaseLeft = true;
+        stateBaseRight = true;
+        console.log("hitTop")
+        }}
+    if (stateBaseBtm) {
+    if (detectHit(kitty,baseBtm)) {
+        score += 30;
+        stateBaseTop = true;
+        stateBaseBtm = false;
+        stateBaseLeft = true;
+        stateBaseRight = true;
+        console.log("hitBtm")
+        }}
+    if (stateBaseLeft) {
+    if (detectHit(kitty,baseLeft)) {
+        score += 30;
+        stateBaseTop = true;
+        stateBaseBtm = true;
+        stateBaseLeft = false;
+        stateBaseRight = true;
+        console.log("hitLeft")
+        }}
+    if (stateBaseTop) {
+    if (detectHit(kitty,baseRight)) {
+        score += 30;
+        stateBaseTop = true;
+        stateBaseBtm = true;
+        stateBaseLeft = true;
+        stateBaseRight = false;
+        console.log("hitRight")
+        }}}
+            
+           
+
 
 
 
