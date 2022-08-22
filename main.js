@@ -100,11 +100,10 @@ function redPush(location) {
         break
 }}
 
-let random1 = 0.8;
-let random2 = 0.8;
-let random3 = 0.8;
-let random4 = 0.8;
-
+let random1 = 0.1;
+let random2 = 0.1;
+let random3 = 0.1;
+let random4 = 0.1;
 
 let randomTop = () => {
     if (antLoopTop) {
@@ -112,7 +111,9 @@ let randomTop = () => {
         redPush("top")}   
         else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", "brown"))
-        setTimeout(randomTop, antTimeTop)}}}
+        setTimeout(randomTop, antTimeTop)}}
+    else {setTimeout(randomTop, antTimeTop)}     
+    }
 
 let randomBtm = () => {
     if (antLoopBtm) {
@@ -120,7 +121,9 @@ let randomBtm = () => {
         redPush("btm")}
     else {
         antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", "brown"))
-        setTimeout(randomBtm, antTimeBtm)}}}
+        setTimeout(randomBtm, antTimeBtm)}}
+    else {setTimeout(randomBtm, antTimeBtm)} 
+    }
 
 let randomLeft = () => {
     if (antLoopLeft) {
@@ -128,7 +131,9 @@ let randomLeft = () => {
         redPush("left")}
     else {
         antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", "brown"))
-        setTimeout(randomLeft, antTimeLeft)}}}
+        setTimeout(randomLeft, antTimeLeft)}}
+    else {setTimeout(randomLeft, antTimeLeft)}    
+    }
 
 let randomRight = () => {
     if (antLoopRight) {
@@ -136,7 +141,9 @@ let randomRight = () => {
         redPush("right")}
     else {
         antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", "brown"))
-        setTimeout(randomRight, antTimeRight)}}}
+        setTimeout(randomRight, antTimeRight)}}
+    else {setTimeout(randomRight, antTimeRight)} 
+    }
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -177,6 +184,8 @@ let baseRight;
 function startGame () {
 treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image")
 kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image")
+fish = new component(100, 100, 80, 50, "./media/fish.png", "image", "item")
+trap = new component(900, 100, 100, 80, "./media/trap.png", "image", "item")
 baseTop = new component(375, 10, 250, 30, "#24225C")
 baseBtm = new component(375, 810, 250, 30, "#24225C")
 baseLeft = new component(0, 300, 30, 250, "#24225C")
@@ -218,6 +227,8 @@ baseLeft.render();
 baseRight.render();
 treasure.render();
 kitty.render();
+fish.render();
+trap.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
@@ -323,10 +334,10 @@ document.addEventListener("keydown", movementHandler)
 //detect collision
 
 function detectHit(objOne, objTwo) {
-    const left = objOne.x + objOne.width >= objTwo.x
+    const left = objOne.x + objOne.width >= objTwo.x + 10
     const right = objOne.x <= objTwo.x + objTwo.width - 10
     const top = objOne.y + objOne.height >= objTwo.y + 10
-    const bottom = objOne.y <= objTwo.y + objTwo.height
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 10
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true
@@ -390,9 +401,9 @@ function hitAntTreasure () {
  function hitBases () {
     if (stateBaseTop) {
     if (detectHit(kitty,baseTop)) {
+        antLoopTop = false;
+        antsTop = []
         score += 30;
-        antTimeTop += 2000;
-        speedT = 0;
         setTimeout(restartTop, 3000)
         stateBaseTop = false;
         stateBaseBtm = true;
@@ -402,9 +413,9 @@ function hitAntTreasure () {
         }}
     if (stateBaseBtm) {
     if (detectHit(kitty,baseBtm)) {
+        antLoopBtm = false;
+        antsBtm = []
         score += 30;
-        antTimeBtm += 2000;
-        speedB = 0;
         setTimeout(restartBtm, 3000)
         stateBaseTop = true;
         stateBaseBtm = false;
@@ -414,9 +425,9 @@ function hitAntTreasure () {
         }}
     if (stateBaseLeft) {
     if (detectHit(kitty,baseLeft)) {
+        antLoopLeft = false;
+        antsLeft = []
         score += 30;
-        antTimeLeft += 2000;
-        speedL = 0;
         setTimeout(restartLeft, 3000)
         stateBaseTop = true;
         stateBaseBtm = true;
@@ -426,9 +437,9 @@ function hitAntTreasure () {
         }}
     if (stateBaseRight) {
     if (detectHit(kitty,baseRight)) {
+        antLoopRight = false;
+        antsRight = []
         score += 30;
-        antTimeRight += 2000;
-        speedR = 0;
         setTimeout(restartRight, 3000)
         stateBaseTop = true;
         stateBaseBtm = true;
@@ -438,18 +449,22 @@ function hitAntTreasure () {
         }}}          
            
     function restartTop () {
+        antLoopTop = true;
         antTimeTop = 1000;
         speedT = 1.5;
     }
     function restartBtm () {
+        antLoopBtm = true;
         antTimeBtm = 1000;
         speedB = 1.5;
     }
     function restartLeft () {
+        antLoopLeft = true;
         antTimeLeft = 1000;
         speedL = 1.5;
     }
     function restartRight () {
+        antLoopRight = true;
         antTimeRight = 1000;
         speedR = 1.5;
     }
@@ -469,10 +484,11 @@ function hitAntTreasure () {
                     speedT = 0.2;
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)
-                    setTimeout(() => {stateAntsT = false;},60)
-                    stateAntsB  = true;
-                    stateAntsL  = true;
-                    stateAntsR  = true;}}}
+                    // setTimeout(() => {stateAntsT = false;},60)
+                    // stateAntsB  = true;
+                    // stateAntsL  = true;
+                    // stateAntsR  = true;
+                }}}
 
         for(let i = 0; i < antsBtm.length; i++) {
             if(stateAntsB && detectHit(kitty, antsBtm[i])) {
@@ -483,10 +499,11 @@ function hitAntTreasure () {
                     speedB = 0.2;
                     antTimeBtm = 3000;
                     setTimeout(restartBtm, 3000)
-                    stateAntsT = true;
-                    setTimeout(() => {stateAntsB = false;},60)
-                    stateAntsL  = true;
-                    stateAntsR  = true;}}}
+                    // stateAntsT = true;
+                    // setTimeout(() => {stateAntsB = false;},60)
+                    // stateAntsL  = true;
+                    // stateAntsR  = true;
+                }}}
 
         for(let i = 0; i < antsLeft.length; i++) {
             if(stateAntsL && detectHit(kitty, antsLeft[i])) {
@@ -497,10 +514,11 @@ function hitAntTreasure () {
                     speedL = 0.2;
                     antTimeLeft = 3000;
                     setTimeout(restartLeft, 3000)
-                    stateAntsT = true;
-                    stateAntsB  = true;
-                    setTimeout(() => {stateAntsL = false;},60)
-                    stateAntsR  = true;}}}
+                    // stateAntsT = true;
+                    // stateAntsB  = true;
+                    // setTimeout(() => {stateAntsL = false;},60)
+                    // stateAntsR  = true;
+                }}}
 
         for(let i = 0; i < antsRight.length; i++) {
             if(stateAntsR && detectHit(kitty, antsRight[i])) {
@@ -511,10 +529,11 @@ function hitAntTreasure () {
                     speedR = 0.2;
                     antTimeRight = 3000;
                     setTimeout(restartRight, 3000)
-                    stateAntsT = true;
-                    stateAntsB  = true;
-                    stateAntsL  = true;
-                    setTimeout(() => {stateAntsR = false;},60);}}}     
+                    // stateAntsT = true;
+                    // stateAntsB  = true;
+                    // stateAntsL  = true;
+                    // setTimeout(() => {stateAntsR = false;},60);
+                }}}     
                 
                 
     }
