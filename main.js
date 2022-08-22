@@ -75,19 +75,22 @@ let antTimeTop = 1000;
 let antTimeBtm = 1000;
 let antTimeLeft = 1000;
 let antTimeRight = 1000;
-let antLoop = true;
+let antLoopTop = true;
+let antLoopBtm = true;
+let antLoopLeft = true;
+let antLoopRight = true;
 
 let randomTop = () => {
-    if (antLoop) {
+    if (antLoopTop) {
     if (Math.random() <= 0.1) {
         antsTop.push(new component(500, 15, 30, 20, "./media/red ant Down.png", "image"))
         setTimeout(randomTop, antTimeTop)}
-    else {
+        else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image"))
         setTimeout(randomTop, antTimeTop)}}}
 
 let randomBtm = () => {
-    if (antLoop) {
+    if (antLoopBtm) {
     if (Math.random() <= 0.1) {
         antsBtm.push(new component(500, 835, 30, 20, "./media/red ant Up.png", "image"))
         setTimeout(randomBtm, antTimeBtm)}
@@ -96,7 +99,7 @@ let randomBtm = () => {
         setTimeout(randomBtm, antTimeBtm)}}}
 
 let randomLeft = () => {
-    if (antLoop) {
+    if (antLoopLeft) {
     if (Math.random() <= 0.1) {
         antsLeft.push(new component(10, 425, 20, 30, "./media/red ant Right.png", "image"))
         setTimeout(randomLeft, antTimeLeft)}
@@ -105,7 +108,7 @@ let randomLeft = () => {
         setTimeout(randomLeft, antTimeLeft)}}}
 
 let randomRight = () => {
-    if (antLoop) {
+    if (antLoopRight) {
     if (Math.random() <= 0.1) {
         antsRight.push(new component(990, 425, 20, 30, "./media/red ant Left.png", "image"))
         setTimeout(randomRight, antTimeRight)}
@@ -123,7 +126,10 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    antLoop = true;
+    antLoopTop = true;
+    antLoopBtm = true;
+    antLoopLeft = true;
+    antLoopRight = true;
     this.topInterval = setTimeout(randomTop, antTimeTop)
     this.btmInterval = setTimeout(randomBtm, antTimeBtm)
     this.leftInterval = setTimeout(randomLeft, antTimeLeft)
@@ -213,7 +219,10 @@ hideIns.addEventListener("click", () => {
 
 
 resetBtn.addEventListener("click", () => {
-    antLoop = false;
+    antLoopTop = false;
+    antLoopBtm = false;
+    antLoopLeft = false;
+    antLoopRight = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
     displayText.innerText = "Play Again! 😸"
@@ -314,31 +323,35 @@ function detectHitKT(objOne, objTwo) {
         return false
     }
 }
+let speedT = 1.3
+let speedB = 1.3
+let speedL = 1.3
+let speedR = 1.3
 
 function hitAntTreasure () {
     for(let i = 0; i < antsTop.length; i++) {
-        antsTop[i].y += 1.3
+        antsTop[i].y += speedT
         antsTop[i].render();
         if(detectHit(antsTop[i], treasure)) {
             endGame();
         }
     }
     for(let i = 0; i < antsBtm.length; i++) {
-        antsBtm[i].y -= 1.3
+        antsBtm[i].y -= speedB
         antsBtm[i].render();
         if(detectHit(antsBtm[i], treasure)) {
             endGame();
         }
     }
     for(let i = 0; i < antsLeft.length; i++) {
-        antsLeft[i].x += 1.3
+        antsLeft[i].x += speedL
         antsLeft[i].render();
         if(detectHit(antsLeft[i], treasure)) {
             endGame();
         }
     }
     for(let i = 0; i < antsRight.length; i++) {
-        antsRight[i].x -= 1.3
+        antsRight[i].x -= speedR
         antsRight[i].render();
         if(detectHit(antsRight[i], treasure)) {
             endGame();
@@ -354,6 +367,9 @@ function hitAntTreasure () {
     if (stateBaseTop) {
     if (detectHit(kitty,baseTop)) {
         score += 30;
+        antTimeTop += 2000;
+        speedT = 0;
+        setTimeout(restartTop, 3000)
         stateBaseTop = false;
         stateBaseBtm = true;
         stateBaseLeft = true;
@@ -363,6 +379,9 @@ function hitAntTreasure () {
     if (stateBaseBtm) {
     if (detectHit(kitty,baseBtm)) {
         score += 30;
+        antTimeBtm += 2000;
+        speedB = 0;
+        setTimeout(restartBtm, 3000)
         stateBaseTop = true;
         stateBaseBtm = false;
         stateBaseLeft = true;
@@ -372,24 +391,44 @@ function hitAntTreasure () {
     if (stateBaseLeft) {
     if (detectHit(kitty,baseLeft)) {
         score += 30;
+        antTimeLeft += 2000;
+        speedL = 0;
+        setTimeout(restartLeft, 3000)
         stateBaseTop = true;
         stateBaseBtm = true;
         stateBaseLeft = false;
         stateBaseRight = true;
         console.log("hitLeft")
         }}
-    if (stateBaseTop) {
+    if (stateBaseRight) {
     if (detectHit(kitty,baseRight)) {
         score += 30;
+        antTimeRight += 2000;
+        speedR = 0;
+        setTimeout(restartRight, 3000)
         stateBaseTop = true;
         stateBaseBtm = true;
         stateBaseLeft = true;
         stateBaseRight = false;
         console.log("hitRight")
-        }}}
-            
+        }}}          
            
-
+    function restartTop () {
+        antTimeTop = 1000;
+        speedT = 1.3;
+    }
+    function restartBtm () {
+        antTimeBtm = 1000;
+        speedB = 1.3;
+    }
+    function restartLeft () {
+        antTimeLeft = 1000;
+        speedL = 1.3;
+    }
+    function restartRight () {
+        antTimeRight = 1000;
+        speedR = 1.3;
+    }
 
 
 
@@ -399,6 +438,9 @@ function endGame () {
     bestScoreCalc();
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
-    antLoop = false;
+    antLoopTop = false;
+    antLoopBtm = false;
+    antLoopLeft = false;
+    antLoopRight = false;
 }
 
