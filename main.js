@@ -350,10 +350,10 @@ document.addEventListener("keydown", movementHandler)
 //detect collision
 
 function detectHit(objOne, objTwo) {
-    const left = objOne.x + objOne.width >= objTwo.x + 10
-    const right = objOne.x <= objTwo.x + objTwo.width - 10
-    const top = objOne.y + objOne.height >= objTwo.y + 10
-    const bottom = objOne.y <= objTwo.y + objTwo.height - 10
+    const left = objOne.x + objOne.width >= objTwo.x + 30
+    const right = objOne.x <= objTwo.x + objTwo.width - 30
+    const top = objOne.y + objOne.height >= objTwo.y + 30
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 30
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true
@@ -554,8 +554,8 @@ function hitAntTreasure () {
                 
     }
 
-let xArr = [759, 366, 265, 698, 220, 643, 835, 64]
-let yArr = [788, 217, 732, 32, 210, 230, 618, 625]
+let xArrFish = [759, 366, 265, 698, 220, 643, 835, 64]
+let yArrFish = [788, 217, 732, 32, 210, 230, 618, 625]
 let randomPos = Math.round(Math.random() * 7)
 let stateFish;
 let stateTrap;
@@ -563,8 +563,8 @@ let stateTrap;
 function itemFish () {
     let index = randomPos
     if (sec === 5 || sec === 15 || sec === 38 || sec === 51) {
-        fish.x = xArr[index]
-        fish.y = yArr[index]
+        fish.x = xArrFish[index]
+        fish.y = yArrFish[index]
         fish.alive = true;
         stateFish = true;
         setTimeout(() => {
@@ -576,14 +576,27 @@ function itemFish () {
         stateFish = false;    
         fish.alive = false;
         score += 50;
+        speedB = 0;
+        speedL = 0;
+        speedR = 0;
+        speedT = 0;
+        setTimeout(() => {
+            speedB = 1.5;
+            speedL = 1.5;
+            speedR = 1.5;
+            speedT = 1.5;
+        }, 3000)
     }    
 }}
 
+let xArrTrap = [717, 864, 232, 700, 69, 827, 360, 129]
+let yArrTrap = [674, 241, 112, 519, 91, 170, 603, 528]
+
 function itemTrap () {
     let index = randomPos
-    if (sec === 9 || sec === 25 || sec === 31 || sec === 55) {
-        trap.x = xArr[index]
-        trap.y = yArr[index]
+    if (sec === 10 || sec === 25 || sec === 31 || sec === 55) {
+        trap.x = xArrTrap[index]
+        trap.y = yArrTrap[index]
         trap.alive = true;
         stateTrap = true;
         setTimeout(() => {
