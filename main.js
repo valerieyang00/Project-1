@@ -34,7 +34,6 @@ function countSeconds () {
         endGame(); 
         bestScore.push(score)
         bestScoreCalc();
-        score = 0;
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -71,43 +70,48 @@ let antsTop = []
 let antsBtm = []
 let antsLeft = []
 let antsRight = []
-let antsInterval = null;
+// let antsInterval = null;
 let antTimeTop = 1000;
 let antTimeBtm = 1000;
 let antTimeLeft = 1000;
 let antTimeRight = 1000;
+let antLoop = true;
 
 let randomTop = () => {
+    if (antLoop) {
     if (Math.random() <= 0.1) {
         antsTop.push(new component(500, 15, 30, 20, "./media/red ant Down.png", "image"))
         setTimeout(randomTop, antTimeTop)}
     else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image"))
-        setTimeout(randomTop, antTimeTop)}}
+        setTimeout(randomTop, antTimeTop)}}}
 
 let randomBtm = () => {
+    if (antLoop) {
     if (Math.random() <= 0.1) {
         antsBtm.push(new component(500, 835, 30, 20, "./media/red ant Up.png", "image"))
         setTimeout(randomBtm, antTimeBtm)}
     else {
         antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image"))
-        setTimeout(randomBtm, antTimeBtm)}}
+        setTimeout(randomBtm, antTimeBtm)}}}
 
 let randomLeft = () => {
+    if (antLoop) {
     if (Math.random() <= 0.1) {
         antsLeft.push(new component(10, 425, 20, 30, "./media/red ant Right.png", "image"))
         setTimeout(randomLeft, antTimeLeft)}
     else {
         antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image"))
-        setTimeout(randomLeft, antTimeLeft)}}
+        setTimeout(randomLeft, antTimeLeft)}}}
 
 let randomRight = () => {
+    if (antLoop) {
     if (Math.random() <= 0.1) {
         antsRight.push(new component(990, 425, 20, 30, "./media/red ant Left.png", "image"))
         setTimeout(randomRight, antTimeRight)}
     else {
         antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image"))
-        setTimeout(randomRight, antTimeRight)}}
+        setTimeout(randomRight, antTimeRight)}}}
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -119,10 +123,11 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    // this.topInterval = setTimeout(randomTop, antTimeTop)
-    // this.btmInterval = setTimeout(randomBtm, antTimeBtm)
-    // this.leftInterval = setTimeout(randomLeft, antTimeLeft)
-    // this.rightInterval = setTimeout(randomRight, antTimeRight)
+    antLoop = true;
+    this.topInterval = setTimeout(randomTop, antTimeTop)
+    this.btmInterval = setTimeout(randomBtm, antTimeBtm)
+    this.leftInterval = setTimeout(randomLeft, antTimeLeft)
+    this.rightInterval = setTimeout(randomRight, antTimeRight)
     this.timerInterval = setInterval(countSeconds, 1000)
     score = 0;
     this.scoreInterval = setInterval(scoreTracker, 60)},
@@ -256,20 +261,17 @@ hideIns.addEventListener("click", () => {
 
 
 resetBtn.addEventListener("click", () => {
-    endGame();
+    antLoop = false;
+    clearInterval(gameArea.interval)
+    clearInterval(gameArea.timerInterval)
+    displayText.innerText = "Play Again! 😸"
     gameArea.clear();
     antsTop = []
     antsBtm = []
     antsLeft = []
     antsRight = []
-    clearInterval(gameArea.interval);
-    clearInterval(gameArea.topInterval);
-    clearInterval(gameArea.btmInterval);
-    clearInterval(gameArea.leftInterval);
-    clearInterval(gameArea.rightInterval);
     constructor = null
-    bestScore.push(score)
-    bestScoreCalc();
+    score = 0;
     sec = 0;
     min = 0;
     startBtn.disabled = false;
@@ -364,8 +366,11 @@ function detectHitKT(objOne, objTwo) {
 
 
 function endGame () {
-    displayText.innerText = "Game Over"
+    displayText.innerText = "Game Over 😿"
+    bestScore.push(score)
+    bestScoreCalc();
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
+    antLoop = false;
 }
 
