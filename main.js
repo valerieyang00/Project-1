@@ -84,19 +84,19 @@ let inGame = true;
 function redPush(location) {
     switch(location) {
     case("top") :        
-        antsTop.push(new component(500, 15, 35, 25, "./media/red ant Down.png", "image", "red"))
+        antsTop.push(new component(500, 15, 35, 25, "./media/red ant Down.png", "image", true, "red"))
         setTimeout(randomTop, antTimeTop)
         break
     case("btm") :    
-        antsBtm.push(new component(500, 835, 35, 25, "./media/red ant Up.png", "image", "red"))
+        antsBtm.push(new component(500, 835, 35, 25, "./media/red ant Up.png", "image", true, "red"))
         setTimeout(randomBtm, antTimeBtm)
         break
     case("left") :    
-        antsLeft.push(new component(10, 425, 35, 25, "./media/red ant Right.png", "image", "red"))
+        antsLeft.push(new component(10, 425, 35, 25, "./media/red ant Right.png", "image", true, "red"))
         setTimeout(randomLeft, antTimeLeft)
         break
     case("right") :
-        antsRight.push(new component(990, 425, 35, 25, "./media/red ant Left.png", "image", "red"))
+        antsRight.push(new component(990, 425, 35, 25, "./media/red ant Left.png", "image", true, "red"))
         setTimeout(randomRight, antTimeRight)
         break
 }}
@@ -111,7 +111,7 @@ let randomTop = () => {
     if (Math.random() < random1) {
         redPush("top")}   
         else {
-        antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", "brown"))
+        antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", true, "brown"))
         setTimeout(randomTop, antTimeTop)}}
     else if (inGame) {setTimeout(randomTop, antTimeTop)}     
     }
@@ -121,7 +121,7 @@ let randomBtm = () => {
     if (Math.random() < random2) {
         redPush("btm")}
     else {
-        antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", "brown"))
+        antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", true, "brown"))
         setTimeout(randomBtm, antTimeBtm)}}
     else if (inGame) {setTimeout(randomBtm, antTimeBtm)} 
     }
@@ -131,7 +131,7 @@ let randomLeft = () => {
     if (Math.random() < random3) {
         redPush("left")}
     else {
-        antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", "brown"))
+        antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", true, "brown"))
         setTimeout(randomLeft, antTimeLeft)}}
     else if (inGame) {setTimeout(randomLeft, antTimeLeft)}    
     }
@@ -141,7 +141,7 @@ let randomRight = () => {
     if (Math.random() < random4) {
         redPush("right")}
     else {
-        antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", "brown"))
+        antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", true, "brown"))
         setTimeout(randomRight, antTimeRight)}}
     else if (inGame) {setTimeout(randomRight, antTimeRight)} 
     }
@@ -184,10 +184,10 @@ let baseRight;
 
 
 function startGame () {
-treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image")
-kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image")
-fish = new component(100, 100, 80, 50, "./media/fish.png", "image", "item")
-trap = new component(900, 100, 100, 80, "./media/trap.png", "image", "item")
+treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image", true)
+kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image", true)
+fish = new component(100, 100, 80, 50, "./media/fish.png", "image", false, "item")
+trap = new component(900, 100, 100, 80, "./media/trap.png", "image", false, "item")
 baseTop = new component(375, 10, 250, 30, "#24225C")
 baseBtm = new component(375, 810, 250, 30, "#24225C")
 baseLeft = new component(0, 300, 30, 250, "#24225C")
@@ -197,14 +197,14 @@ gameArea.start();
 }
 
 class component {
-constructor (x, y, width, height, color, type, desc) {
+constructor (x, y, width, height, color, type, alive, desc) {
 this.x = x;
 this.y = y;
 this.width = width;
 this.height = height;
 this.color = color;
-this.alive = true;
 this.type = type;
+this.alive = alive;
 this.desc = desc;
 if (type == "image") {
     this.image = new Image();
@@ -274,9 +274,11 @@ resetBtn.addEventListener("click", () => {
     score = 0;
     sec = 0;
     min = 0;
+    numH = 0;
     startBtn.disabled = false;
 })
 
+let numH = 0;
 function movementHandler(e) {
     const speed = 50;
         switch (e.keyCode) {
@@ -325,9 +327,17 @@ function movementHandler(e) {
                 }  
                 break
             case(72):
-                kitty.x = 200;
-                kitty.y = 200;
+                numH++
+                if (numH < 4) {
+                kitty.x = 10;
+                kitty.y = 10;
                 score -= 10;
+                antsTop = []
+                antsBtm = []
+                antsLeft = []
+                antsRight = []
+                displayText.innerText = "HISS HISS 😼"}
+                else {displayText.innerText = "Ants aren't scared anymore! 🙀"}
                 break
         }
     }   
