@@ -80,7 +80,7 @@ let brAntT = "./media/brown ant Down.png"
 let brAntB = "./media/brown ant Up.png"
 let brAntL = "./media/brown ant Right.png"
 let brAntR = "./media/brown ant Left.png"
-let redAntT = "./media/red ant Down.png"
+let redAntT = [500, 15, 40, 25, "./media/red ant Down.png", "image"]
 let redAntB = "./media/red ant Up.png"
 let redAntL = "./media/red ant Right.png"
 let redAntR = "./media/red ant Left.png"
@@ -97,7 +97,7 @@ start : function () {
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
     this.topInterval = setInterval(function () {
-        antsTop.push(new component(500, 15, 25, 10, brAntT, "image"))
+        antsTop.push(new component(500, 15, 40, 25, redAntT, "image"))
         }, antTimeTop);
     this.btmInterval = setInterval(function () {
         antsBtm.push(new component(500, 835, 25, 10, brAntB, "image"))
@@ -218,7 +218,6 @@ if (detectHit(kitty,baseRight)) {
     // setTimeout(this.topInterval, 3000)
     }
 
-
 }}
 
 
@@ -269,7 +268,10 @@ function movementHandler(e) {
                 // kitty.y = kitty.Y
                 if (kitty.y < 0) {
                     kitty.y = 0
-                }            
+                }    
+                if (detectHit(kitty, treasure)) {
+                    kitty.y += speed;
+                }        
                 break
             case(40):
                 // move the kitty down
@@ -278,6 +280,9 @@ function movementHandler(e) {
                 if (kitty.y + kitty.height > canvas.height) {
                     kitty.y = canvas.height - kitty.height
                 }
+                if (detectHit(kitty, treasure)) {
+                    kitty.y -= speed;
+                }  
                 break
             case(37):
                 // move the kitty left
@@ -286,6 +291,9 @@ function movementHandler(e) {
                 if (kitty.x < 0) {
                     kitty.x = 0
                 }
+                if (detectHit(kitty, treasure)) {
+                    kitty.x += speed;
+                }  
                 break
             case(39):
                 // move the kitty right
@@ -294,6 +302,9 @@ function movementHandler(e) {
                 if (kitty.x + kitty.width > canvas.width) {
                     kitty.x = canvas.width - kitty.width
                 }
+                if (detectHit(kitty, treasure)) {
+                    kitty.x -= speed;
+                }  
                 break
             case(72):
                 kitty.x = 200;
@@ -312,7 +323,7 @@ function detectHit(objOne, objTwo) {
     const left = objOne.x + objOne.width >= objTwo.x
     const right = objOne.x <= objTwo.x + objTwo.width - 10
     const top = objOne.y + objOne.height >= objTwo.y + 10
-    const bottom = objOne.y <= objTwo.y + objTwo.height - 10
+    const bottom = objOne.y <= objTwo.y + objTwo.height
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true
@@ -320,6 +331,8 @@ function detectHit(objOne, objTwo) {
         return false
     }
 }
+
+
 
 function endGame () {
     displayText.innerText = "Game Over"
