@@ -76,15 +76,38 @@ let antTimeTop = 1000;
 let antTimeBtm = 1000;
 let antTimeLeft = 1000;
 let antTimeRight = 1000;
-let brAntT = "./media/brown ant Down.png"
-let brAntB = "./media/brown ant Up.png"
-let brAntL = "./media/brown ant Right.png"
-let brAntR = "./media/brown ant Left.png"
-let redAntT = [500, 15, 40, 25, "./media/red ant Down.png", "image"]
-let redAntB = "./media/red ant Up.png"
-let redAntL = "./media/red ant Right.png"
-let redAntR = "./media/red ant Left.png"
 
+let randomTop = () => {
+    if (Math.random() <= 0.1) {
+        antsTop.push(new component(500, 15, 30, 20, "./media/red ant Down.png", "image"))
+        setTimeout(randomTop, antTimeTop)}
+    else {
+        antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image"))
+        setTimeout(randomTop, antTimeTop)}}
+
+let randomBtm = () => {
+    if (Math.random() <= 0.1) {
+        antsBtm.push(new component(500, 835, 30, 20, "./media/red ant Up.png", "image"))
+        setTimeout(randomBtm, antTimeBtm)}
+    else {
+        antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image"))
+        setTimeout(randomBtm, antTimeBtm)}}
+
+let randomLeft = () => {
+    if (Math.random() <= 0.1) {
+        antsLeft.push(new component(10, 425, 20, 30, "./media/red ant Right.png", "image"))
+        setTimeout(randomLeft, antTimeLeft)}
+    else {
+        antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image"))
+        setTimeout(randomLeft, antTimeLeft)}}
+
+let randomRight = () => {
+    if (Math.random() <= 0.1) {
+        antsRight.push(new component(990, 425, 20, 30, "./media/red ant Left.png", "image"))
+        setTimeout(randomRight, antTimeRight)}
+    else {
+        antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image"))
+        setTimeout(randomRight, antTimeRight)}}
 
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -96,18 +119,10 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    this.topInterval = setInterval(function () {
-        antsTop.push(new component(500, 15, 40, 25, redAntT, "image"))
-        }, antTimeTop);
-    this.btmInterval = setInterval(function () {
-        antsBtm.push(new component(500, 835, 25, 10, brAntB, "image"))
-        }, antTimeBtm);
-    this.leftInterval = setInterval(function () {
-        antsLeft.push(new component(10, 425, 10, 25, brAntL, "image"))
-        }, antTimeLeft);
-    this.rightInterval = setInterval(function () {
-        antsRight.push(new component(990, 425, 10, 25, brAntR, "image"))
-        }, antTimeRight)
+    // this.topInterval = setTimeout(randomTop, antTimeTop)
+    // this.btmInterval = setTimeout(randomBtm, antTimeBtm)
+    // this.leftInterval = setTimeout(randomLeft, antTimeLeft)
+    // this.rightInterval = setTimeout(randomRight, antTimeRight)
     this.timerInterval = setInterval(countSeconds, 1000)
     score = 0;
     this.scoreInterval = setInterval(scoreTracker, 60)},
@@ -115,6 +130,7 @@ start : function () {
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
 }}
+
 
 let treasure;
 let kitty;
@@ -269,7 +285,7 @@ function movementHandler(e) {
                 if (kitty.y < 0) {
                     kitty.y = 0
                 }    
-                if (detectHit(kitty, treasure)) {
+                if (detectHitKT(kitty, treasure)) {
                     kitty.y += speed;
                 }        
                 break
@@ -280,7 +296,7 @@ function movementHandler(e) {
                 if (kitty.y + kitty.height > canvas.height) {
                     kitty.y = canvas.height - kitty.height
                 }
-                if (detectHit(kitty, treasure)) {
+                if (detectHitKT(kitty, treasure)) {
                     kitty.y -= speed;
                 }  
                 break
@@ -291,7 +307,7 @@ function movementHandler(e) {
                 if (kitty.x < 0) {
                     kitty.x = 0
                 }
-                if (detectHit(kitty, treasure)) {
+                if (detectHitKT(kitty, treasure)) {
                     kitty.x += speed;
                 }  
                 break
@@ -302,7 +318,7 @@ function movementHandler(e) {
                 if (kitty.x + kitty.width > canvas.width) {
                     kitty.x = canvas.width - kitty.width
                 }
-                if (detectHit(kitty, treasure)) {
+                if (detectHitKT(kitty, treasure)) {
                     kitty.x -= speed;
                 }  
                 break
@@ -324,6 +340,19 @@ function detectHit(objOne, objTwo) {
     const right = objOne.x <= objTwo.x + objTwo.width - 10
     const top = objOne.y + objOne.height >= objTwo.y + 10
     const bottom = objOne.y <= objTwo.y + objTwo.height
+    // console.log(top, left, right, bottom)
+    if (left && right && top && bottom) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function detectHitKT(objOne, objTwo) {
+    const left = objOne.x + objOne.width >= objTwo.x + 50
+    const right = objOne.x <= objTwo.x + objTwo.width - 55
+    const top = objOne.y + objOne.height >= objTwo.y + 65
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 65
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true
