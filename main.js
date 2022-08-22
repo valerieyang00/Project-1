@@ -345,10 +345,10 @@ document.addEventListener("keydown", movementHandler)
 //detect collision
 //basic function for all collisions
 function detectHit(objOne, objTwo) {
-    const left = objOne.x + objOne.width >= objTwo.x + 30
-    const right = objOne.x <= objTwo.x + objTwo.width - 30
-    const top = objOne.y + objOne.height >= objTwo.y + 30
-    const bottom = objOne.y <= objTwo.y + objTwo.height - 30
+    const left = objOne.x + objOne.width >= objTwo.x + 20
+    const right = objOne.x <= objTwo.x + objTwo.width - 20
+    const top = objOne.y + objOne.height >= objTwo.y + 20
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 20
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true
@@ -484,7 +484,7 @@ function hitAntTreasure () {
 // detect kitty to ants (brown ants -- slow down speed to 0.1, red ants -- game over)    
     function hitAnts() {
         for(let i = 0; i < antsTop.length; i++) {
-            if(stateAntsT && detectHit(kitty, antsTop[i])) {
+            if(detectHit(kitty, antsTop[i])) {
                 if(antsTop[i].desc === "red"){
                     endGame();
                 } else {
@@ -494,7 +494,7 @@ function hitAntTreasure () {
                 }}}
 
         for(let i = 0; i < antsBtm.length; i++) {
-            if(stateAntsB && detectHit(kitty, antsBtm[i])) {
+            if(detectHit(kitty, antsBtm[i])) {
                 if(antsBtm[i].desc === "red"){
                     endGame();
                 } else {
@@ -504,7 +504,7 @@ function hitAntTreasure () {
                 }}}
 
         for(let i = 0; i < antsLeft.length; i++) {
-            if(stateAntsL && detectHit(kitty, antsLeft[i])) {
+            if(detectHit(kitty, antsLeft[i])) {
                 if(antsLeft[i].desc === "red"){
                     endGame();
                 } else {
@@ -514,7 +514,7 @@ function hitAntTreasure () {
                 }}}
 
         for(let i = 0; i < antsRight.length; i++) {
-            if(stateAntsR && detectHit(kitty, antsRight[i])) {
+            if(detectHit(kitty, antsRight[i])) {
                 if(antsRight[i].desc === "red"){
                     endGame();
                 } else {
