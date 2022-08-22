@@ -83,7 +83,7 @@ let antLoopRight = true;
 function redPush(location) {
     switch(location) {
     case("top") :        
-        antsTop.push(new component(500, 835, 35, 25, "./media/red ant Down.png", "image", "red"))
+        antsTop.push(new component(500, 15, 35, 25, "./media/red ant Down.png", "image", "red"))
         setTimeout(randomTop, antTimeTop)
         break
     case("btm") :    
@@ -100,12 +100,15 @@ function redPush(location) {
         break
 }}
 
-let iterations = 0;
-let redInterval;
+let random1 = 0.8;
+let random2 = 0.8;
+let random3 = 0.8;
+let random4 = 0.8;
+
 
 let randomTop = () => {
     if (antLoopTop) {
-    if (Math.random() < 0.2) {
+    if (Math.random() < random1) {
         redPush("top")}   
         else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", "brown"))
@@ -113,7 +116,7 @@ let randomTop = () => {
 
 let randomBtm = () => {
     if (antLoopBtm) {
-    if (Math.random() < 0.1) {
+    if (Math.random() < random2) {
         redPush("btm")}
     else {
         antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", "brown"))
@@ -121,7 +124,7 @@ let randomBtm = () => {
 
 let randomLeft = () => {
     if (antLoopLeft) {
-    if (Math.random() < 0.1) {
+    if (Math.random() < random3) {
         redPush("left")}
     else {
         antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", "brown"))
@@ -129,7 +132,7 @@ let randomLeft = () => {
 
 let randomRight = () => {
     if (antLoopRight) {
-    if (Math.random() < 0.1) {
+    if (Math.random() < random4) {
         redPush("right")}
     else {
         antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", "brown"))
