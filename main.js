@@ -12,8 +12,8 @@ const textIns = document.querySelector(".instructions")
 const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
 // const canvas = document.querySelector("canvas")
-// // canvas.addEventListener("click", (e) => {
-// //     console.log(e.offsetX, e.offsetY)
+canvas.addEventListener("click", (e) => {
+    console.log(e.offsetX, e.offsetY)})
 // // })
 
 //Time Display including score increases per every 10 seconds played
@@ -79,6 +79,7 @@ let antLoopTop = true;
 let antLoopBtm = true;
 let antLoopLeft = true;
 let antLoopRight = true;
+let inGame = true;
 
 function redPush(location) {
     switch(location) {
@@ -112,7 +113,7 @@ let randomTop = () => {
         else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", "brown"))
         setTimeout(randomTop, antTimeTop)}}
-    else {setTimeout(randomTop, antTimeTop)}     
+    else if (inGame) {setTimeout(randomTop, antTimeTop)}     
     }
 
 let randomBtm = () => {
@@ -122,7 +123,7 @@ let randomBtm = () => {
     else {
         antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", "brown"))
         setTimeout(randomBtm, antTimeBtm)}}
-    else {setTimeout(randomBtm, antTimeBtm)} 
+    else if (inGame) {setTimeout(randomBtm, antTimeBtm)} 
     }
 
 let randomLeft = () => {
@@ -132,7 +133,7 @@ let randomLeft = () => {
     else {
         antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", "brown"))
         setTimeout(randomLeft, antTimeLeft)}}
-    else {setTimeout(randomLeft, antTimeLeft)}    
+    else if (inGame) {setTimeout(randomLeft, antTimeLeft)}    
     }
 
 let randomRight = () => {
@@ -142,7 +143,7 @@ let randomRight = () => {
     else {
         antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", "brown"))
         setTimeout(randomRight, antTimeRight)}}
-    else {setTimeout(randomRight, antTimeRight)} 
+    else if (inGame) {setTimeout(randomRight, antTimeRight)} 
     }
 
 let gameArea = {
@@ -159,6 +160,7 @@ start : function () {
     antLoopBtm = true;
     antLoopLeft = true;
     antLoopRight = true;
+    inGame = true;
     this.topInterval = setTimeout(randomTop, antTimeTop)
     this.btmInterval = setTimeout(randomBtm, antTimeBtm)
     this.leftInterval = setTimeout(randomLeft, antTimeLeft)
@@ -212,7 +214,8 @@ if (type == "image") {
     render () {
     const ctx = gameArea.context;
     if (this.type == "image") {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        if(this.alive) {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)}
     } else {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height)}
@@ -258,6 +261,7 @@ resetBtn.addEventListener("click", () => {
     antLoopBtm = false;
     antLoopLeft = false;
     antLoopRight = false;
+    inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
     displayText.innerText = "Play Again! 😸"
@@ -537,6 +541,10 @@ function hitAntTreasure () {
                 
                 
     }
+
+
+
+ 
     
 function endGame () {
     displayText.innerText = "Game Over 😿"
@@ -548,5 +556,6 @@ function endGame () {
     antLoopBtm = false;
     antLoopLeft = false;
     antLoopRight = false;
+    inGame = false;
 }
 
