@@ -235,6 +235,8 @@ trap.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
+itemFish();
+itemTrap();
 }
 
 
@@ -552,9 +554,49 @@ function hitAntTreasure () {
                 
     }
 
+let xArr = [759, 366, 265, 698, 220, 643, 835, 64]
+let yArr = [788, 217, 732, 32, 210, 230, 618, 625]
+let randomPos = Math.round(Math.random() * 7)
+let stateFish;
+let stateTrap;
 
+function itemFish () {
+    let index = randomPos
+    if (sec === 5 || sec === 15 || sec === 38 || sec === 51) {
+        fish.x = xArr[index]
+        fish.y = yArr[index]
+        fish.alive = true;
+        stateFish = true;
+        setTimeout(() => {
+            fish.alive = false
+            stateFish = false}, 4000)
+        }
+    if (stateFish) {    
+        if (detectHit(kitty, fish)) {
+        stateFish = false;    
+        fish.alive = false;
+        score += 50;
+    }    
+}}
 
- 
+function itemTrap () {
+    let index = randomPos
+    if (sec === 9 || sec === 25 || sec === 31 || sec === 55) {
+        trap.x = xArr[index]
+        trap.y = yArr[index]
+        trap.alive = true;
+        stateTrap = true;
+        setTimeout(() => {
+            trap.alive = false
+            stateTrap = false}, 4000)
+        }
+    if (stateTrap) {    
+        if (detectHit(kitty, trap)) {
+        stateTrap = false;    
+        trap.alive = false;
+        endGame();
+    }    
+}}
     
 function endGame () {
     displayText.innerText = "Game Over 😿"
