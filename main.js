@@ -82,8 +82,8 @@ let antLoopRight = true;
 
 function redPush(location) {
     switch(location) {
-    case("top") :
-        antsTop.push(new component(500, 15, 35, 25, "./media/red ant Down.png", "image", "red"))
+    case("top") :        
+        antsTop.push(new component(500, 835, 35, 25, "./media/red ant Down.png", "image", "red"))
         setTimeout(randomTop, antTimeTop)
         break
     case("btm") :    
@@ -100,11 +100,12 @@ function redPush(location) {
         break
 }}
 
-
+let iterations = 0;
+let redInterval;
 
 let randomTop = () => {
     if (antLoopTop) {
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.2) {
         redPush("top")}   
         else {
         antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", "brown"))
