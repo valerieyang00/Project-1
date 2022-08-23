@@ -31,8 +31,8 @@ function countSeconds () {
         sec = 0;
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
-        endGame();
         textWin(); 
+        endGame();
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -73,30 +73,21 @@ let antLoopTop = true;
 let antLoopBtm = true;
 let antLoopLeft = true;
 let antLoopRight = true;
-let inGame = true;
-
-//function for red ants generator
-function redPush(location) {
-    switch(location) {
-    case("top") :        
-        antsTop.push(new component(410, 20, 28, 18, "./media/red ant Down.png", "image", true, "red"))
-        setTimeout(randomTop, antTimeTop)
-        break
-    case("btm") :    
-        antsBtm.push(new component(410, 650, 28, 18, "./media/red ant Up.png", "image", true, "red"))
-        setTimeout(randomBtm, antTimeBtm)
-        break
-    case("left") :    
-        antsLeft.push(new component(20, 330, 28, 18, "./media/red ant Right.png", "image", true, "red"))
-        setTimeout(randomLeft, antTimeLeft)
-        break
-    case("right") :
-        antsRight.push(new component(810, 330, 28, 18, "./media/red ant Left.png", "image", true, "red"))
-        setTimeout(randomRight, antTimeRight)
-        break
-}}
+let antLoopAllT = () => {
+    antLoopTop = true;
+    antLoopBtm = true;
+    antLoopLeft = true;
+    antLoopRight = true;
+}
+let antLoopAllF = () => {
+    antLoopTop = false;
+    antLoopBtm = false;
+    antLoopLeft = false;
+    antLoopRight = false;
+}
 
 //function for randomizing ants generator
+let inGame = true;
 let random1 = 0.1;
 let random2 = 0.1;
 let random3 = 0.1;
@@ -142,6 +133,27 @@ let randomRight = () => {
     else if (inGame) {setTimeout(randomRight, antTimeRight)} 
     }
 
+//function for red ants generator
+function redPush(location) {
+    switch(location) {
+    case("top") :        
+        antsTop.push(new component(410, 20, 28, 18, "./media/red ant Down.png", "image", true, "red"))
+        setTimeout(randomTop, antTimeTop)
+        break
+    case("btm") :    
+        antsBtm.push(new component(410, 650, 28, 18, "./media/red ant Up.png", "image", true, "red"))
+        setTimeout(randomBtm, antTimeBtm)
+        break
+    case("left") :    
+        antsLeft.push(new component(20, 330, 28, 18, "./media/red ant Right.png", "image", true, "red"))
+        setTimeout(randomLeft, antTimeLeft)
+        break
+    case("right") :
+        antsRight.push(new component(810, 330, 28, 18, "./media/red ant Left.png", "image", true, "red"))
+        setTimeout(randomRight, antTimeRight)
+        break
+}}    
+
 //game area set up    
 let gameArea = {
 canvas : document.querySelector("canvas"),
@@ -153,10 +165,7 @@ start : function () {
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
-    antLoopTop = true;
-    antLoopBtm = true;
-    antLoopLeft = true;
-    antLoopRight = true;
+    antLoopAllT();
     inGame = true;
     redBlocks = []
     this.topInterval = setTimeout(randomTop, antTimeTop)
@@ -171,7 +180,7 @@ clear : function() {
 }}
 
 
-// setting up canvas for game start & Game loop
+// setting up canvas for game start
 
 function startGame () {
 treasure = new component(365, 295, 100, 80, "./media/pngegg.png", "image", true)
@@ -183,7 +192,6 @@ baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
 gameArea.start();
-
 }
 
 class component {
@@ -212,7 +220,7 @@ if (type == "image") {
         ctx.fillRect(this.x, this.y, this.width, this.height)}
         }}}
 
-
+//Game Loop
 function updateGameArea() {
 gameArea.clear();
 baseTop.render();
@@ -253,10 +261,7 @@ hideIns.addEventListener("click", () => {
 
 
 resetBtn.addEventListener("click", () => {
-    antLoopTop = false;
-    antLoopBtm = false;
-    antLoopLeft = false;
-    antLoopRight = false;
+    antLoopAllF();
     inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
@@ -265,13 +270,17 @@ resetBtn.addEventListener("click", () => {
     antsBtm = []
     antsLeft = []
     antsRight = []
+    speedT = regSpeed;
+    speedB = regSpeed;
+    speedL = regSpeed;
+    speedR = regSpeed;
     constructor = null
     score = 0;
     sec = 0;
     min = 0;
     numH = 0;
     startBtn.disabled = false;
-    scoreTracker()
+    scoreTracker();
     displayTime.innerText = `Time: 00 : 00`
     textClear();
 })
@@ -279,6 +288,7 @@ resetBtn.addEventListener("click", () => {
 // Key events for game character
 let numH = 0;
 function movementHandler(e) {
+    if (inGame = true) {
     const speed = 45;
         switch (e.keyCode) {
             case(38):
@@ -331,7 +341,7 @@ function movementHandler(e) {
                 else {textNoHiss()}
                 break
         }
-    }   
+    }}   
 
 
 document.addEventListener("keydown", movementHandler)
@@ -365,42 +375,46 @@ function detectHitKT(objOne, objTwo) {
 }
 
 //ants rendering function including detect hit between ants and treasure
-let speedT = 1.2
-let speedB = 1.2
-let speedL = 1.5
-let speedR = 1.5
+let regSpeed = 1.2
+let slowSpeed = 0.1
+let noSpeed = 0
+
+let speedT = regSpeed;
+let speedB = regSpeed;
+let speedL = regSpeed;
+let speedR = regSpeed;
 
 function hitAntTreasure () {
     for(let i = 0; i < antsTop.length; i++) {
         antsTop[i].y += speedT
         antsTop[i].render();
         if(detectHit(antsTop[i], treasure)) {
-            endGame();
             textAntsWin();
+            endGame();
         }
     }
     for(let i = 0; i < antsBtm.length; i++) {
         antsBtm[i].y -= speedB
         antsBtm[i].render();
         if(detectHit(antsBtm[i], treasure)) {
-            endGame();
             textAntsWin();
+            endGame();
         }
     }
     for(let i = 0; i < antsLeft.length; i++) {
         antsLeft[i].x += speedL
         antsLeft[i].render();
         if(detectHit(antsLeft[i], treasure)) {
-            endGame();
             textAntsWin();
+            endGame();
         }
     }
     for(let i = 0; i < antsRight.length; i++) {
         antsRight[i].x -= speedR
         antsRight[i].render();
         if(detectHit(antsRight[i], treasure)) {
-            endGame();
             textAntsWin();
+            endGame();
         }}}
  
 // detect kitty and bases: <state> booleans to avoid multiple detection in one play        
@@ -473,22 +487,22 @@ function hitAntTreasure () {
     function restartTop () {
         antLoopTop = true;
         antTimeTop = 1000;
-        speedT = 1.2;
+        speedT = regSpeed;
     }
     function restartBtm () {
         antLoopBtm = true;
         antTimeBtm = 1000;
-        speedB = 1.2;
+        speedB = regSpeed;
     }
     function restartLeft () {
         antLoopLeft = true;
         antTimeLeft = 1000;
-        speedL = 1.5;
+        speedL = regSpeed;
     }
     function restartRight () {
         antLoopRight = true;
         antTimeRight = 1000;
-        speedR = 1.5;
+        speedR = regSpeed;
     }
 
 
@@ -497,10 +511,10 @@ function hitAntTreasure () {
         for(let i = 0; i < antsTop.length; i++) {
             if(detectHit(kitty, antsTop[i])) {
                 if(antsTop[i].desc === "red"){
-                    endGame();
                     textRedAnts();
+                    endGame();
                 } else {
-                    speedT = 0.1;
+                    speedT = slowSpeed;
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)
                 }}}
@@ -508,10 +522,10 @@ function hitAntTreasure () {
         for(let i = 0; i < antsBtm.length; i++) {
             if(detectHit(kitty, antsBtm[i])) {
                 if(antsBtm[i].desc === "red"){
-                    endGame();
                     textRedAnts();
+                    endGame();
                 } else {
-                    speedB = 0.1;
+                    speedB = slowSpeed;
                     antTimeBtm = 3000;
                     setTimeout(restartBtm, 3000)
                 }}}
@@ -519,10 +533,10 @@ function hitAntTreasure () {
         for(let i = 0; i < antsLeft.length; i++) {
             if(detectHit(kitty, antsLeft[i])) {
                 if(antsLeft[i].desc === "red"){
-                    endGame();
                     textRedAnts();
+                    endGame();
                 } else {
-                    speedL = 0.2;
+                    speedL = slowSpeed;
                     antTimeLeft = 3000;
                     setTimeout(restartLeft, 3000)
                 }}}
@@ -530,10 +544,10 @@ function hitAntTreasure () {
         for(let i = 0; i < antsRight.length; i++) {
             if(detectHit(kitty, antsRight[i])) {
                 if(antsRight[i].desc === "red"){
-                    endGame();
                     textRedAnts();
+                    endGame();
                 } else {
-                    speedR = 0.2;
+                    speedR = slowSpeed;
                     antTimeRight = 3000;
                     setTimeout(restartRight, 3000)
                 }}}     
@@ -561,27 +575,21 @@ function itemFish () {
         }
     if (stateFish) {    
         if (detectHit(kitty, fish)) {
-        antLoopTop = false;
-        antLoopBtm = false;
-        antLoopLeft = false;
-        antLoopRight = false;
+        antLoopAllF();
         stateFish = false;    
         fish.alive = false;
         score += 50;
-        speedB = 0;
-        speedL = 0;
-        speedR = 0;
-        speedT = 0;
+        speedB = noSpeed;
+        speedL = noSpeed;
+        speedR = noSpeed;
+        speedT = noSpeed;
         textFish();
         setTimeout(() => {
-            antLoopTop = true;
-            antLoopBtm = true;
-            antLoopLeft = true;
-            antLoopRight = true;
-            speedB = 1.2;
-            speedL = 1.5;
-            speedR = 1.5;
-            speedT = 1.2;
+            antLoopAllT();
+            speedB = regSpeed;
+            speedL = regSpeed;
+            speedR = regSpeed;
+            speedT = regSpeed;
         }, 2000)
     }    
 }}
@@ -590,7 +598,7 @@ let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
 let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
 
 function itemTrap () {
-    let index = randomPos
+    let index = randomPos;
     if (sec === 10 || sec === 25 || sec === 31 || sec === 55) {
         trap.x = xArrTrap[index]
         trap.y = yArrTrap[index]
@@ -604,8 +612,8 @@ function itemTrap () {
         if (detectHit(kitty, trap)) {
         stateTrap = false;    
         trap.alive = false;
-        endGame();
         textTrap();
+        endGame();
     }    
 }}
 
@@ -653,10 +661,7 @@ function endGame () {
     bestScoreCalc();
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
-    antLoopTop = false;
-    antLoopBtm = false;
-    antLoopLeft = false;
-    antLoopRight = false;
+    antLoopAllF();
     inGame = false;
 }
 
@@ -673,64 +678,70 @@ let textBaseHit = () => {
 let textAntsWin = () => {
     textClear();
     displayText.innerText = "Game Over 😿 Try Again!"
+    displayText.style.color = "#F5B7B1"
+    displayText.style.backgroundColor = "#CB4335"
 }
 
 let textRedAnts = () => {
     textClear();
     displayText.innerText = "Red Ants are Poisonous! Game Over 😿 "
-    displayText.style.color = "red"
+    displayText.style.color = "#F5B7B1"
+    displayText.style.backgroundColor = "#CB4335"
 }
 
 let textFish = () => {
     textClear();
     displayText.innerText = "Kitty is Full!😺 +50"
-    displayText.style.color = "cyan"
+    displayText.style.color = "#AED6F1"
+    displayText.style.backgroundColor = "#2E86C1"
     setTimeout(textClear, 3000)
 }
 
 let textTrap = () => {
     textClear();
     displayText.innerText = "Kitty is trapped! Game Over 😿 "
-    displayText.style.color = "red"
+    displayText.style.color = "#F5B7B1"
+    displayText.style.backgroundColor = "#CB4335"
 }
 
 let textRedBlocks = () => {
     textClear();
     displayText.innerText = "Red Block Alert -30 "
-    displayText.style.color = "red"
+    displayText.style.color = "#CB4335"
     setTimeout(textClear, 3000)
 }
 
 let textStart = () => {
     textClear();
     displayText.innerText = "Start! Good Luck Kitty 🍀"
-    displayText.style.color = "burlywood"
+    displayText.style.color = "#16A085"
     setTimeout(textClear, 3000)
 }
 
 let textWin = () => {
     textClear();
     displayText.innerText = "Kitty saves the day! +100 🎉 "
-    displayText.style.color = "green"
+    displayText.style.color = "#D1F2EB"
+    displayText.style.backgroundColor = "#16A085"
 }
 
 let textHiss = () => {
     textClear();
     displayText.innerText = "Hiss Hiss 😼"
-    displayText.style.color = "yellow"
+    displayText.style.color = "#F7DC6F"
     setTimeout(textClear, 3000)
 }
 
 let textNoHiss = () => {
     textClear();
     displayText.innerText = "Ants aren't scared anymore 🙀"
-    displayText.style.color = "yellow"
+    displayText.style.color = "#EC7063"
     setTimeout(textClear, 3000)
 }
 
 let textClear = () => {
     displayText.innerText = ""
-    displayText.style.color = "orangered"
+    displayText.style.color = "#D2B4DE"
     displayText.style.backgroundColor = "black"
 }
 

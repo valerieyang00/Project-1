@@ -79,7 +79,7 @@ main {
     border-bottom: solid 5px lightskyblue;
     font-size: 30px;
     padding-top: 5px;
-    color: orangered;
+    color: #D2B4DE;
     
 }
 
@@ -99,7 +99,7 @@ main {
     font-size: 15px;
     padding: 5px;
     margin-top: 15px;
-    background-color: lightseagreen;
+    background-color: lightgoldenrodyellow;
 }
 
 #insBtn {
@@ -120,18 +120,19 @@ main {
     width: 830px;
 
 }
-.instructions {
+.instructions {    
     display: none;
-    background-color: burlywood;
-    color: black;
-    height: 400px;
-    width: 600px;
+    background-color: black;
+    margin: auto;
+    color: white;
+    height: 600px;
+    width: 800px;
 
 }
 
 #ul {
     text-align: left;
-    padding-left: 100px;
+    font-size: 18px;
     
 }
 
@@ -140,5 +141,18 @@ main {
     margin-bottom: 10px;
     text-align: right;
     font-size: 13px;
+}
+
+
+p {
+    background-color: lightcoral;
+    color: black;
+    text-align: center;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.trick {
+    background-color: lightseagreen;
 }
 
