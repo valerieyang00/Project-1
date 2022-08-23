@@ -59,10 +59,6 @@ function bestScoreCalc () {
     displayNo3.innerText = `3. ${bestScore[2]}`
     }}
 
-
-
-
-
 // Ants set up
 let antsTop = []
 let antsBtm = []
@@ -161,13 +157,13 @@ start : function () {
     antLoopLeft = true;
     antLoopRight = true;
     inGame = true;
+    redBlocks = []
     this.topInterval = setTimeout(randomTop, antTimeTop)
     this.btmInterval = setTimeout(randomBtm, antTimeBtm)
     this.leftInterval = setTimeout(randomLeft, antTimeLeft)
     this.rightInterval = setTimeout(randomRight, antTimeRight)
     this.timerInterval = setInterval(countSeconds, 1000)
-    score = 0;
-    this.scoreInterval = setInterval(scoreTracker, 60)},
+ },
 
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
@@ -175,13 +171,6 @@ clear : function() {
 
 
 // setting up canvas for game start & Game loop
-// let treasure;
-// let kitty;
-// let baseTop;
-// let baseBtm;
-// let baseLeft;
-// let baseRight;
-
 
 function startGame () {
 treasure = new component(365, 295, 100, 80, "./media/pngegg.png", "image", true)
@@ -192,14 +181,6 @@ baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
 baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
-// redBlock1 = new component(540, 0, 280, 20, "red", "base", false, "item")
-// redBlock2 = new component(540, 650, 280, 20, "red", "base", false, "item")
-// redBlock3 = new component(20, 0, 280, 20, "red", "base", false, "item")
-// redBlock4 = new component(20, 650, 280, 20, "red", "base", false, "item")
-// redBlock5 = new component(0, 20, 20, 200, "red", "base", false, "item")
-// redBlock6 = new component(0, 450, 20, 200, "red", "base", false, "item")
-// redBlock7 = new component(810, 20, 20, 200, "red", "base", false, "item")
-// redBlock8 = new component(810, 450, 20, 200, "red", "base", false, "item")
 gameArea.start();
 
 }
@@ -239,16 +220,9 @@ baseLeft.render();
 baseRight.render();
 treasure.render();
 kitty.render();
+scoreTracker();
 fish.render();
 trap.render();
-// redBlock1.render();
-// redBlock2.render();
-// redBlock3.render();
-// redBlock4.render();
-// redBlock5.render();
-// redBlock6.render();
-// redBlock7.render();
-// redBlock8.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
@@ -296,6 +270,8 @@ resetBtn.addEventListener("click", () => {
     min = 0;
     numH = 0;
     startBtn.disabled = false;
+    scoreTracker()
+    displayTime.innerText = `Time: 00 : 00`
 })
 
 // Key events for game character
@@ -634,7 +610,7 @@ function randomBlocks() {
 }}
 
 function hitRedBlocks () {
-    if (sec === 3 || sec === 11 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 54) {
+    if (sec === 3 || sec === 11 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 50) {
     randomBlocks();}
     for (i = 0; i < redBlocks.length; i++) {        
         redBlocks[i].render();
@@ -644,8 +620,8 @@ function hitRedBlocks () {
             score -= 30;
             displayText.innerText = "Red Block Alert -30"
             redBlocks = []
-            setTimeout(() => {stateRedBlocks = true}, 2000)}}}    
-
+            setTimeout(() => {stateRedBlocks = true}, 2000)}}
+}   
     
 
 // game over before reset button
