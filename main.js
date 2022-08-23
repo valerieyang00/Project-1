@@ -11,6 +11,7 @@ const displayNo3 = document.querySelector("#third")
 const textIns = document.querySelector(".instructions")
 const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
+const radioBtns = document.querySelectorAll('input[name="mode"]')
 
 canvas.addEventListener("click", (e) => {
     console.log(e.offsetX, e.offsetY)})
@@ -88,14 +89,11 @@ let antLoopAllF = () => {
 
 //function for randomizing ants generator
 let inGame = true;
-let random1 = 0.1;
-let random2 = 0.1;
-let random3 = 0.1;
-let random4 = 0.1;
+let randomRatio = 0.1;
 
 let randomTop = () => {
     if (antLoopTop) {
-    if (Math.random() < random1) {
+    if (Math.random() < randomRatio) {
         redPush("top")}   
         else {
         antsTop.push(new component(410, 20, 22, 15, "./media/brown ant Down.png", "image", true, "brown"))
@@ -105,7 +103,7 @@ let randomTop = () => {
 
 let randomBtm = () => {
     if (antLoopBtm) {
-    if (Math.random() < random2) {
+    if (Math.random() < randomRatio) {
         redPush("btm")}
     else {
         antsBtm.push(new component(410, 650, 22, 15, "./media/brown ant Up.png", "image", true, "brown"))
@@ -115,7 +113,7 @@ let randomBtm = () => {
 
 let randomLeft = () => {
     if (antLoopLeft) {
-    if (Math.random() < random3) {
+    if (Math.random() < randomRatio) {
         redPush("left")}
     else {
         antsLeft.push(new component(20, 330, 15, 22, "./media/brown ant Right.png", "image", true, "brown"))
@@ -125,7 +123,7 @@ let randomLeft = () => {
 
 let randomRight = () => {
     if (antLoopRight) {
-    if (Math.random() < random4) {
+    if (Math.random() < randomRatio) {
         redPush("right")}
     else {
         antsRight.push(new component(810, 330, 15, 22, "./media/brown ant Left.png", "image", true, "brown"))
@@ -185,8 +183,8 @@ clear : function() {
 function startGame () {
 treasure = new component(345, 285, 140, 100, "./media/treasure.png", "image", true)
 kitty = new component (150, 150, 100, 100, "./media/Cat 15.png", "image", true)
-fish = new component(100, 100, 60, 40, "./media/fish.png", "image", false, "item")
-trap = new component(900, 100, 70, 50, "./media/trap.png", "image", false, "item")
+fish = new component(100, 100, 70, 50, "./media/fish.png", "image", false, "item")
+trap = new component(900, 100, 80, 60, "./media/trap.png", "image", false, "item")
 baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
 baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
@@ -242,11 +240,39 @@ hitRedBlocks();
 
 
 //Event Listeners for all buttons
-
+let gameMode;
 startBtn.addEventListener("click", () => {
-    startGame();
     startBtn.disabled = true;
     textStart();
+    for (radiobtn of radioBtns) {
+        if (radiobtn.checked) {
+            gameMode = radiobtn.value;
+            console.log(gameMode)
+            break}
+        }
+    switch(true) {
+        case(gameMode === "easy"):
+            startGame();
+            break
+        case(gameMode === "medium"):
+            randomRatio = 0.3;
+            regSpeed = 1.5;
+            slowSpeed = 0.3;
+            startGame();
+            trap.width = 100;
+            trap.height = 70;
+            break
+        case(gameMode === "hard"):
+            randomRatio = 0.4;
+            regSpeed = 1.5;
+            slowSpeed = 0.4;
+            startGame();
+            trap.width = 100;
+            trap.height = 70;
+            break
+    }
+
+
 })
 
 insBtn.addEventListener("click", () => {
@@ -262,6 +288,7 @@ hideIns.addEventListener("click", () => {
 
 resetBtn.addEventListener("click", () => {
     antLoopAllF();
+    allBasesT();
     inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
@@ -328,6 +355,7 @@ function movementHandler(e) {
                 }  
                 break
             case(72):
+                if (gameMode === "easy") {
                 numH++
                 if (numH < 3) {
                 kitty.x = 10;
@@ -341,7 +369,7 @@ function movementHandler(e) {
                 else {textNoHiss()}
                 break
         }
-    }}   
+    }}}   
 
 
 document.addEventListener("keydown", movementHandler)
@@ -376,11 +404,11 @@ function detectHitKT(objOne, objTwo) {
 }
 
 //ants rendering function including detect hit between ants and treasure
-let regSpeed = 1.2
+let easySpeed = 1.2
 let slowSpeed = 0.1
 let noSpeed = 0
 
-let speedT = regSpeed;
+let speedT = easySpeed;
 let speedB = regSpeed;
 let speedL = regSpeed;
 let speedR = regSpeed;
@@ -423,6 +451,12 @@ function hitAntTreasure () {
  let stateBaseBtm = true;
  let stateBaseLeft = true;
  let stateBaseRight = true; 
+ let allBasesT = () => {
+     stateBaseTop = true;
+     stateBaseBtm = true;
+     stateBaseLeft = true;
+     stateBaseRight = true; 
+ }
    
 
  function hitBases () {
@@ -663,6 +697,7 @@ function endGame () {
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
     antLoopAllF();
+    allBasesT();
     inGame = false;
 }
 
@@ -735,7 +770,7 @@ let textHiss = () => {
 
 let textNoHiss = () => {
     textClear();
-    displayText.innerText = "Ants aren't scared anymore 🙀"
+    displayText.innerText = "Ants are not scared anymore 🙀"
     displayText.style.color = "#EC7063"
     setTimeout(textClear, 3000)
 }

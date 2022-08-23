@@ -9,12 +9,13 @@ body {
     min-height: 60vh;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    grid-template-rows: 0.2fr 0.3fr 0.5fr 6.5fr 0.6fr;
+    grid-template-rows: 0.2fr 0.3fr 0.5fr 6.5fr 0.6fr 0.1fr;
     grid-template-areas: "header header header header"
                          "start start start start"
                          "timer score score bestscore"
                          "canvas canvas canvas bestscore"
-                         "text text text text";
+                         "text text text text"
+                         "footer footer footer footer";
     justify-content: center;
     font-family: 'Space Mono', monospace;
     color: blanchedalmond;
@@ -81,6 +82,13 @@ main {
     padding-top: 5px;
     color: #D2B4DE;
     
+}
+
+footer {
+    grid-area: footer;
+    font-size: 13px;
+    text-align: left;
+    color: purple;
 }
 
 
@@ -155,4 +163,6 @@ p {
 .trick {
     background-color: lightseagreen;
 }
+
+
 
