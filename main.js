@@ -12,8 +12,8 @@ const textIns = document.querySelector(".instructions")
 const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
 
-// canvas.addEventListener("click", (e) => {
-//     console.log(e.offsetX, e.offsetY)})
+canvas.addEventListener("click", (e) => {
+    console.log(e.offsetX, e.offsetY)})
 
 
 //Time Display including score increases per every 10 seconds played
@@ -32,8 +32,6 @@ function countSeconds () {
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
         endGame(); 
-        bestScore.push(score)
-        bestScoreCalc();
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -190,10 +188,10 @@ treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image", true
 kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image", true)
 fish = new component(100, 100, 80, 50, "./media/fish.png", "image", false, "item")
 trap = new component(900, 100, 100, 80, "./media/trap.png", "image", false, "item")
-baseTop = new component(375, 10, 250, 30, "#24225C")
-baseBtm = new component(375, 810, 250, 30, "#24225C")
-baseLeft = new component(0, 300, 30, 250, "#24225C")
-baseRight = new component(970, 300, 30, 250, "#24225C")
+baseTop = new component(375, 10, 250, 30, "#666868")
+baseBtm = new component(375, 810, 250, 30, "#666868")
+baseLeft = new component(0, 300, 30, 250, "#666868")
+baseRight = new component(970, 300, 30, 250, "#666868")
 gameArea.start();
 
 }
@@ -219,7 +217,7 @@ if (type == "image") {
         if(this.alive) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)}
     } else {
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = this.color
         ctx.fillRect(this.x, this.y, this.width, this.height)}
         }}
 
@@ -325,10 +323,10 @@ function movementHandler(e) {
                 break
             case(72):
                 numH++
-                if (numH < 4) {
+                if (numH < 3) {
                 kitty.x = 10;
                 kitty.y = 10;
-                score -= 10;
+                score -= 20;
                 antsTop = []
                 antsBtm = []
                 antsLeft = []
@@ -371,10 +369,10 @@ function detectHitKT(objOne, objTwo) {
 }
 
 //ants rendering function including detect hit between ants and treasure
-let speedT = 1.3
-let speedB = 1.3
-let speedL = 1.3
-let speedR = 1.3
+let speedT = 1.5
+let speedB = 1.5
+let speedL = 1.5
+let speedR = 1.5
 
 function hitAntTreasure () {
     for(let i = 0; i < antsTop.length; i++) {
@@ -414,6 +412,8 @@ function hitAntTreasure () {
  function hitBases () {
     if (stateBaseTop) {
     if (detectHit(kitty,baseTop)) {
+        baseTop.color = "lightgreen";
+        setTimeout(() => {baseTop.color = "#666868"}, 600)
         antLoopTop = false;
         antsTop = []
         score += 30;
@@ -425,6 +425,8 @@ function hitAntTreasure () {
         }}
     if (stateBaseBtm) {
     if (detectHit(kitty,baseBtm)) {
+        baseBtm.color = "lightgreen";
+        setTimeout(() => {baseBtm.color = "#666868"}, 600)
         antLoopBtm = false;
         antsBtm = []
         score += 30;
@@ -436,6 +438,8 @@ function hitAntTreasure () {
         }}
     if (stateBaseLeft) {
     if (detectHit(kitty,baseLeft)) {
+        baseLeft.color = "lightgreen";
+        setTimeout(() => {baseLeft.color = "#666868"}, 600)
         antLoopLeft = false;
         antsLeft = []
         score += 30;
@@ -447,6 +451,8 @@ function hitAntTreasure () {
         }}
     if (stateBaseRight) {
     if (detectHit(kitty,baseRight)) {
+        baseRight.color = "lightgreen";
+        setTimeout(() => {baseRight.color = "#666868"}, 600)
         antLoopRight = false;
         antsRight = []
         score += 30;
@@ -462,33 +468,33 @@ function hitAntTreasure () {
     function restartTop () {
         antLoopTop = true;
         antTimeTop = 1000;
-        speedT = 1.3;
+        speedT = 1.5;
     }
     function restartBtm () {
         antLoopBtm = true;
         antTimeBtm = 1000;
-        speedB = 1.3;
+        speedB = 1.5;
     }
     function restartLeft () {
         antLoopLeft = true;
         antTimeLeft = 1000;
-        speedL = 1.3;
+        speedL = 1.5;
     }
     function restartRight () {
         antLoopRight = true;
         antTimeRight = 1000;
-        speedR = 1.3;
+        speedR = 1.5;
     }
 
 
-// detect kitty to ants (brown ants -- slow down speed to 0.1, red ants -- game over)    
+// detect kitty to ants (brown ants -- slow down speed to 0.2, red ants -- game over)    
     function hitAnts() {
         for(let i = 0; i < antsTop.length; i++) {
             if(detectHit(kitty, antsTop[i])) {
                 if(antsTop[i].desc === "red"){
                     endGame();
                 } else {
-                    speedT = 0.1;
+                    speedT = 0.2;
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)
                 }}}
@@ -498,7 +504,7 @@ function hitAntTreasure () {
                 if(antsBtm[i].desc === "red"){
                     endGame();
                 } else {
-                    speedB = 0.1;
+                    speedB = 0.2;
                     antTimeBtm = 3000;
                     setTimeout(restartBtm, 3000)
                 }}}
@@ -508,7 +514,7 @@ function hitAntTreasure () {
                 if(antsLeft[i].desc === "red"){
                     endGame();
                 } else {
-                    speedL = 0.1;
+                    speedL = 0.2;
                     antTimeLeft = 3000;
                     setTimeout(restartLeft, 3000)
                 }}}
@@ -518,7 +524,7 @@ function hitAntTreasure () {
                 if(antsRight[i].desc === "red"){
                     endGame();
                 } else {
-                    speedR = 0.1;
+                    speedR = 0.2;
                     antTimeRight = 3000;
                     setTimeout(restartRight, 3000)
                 }}}     
@@ -562,8 +568,8 @@ function itemFish () {
     }    
 }}
 
-let xArrTrap = [717, 864, 232, 700, 69, 827, 360, 129]
-let yArrTrap = [674, 241, 112, 519, 91, 170, 603, 528]
+let xArrTrap = [690, 150, 685, 117, 87, 375, 848, 367]
+let yArrTrap = [299, 520, 675, 140, 740, 532, 628, 206]
 
 function itemTrap () {
     let index = randomPos
@@ -597,4 +603,7 @@ function endGame () {
     antLoopRight = false;
     inGame = false;
 }
+
+// end game messages variables
+
 

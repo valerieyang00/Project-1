@@ -64,6 +64,9 @@ body {
 
 main {
     grid-area: canvas;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: solid 5px lightskyblue;
     margin: 0;
    
@@ -119,6 +122,8 @@ main {
 }
 .instructions {
     display: none;
+    background-color: burlywood;
+    color: black;
     height: 850px;
     width: 1000px;
 
@@ -127,5 +132,6 @@ main {
 #ul {
     text-align: left;
     padding-left: 100px;
+    
 }
 
