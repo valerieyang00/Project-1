@@ -175,12 +175,12 @@ clear : function() {
 
 
 // setting up canvas for game start & Game loop
-let treasure;
-let kitty;
-let baseTop;
-let baseBtm;
-let baseLeft;
-let baseRight;
+// let treasure;
+// let kitty;
+// let baseTop;
+// let baseBtm;
+// let baseLeft;
+// let baseRight;
 
 
 function startGame () {
@@ -192,14 +192,14 @@ baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
 baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
-redBlock1 = new component(540, 0, 280, 20, "red", "base", false, "item")
-redBlock2 = new component(540, 650, 280, 20, "red", "base", false, "item")
-redBlock3 = new component(20, 0, 280, 20, "red", "base", false, "item")
-redBlock4 = new component(20, 650, 280, 20, "red", "base", false, "item")
-redBlock5 = new component(0, 20, 20, 200, "red", "base", false, "item")
-redBlock6 = new component(0, 450, 20, 200, "red", "base", false, "item")
-redBlock7 = new component(810, 20, 20, 200, "red", "base", false, "item")
-redBlock8 = new component(810, 450, 20, 200, "red", "base", false, "item")
+// redBlock1 = new component(540, 0, 280, 20, "red", "base", false, "item")
+// redBlock2 = new component(540, 650, 280, 20, "red", "base", false, "item")
+// redBlock3 = new component(20, 0, 280, 20, "red", "base", false, "item")
+// redBlock4 = new component(20, 650, 280, 20, "red", "base", false, "item")
+// redBlock5 = new component(0, 20, 20, 200, "red", "base", false, "item")
+// redBlock6 = new component(0, 450, 20, 200, "red", "base", false, "item")
+// redBlock7 = new component(810, 20, 20, 200, "red", "base", false, "item")
+// redBlock8 = new component(810, 450, 20, 200, "red", "base", false, "item")
 gameArea.start();
 
 }
@@ -241,20 +241,20 @@ treasure.render();
 kitty.render();
 fish.render();
 trap.render();
-redBlock1.render();
-redBlock2.render();
-redBlock3.render();
-redBlock4.render();
-redBlock5.render();
-redBlock6.render();
-redBlock7.render();
-redBlock8.render();
+// redBlock1.render();
+// redBlock2.render();
+// redBlock3.render();
+// redBlock4.render();
+// redBlock5.render();
+// redBlock6.render();
+// redBlock7.render();
+// redBlock8.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
 itemFish();
 itemTrap();
-randomRedBar();
+hitRedBlocks();
 }
 
 
@@ -425,7 +425,8 @@ function hitAntTreasure () {
  let stateBaseTop = true;
  let stateBaseBtm = true;
  let stateBaseLeft = true;
- let stateBaseRight = true;       
+ let stateBaseRight = true; 
+   
 
  function hitBases () {
     if (stateBaseTop) {
@@ -609,44 +610,43 @@ function itemTrap () {
 }}
 
 // random red blocks
-let indexR = Math.round(Math.random() * 4)
-function randomRedBar () {
-    let index = indexR
-    if (sec === 3 || sec === 12 || sec === 20 || sec === 28 || sec === 35 || sec === 48 || sec === 54) {
-    if (index <= 1) {
-        redBlock1.alive = true;
-        redBlock3.alive = true;
-        if (detectHit(kitty, redBlock1)) {}
-        setTimeout(() => {
-            redBlock1.alive = false;
-            redBlock3.alive = false;
-        }, 4000)
-    }
-    if (index <= 2 && index > 1) {
-        redBlock2.alive = true;
-        redBlock6.alive = true;
-        setTimeout(() => {
-            redBlock2.alive = false;
-            redBlock6.alive = false;
-        }, 4000)
-    }
-    if (index <= 3 && index > 2) {
-        redBlock4.alive = true;
-        redBlock8.alive = true;
-        setTimeout(() => {
-            redBlock4.alive = false;
-            redBlock8.alive = false;
-        }, 4000)
-    }
-    if (index <= 4 && index > 3) {
-        redBlock5.alive = true;
-        redBlock7.alive = true;
-        setTimeout(() => {
-            redBlock5.alive = false;
-            redBlock7.alive = false;
-        }, 4000)
-    }
-}} 
+let stateRedBlocks = true;   
+let redBlocks = []
+let indexRed = Math.round(Math.random() * 4)
+function randomBlocks() {
+    switch(true) {
+    case(indexRed <= 1) :        
+        redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))
+        redBlocks.push(new component(20, 0, 280, 20, "red", "base", true, "item"))
+         break
+    case(indexRed <= 2 && indexRed > 1) :    
+        redBlocks.push(new component(540, 650, 280, 20, "red", "base", true, "item"))
+        redBlocks.push(new component(20, 650, 280, 20, "red", "base", true, "item"))
+         break
+    case(indexRed <= 3 && indexRed > 2) :    
+        redBlocks.push(new component(0, 20, 20, 200, "red", "base", true, "item"))
+        redBlocks.push(new component(0, 450, 20, 200, "red", "base", true, "item"))
+         break
+    case(indexRed <= 3 && indexRed > 3) :
+        redBlocks.push(new component(810, 20, 20, 200, "red", "base", true, "item"))
+        redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))     
+         break
+}}
+
+function hitRedBlocks () {
+    if (sec === 3 || sec === 11 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 54) {
+    randomBlocks();}
+    for (i = 0; i < redBlocks.length; i++) {        
+        redBlocks[i].render();
+        setTimeout(() => {redBlocks = []}, 10000)
+        if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
+            stateRedBlocks = false;
+            score -= 30;
+            displayText.innerText = "Red Block Alert -30"
+            redBlocks = []
+            setTimeout(() => {stateRedBlocks = true}, 2000)}}}    
+
+    
 
 // game over before reset button
 function endGame () {
