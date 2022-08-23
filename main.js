@@ -643,7 +643,6 @@ function hitRedBlocks () {
             stateRedBlocks = false;
             score -= 30;
             textRedBlocks();
-            redBlocks = [];
             setTimeout(() => {stateRedBlocks = true}, 2000)}}
 }   
     
