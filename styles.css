@@ -5,11 +5,11 @@ body {
     font-size: 20px;
 }
 .grid {
-    min-width: 100vh;
-    min-height: 80vh;
+    min-width: 80vh;
+    min-height: 60vh;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    grid-template-rows: 0.3fr 0.3fr 0.5fr 6fr 0.7fr;
+    grid-template-rows: 0.2fr 0.3fr 0.5fr 6.5fr 0.6fr;
     grid-template-areas: "header header header header"
                          "start start start start"
                          "timer score score bestscore"
@@ -25,7 +25,7 @@ body {
     grid-area: header;
     font-family: 'Silkscreen', cursive;
     color: orange;
-    font-size: 25px;
+    font-size: 20px;
 
 }
 
@@ -78,7 +78,7 @@ main {
     border-right: solid 5px lightskyblue;
     border-bottom: solid 5px lightskyblue;
     padding-top: 10px;
-    font-size: 40px;
+    font-size: 30px;
     color: orangered;
     
 }
@@ -115,17 +115,17 @@ main {
 #canvas {
     background-image: url("./media/v882-kul-46.jpg");
     background-position: center;
-    background-size: 1300px;
-    height: 850px;
-    width: 1000px;
+    background-size: 1050px;
+    height: 670px;
+    width: 830px;
 
 }
 .instructions {
     display: none;
     background-color: burlywood;
     color: black;
-    height: 850px;
-    width: 1000px;
+    height: 400px;
+    width: 600px;
 
 }
 
@@ -133,5 +133,12 @@ main {
     text-align: left;
     padding-left: 100px;
     
+}
+
+.radio {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: right;
+    font-size: 13px;
 }
 

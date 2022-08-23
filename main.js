@@ -82,19 +82,19 @@ let inGame = true;
 function redPush(location) {
     switch(location) {
     case("top") :        
-        antsTop.push(new component(500, 15, 35, 25, "./media/red ant Down.png", "image", true, "red"))
+        antsTop.push(new component(410, 20, 28, 18, "./media/red ant Down.png", "image", true, "red"))
         setTimeout(randomTop, antTimeTop)
         break
     case("btm") :    
-        antsBtm.push(new component(500, 835, 35, 25, "./media/red ant Up.png", "image", true, "red"))
+        antsBtm.push(new component(410, 650, 28, 18, "./media/red ant Up.png", "image", true, "red"))
         setTimeout(randomBtm, antTimeBtm)
         break
     case("left") :    
-        antsLeft.push(new component(10, 425, 35, 25, "./media/red ant Right.png", "image", true, "red"))
+        antsLeft.push(new component(20, 330, 28, 18, "./media/red ant Right.png", "image", true, "red"))
         setTimeout(randomLeft, antTimeLeft)
         break
     case("right") :
-        antsRight.push(new component(990, 425, 35, 25, "./media/red ant Left.png", "image", true, "red"))
+        antsRight.push(new component(810, 330, 28, 18, "./media/red ant Left.png", "image", true, "red"))
         setTimeout(randomRight, antTimeRight)
         break
 }}
@@ -110,7 +110,7 @@ let randomTop = () => {
     if (Math.random() < random1) {
         redPush("top")}   
         else {
-        antsTop.push(new component(500, 15, 25, 10, "./media/brown ant Down.png", "image", true, "brown"))
+        antsTop.push(new component(410, 20, 22, 15, "./media/brown ant Down.png", "image", true, "brown"))
         setTimeout(randomTop, antTimeTop)}}
     else if (inGame) {setTimeout(randomTop, antTimeTop)}     
     }
@@ -120,7 +120,7 @@ let randomBtm = () => {
     if (Math.random() < random2) {
         redPush("btm")}
     else {
-        antsBtm.push(new component(500, 835, 25, 10, "./media/brown ant Up.png", "image", true, "brown"))
+        antsBtm.push(new component(410, 650, 22, 15, "./media/brown ant Up.png", "image", true, "brown"))
         setTimeout(randomBtm, antTimeBtm)}}
     else if (inGame) {setTimeout(randomBtm, antTimeBtm)} 
     }
@@ -130,7 +130,7 @@ let randomLeft = () => {
     if (Math.random() < random3) {
         redPush("left")}
     else {
-        antsLeft.push(new component(10, 425, 10, 25, "./media/brown ant Right.png", "image", true, "brown"))
+        antsLeft.push(new component(20, 330, 15, 22, "./media/brown ant Right.png", "image", true, "brown"))
         setTimeout(randomLeft, antTimeLeft)}}
     else if (inGame) {setTimeout(randomLeft, antTimeLeft)}    
     }
@@ -140,7 +140,7 @@ let randomRight = () => {
     if (Math.random() < random4) {
         redPush("right")}
     else {
-        antsRight.push(new component(990, 425, 10, 25, "./media/brown ant Left.png", "image", true, "brown"))
+        antsRight.push(new component(810, 330, 15, 22, "./media/brown ant Left.png", "image", true, "brown"))
         setTimeout(randomRight, antTimeRight)}}
     else if (inGame) {setTimeout(randomRight, antTimeRight)} 
     }
@@ -150,8 +150,8 @@ let gameArea = {
 canvas : document.querySelector("canvas"),
 
 start : function () {
-    this.canvas.width = 1000;
-    this.canvas.height = 850;
+    this.canvas.width = 800;
+    this.canvas.height = 600;
     this.context = this.canvas.getContext("2d");
     canvas.setAttribute('height', getComputedStyle(canvas)['height']);
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
@@ -184,14 +184,22 @@ let baseRight;
 
 
 function startGame () {
-treasure = new component(400, 320, 200, 180, "./media/pngegg.png", "image", true)
-kitty = new component (200, 200, 130, 130, "./media/Cat 15.png", "image", true)
-fish = new component(100, 100, 80, 50, "./media/fish.png", "image", false, "item")
-trap = new component(900, 100, 100, 80, "./media/trap.png", "image", false, "item")
-baseTop = new component(375, 10, 250, 30, "#666868")
-baseBtm = new component(375, 810, 250, 30, "#666868")
-baseLeft = new component(0, 300, 30, 250, "#666868")
-baseRight = new component(970, 300, 30, 250, "#666868")
+treasure = new component(365, 295, 100, 80, "./media/pngegg.png", "image", true)
+kitty = new component (150, 150, 90, 90, "./media/Cat 15.png", "image", true)
+fish = new component(100, 100, 60, 40, "./media/fish.png", "image", false, "item")
+trap = new component(900, 100, 70, 50, "./media/trap.png", "image", false, "item")
+baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
+baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
+baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
+baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
+redBlock1 = new component(540, 0, 280, 20, "red", "base", false, "item")
+redBlock2 = new component(540, 650, 280, 20, "red", "base", false, "item")
+redBlock3 = new component(20, 0, 280, 20, "red", "base", false, "item")
+redBlock4 = new component(20, 650, 280, 20, "red", "base", false, "item")
+redBlock5 = new component(0, 20, 20, 200, "red", "base", false, "item")
+redBlock6 = new component(0, 450, 20, 200, "red", "base", false, "item")
+redBlock7 = new component(810, 20, 20, 200, "red", "base", false, "item")
+redBlock8 = new component(810, 450, 20, 200, "red", "base", false, "item")
 gameArea.start();
 
 }
@@ -217,9 +225,10 @@ if (type == "image") {
         if(this.alive) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)}
     } else {
+        if(this.alive) {
         ctx.fillStyle = this.color
         ctx.fillRect(this.x, this.y, this.width, this.height)}
-        }}
+        }}}
 
 
 function updateGameArea() {
@@ -232,11 +241,20 @@ treasure.render();
 kitty.render();
 fish.render();
 trap.render();
+redBlock1.render();
+redBlock2.render();
+redBlock3.render();
+redBlock4.render();
+redBlock5.render();
+redBlock6.render();
+redBlock7.render();
+redBlock8.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
 itemFish();
 itemTrap();
+randomRedBar();
 }
 
 
@@ -283,7 +301,7 @@ resetBtn.addEventListener("click", () => {
 // Key events for game character
 let numH = 0;
 function movementHandler(e) {
-    const speed = 50;
+    const speed = 45;
         switch (e.keyCode) {
             case(38):
                 kitty.y -= speed;
@@ -369,8 +387,8 @@ function detectHitKT(objOne, objTwo) {
 }
 
 //ants rendering function including detect hit between ants and treasure
-let speedT = 1.5
-let speedB = 1.5
+let speedT = 1.2
+let speedB = 1.2
 let speedL = 1.5
 let speedR = 1.5
 
@@ -468,12 +486,12 @@ function hitAntTreasure () {
     function restartTop () {
         antLoopTop = true;
         antTimeTop = 1000;
-        speedT = 1.5;
+        speedT = 1.2;
     }
     function restartBtm () {
         antLoopBtm = true;
         antTimeBtm = 1000;
-        speedB = 1.5;
+        speedB = 1.2;
     }
     function restartLeft () {
         antLoopLeft = true;
@@ -494,7 +512,7 @@ function hitAntTreasure () {
                 if(antsTop[i].desc === "red"){
                     endGame();
                 } else {
-                    speedT = 0.2;
+                    speedT = 0.1;
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)
                 }}}
@@ -504,7 +522,7 @@ function hitAntTreasure () {
                 if(antsBtm[i].desc === "red"){
                     endGame();
                 } else {
-                    speedB = 0.2;
+                    speedB = 0.1;
                     antTimeBtm = 3000;
                     setTimeout(restartBtm, 3000)
                 }}}
@@ -533,9 +551,9 @@ function hitAntTreasure () {
     }
 
     // set up items (fish/trap) to random axis at certain times
-let xArrFish = [759, 366, 265, 698, 220, 643, 835, 64]
-let yArrFish = [788, 217, 732, 32, 210, 230, 618, 625]
-let randomPos = Math.round(Math.random() * 7)
+let xArrFish = [533,650,700,505,304,297,104,189,74,313,532,542,244]
+let yArrFish = [235,114,454,566,411,118,117,442,555,459,132,154,228]
+let randomPos = Math.round(Math.random() * (xArrFish.length - 1))
 let stateFish;
 let stateTrap;
 
@@ -560,16 +578,16 @@ function itemFish () {
         speedR = 0;
         speedT = 0;
         setTimeout(() => {
-            speedB = 1.5;
+            speedB = 1.2;
             speedL = 1.5;
             speedR = 1.5;
-            speedT = 1.5;
+            speedT = 1.2;
         }, 3000)
     }    
 }}
 
-let xArrTrap = [690, 150, 685, 117, 87, 375, 848, 367]
-let yArrTrap = [299, 520, 675, 140, 740, 532, 628, 206]
+let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
+let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
 
 function itemTrap () {
     let index = randomPos
@@ -589,6 +607,46 @@ function itemTrap () {
         endGame();
     }    
 }}
+
+// random red blocks
+let indexR = Math.round(Math.random() * 4)
+function randomRedBar () {
+    let index = indexR
+    if (sec === 3 || sec === 12 || sec === 20 || sec === 28 || sec === 35 || sec === 48 || sec === 54) {
+    if (index <= 1) {
+        redBlock1.alive = true;
+        redBlock3.alive = true;
+        if (detectHit(kitty, redBlock1)) {}
+        setTimeout(() => {
+            redBlock1.alive = false;
+            redBlock3.alive = false;
+        }, 4000)
+    }
+    if (index <= 2 && index > 1) {
+        redBlock2.alive = true;
+        redBlock6.alive = true;
+        setTimeout(() => {
+            redBlock2.alive = false;
+            redBlock6.alive = false;
+        }, 4000)
+    }
+    if (index <= 3 && index > 2) {
+        redBlock4.alive = true;
+        redBlock8.alive = true;
+        setTimeout(() => {
+            redBlock4.alive = false;
+            redBlock8.alive = false;
+        }, 4000)
+    }
+    if (index <= 4 && index > 3) {
+        redBlock5.alive = true;
+        redBlock7.alive = true;
+        setTimeout(() => {
+            redBlock5.alive = false;
+            redBlock7.alive = false;
+        }, 4000)
+    }
+}} 
 
 // game over before reset button
 function endGame () {
