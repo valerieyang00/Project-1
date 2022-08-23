@@ -31,7 +31,8 @@ function countSeconds () {
         sec = 0;
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
-        endGame(); 
+        endGame();
+        textWin(); 
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -237,6 +238,7 @@ hitRedBlocks();
 startBtn.addEventListener("click", () => {
     startGame();
     startBtn.disabled = true;
+    textStart();
 })
 
 insBtn.addEventListener("click", () => {
@@ -258,7 +260,6 @@ resetBtn.addEventListener("click", () => {
     inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
-    displayText.innerText = "Play Again! 😸"
     gameArea.clear();
     antsTop = []
     antsBtm = []
@@ -272,6 +273,7 @@ resetBtn.addEventListener("click", () => {
     startBtn.disabled = false;
     scoreTracker()
     displayTime.innerText = `Time: 00 : 00`
+    textClear();
 })
 
 // Key events for game character
@@ -325,8 +327,8 @@ function movementHandler(e) {
                 antsBtm = []
                 antsLeft = []
                 antsRight = []
-                displayText.innerText = "HISS HISS 😼"}
-                else {displayText.innerText = "Ants aren't scared anymore! 🙀"}
+                textHiss();}
+                else {textNoHiss()}
                 break
         }
     }   
@@ -374,6 +376,7 @@ function hitAntTreasure () {
         antsTop[i].render();
         if(detectHit(antsTop[i], treasure)) {
             endGame();
+            textAntsWin();
         }
     }
     for(let i = 0; i < antsBtm.length; i++) {
@@ -381,6 +384,7 @@ function hitAntTreasure () {
         antsBtm[i].render();
         if(detectHit(antsBtm[i], treasure)) {
             endGame();
+            textAntsWin();
         }
     }
     for(let i = 0; i < antsLeft.length; i++) {
@@ -388,6 +392,7 @@ function hitAntTreasure () {
         antsLeft[i].render();
         if(detectHit(antsLeft[i], treasure)) {
             endGame();
+            textAntsWin();
         }
     }
     for(let i = 0; i < antsRight.length; i++) {
@@ -395,6 +400,7 @@ function hitAntTreasure () {
         antsRight[i].render();
         if(detectHit(antsRight[i], treasure)) {
             endGame();
+            textAntsWin();
         }}}
  
 // detect kitty and bases: <state> booleans to avoid multiple detection in one play        
@@ -417,6 +423,7 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = true;
         stateBaseRight = true;
+        textBaseHit();
         }}
     if (stateBaseBtm) {
     if (detectHit(kitty,baseBtm)) {
@@ -430,6 +437,7 @@ function hitAntTreasure () {
         stateBaseBtm = false;
         stateBaseLeft = true;
         stateBaseRight = true;
+        textBaseHit();
         }}
     if (stateBaseLeft) {
     if (detectHit(kitty,baseLeft)) {
@@ -443,6 +451,7 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = false;
         stateBaseRight = true;
+        textBaseHit();
         }}
     if (stateBaseRight) {
     if (detectHit(kitty,baseRight)) {
@@ -456,6 +465,7 @@ function hitAntTreasure () {
         stateBaseBtm = true;
         stateBaseLeft = true;
         stateBaseRight = false;
+        textBaseHit();
         }}}          
            
 
@@ -488,6 +498,7 @@ function hitAntTreasure () {
             if(detectHit(kitty, antsTop[i])) {
                 if(antsTop[i].desc === "red"){
                     endGame();
+                    textRedAnts();
                 } else {
                     speedT = 0.1;
                     antTimeTop = 3000;
@@ -498,6 +509,7 @@ function hitAntTreasure () {
             if(detectHit(kitty, antsBtm[i])) {
                 if(antsBtm[i].desc === "red"){
                     endGame();
+                    textRedAnts();
                 } else {
                     speedB = 0.1;
                     antTimeBtm = 3000;
@@ -508,6 +520,7 @@ function hitAntTreasure () {
             if(detectHit(kitty, antsLeft[i])) {
                 if(antsLeft[i].desc === "red"){
                     endGame();
+                    textRedAnts();
                 } else {
                     speedL = 0.2;
                     antTimeLeft = 3000;
@@ -518,6 +531,7 @@ function hitAntTreasure () {
             if(detectHit(kitty, antsRight[i])) {
                 if(antsRight[i].desc === "red"){
                     endGame();
+                    textRedAnts();
                 } else {
                     speedR = 0.2;
                     antTimeRight = 3000;
@@ -547,6 +561,10 @@ function itemFish () {
         }
     if (stateFish) {    
         if (detectHit(kitty, fish)) {
+        antLoopTop = false;
+        antLoopBtm = false;
+        antLoopLeft = false;
+        antLoopRight = false;
         stateFish = false;    
         fish.alive = false;
         score += 50;
@@ -554,12 +572,17 @@ function itemFish () {
         speedL = 0;
         speedR = 0;
         speedT = 0;
+        textFish();
         setTimeout(() => {
+            antLoopTop = true;
+            antLoopBtm = true;
+            antLoopLeft = true;
+            antLoopRight = true;
             speedB = 1.2;
             speedL = 1.5;
             speedR = 1.5;
             speedT = 1.2;
-        }, 3000)
+        }, 2000)
     }    
 }}
 
@@ -582,6 +605,7 @@ function itemTrap () {
         stateTrap = false;    
         trap.alive = false;
         endGame();
+        textTrap();
     }    
 }}
 
@@ -618,15 +642,14 @@ function hitRedBlocks () {
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
-            displayText.innerText = "Red Block Alert -30"
-            redBlocks = []
+            textRedBlocks();
+            redBlocks = [];
             setTimeout(() => {stateRedBlocks = true}, 2000)}}
 }   
     
 
 // game over before reset button
 function endGame () {
-    displayText.innerText = "Game Over 😿"
     bestScore.push(score)
     bestScoreCalc();
     clearInterval(gameArea.interval)
@@ -638,6 +661,78 @@ function endGame () {
     inGame = false;
 }
 
-// end game messages variables
+// text area for messages
+
+let textBaseHit = () => {
+    textClear();
+    displayText.innerText = "Base Attack! +30"
+    displayText.style.color = "green"
+    displayText.style.backgroundColor = "lightgreen"
+    setTimeout(textClear, 2000)
+}
+
+let textAntsWin = () => {
+    textClear();
+    displayText.innerText = "Game Over 😿 Try Again!"
+}
+
+let textRedAnts = () => {
+    textClear();
+    displayText.innerText = "Red Ants are Poisonous! Game Over 😿 "
+    displayText.style.color = "red"
+}
+
+let textFish = () => {
+    textClear();
+    displayText.innerText = "Kitty is Full!😺 +50"
+    displayText.style.color = "cyan"
+    setTimeout(textClear, 3000)
+}
+
+let textTrap = () => {
+    textClear();
+    displayText.innerText = "Kitty is trapped! Game Over 😿 "
+    displayText.style.color = "red"
+}
+
+let textRedBlocks = () => {
+    textClear();
+    displayText.innerText = "Red Block Alert -30 "
+    displayText.style.color = "red"
+    setTimeout(textClear, 3000)
+}
+
+let textStart = () => {
+    textClear();
+    displayText.innerText = "Start! Good Luck Kitty 🍀"
+    displayText.style.color = "burlywood"
+    setTimeout(textClear, 3000)
+}
+
+let textWin = () => {
+    textClear();
+    displayText.innerText = "Kitty saves the day! +100 🎉 "
+    displayText.style.color = "green"
+}
+
+let textHiss = () => {
+    textClear();
+    displayText.innerText = "Hiss Hiss 😼"
+    displayText.style.color = "yellow"
+    setTimeout(textClear, 3000)
+}
+
+let textNoHiss = () => {
+    textClear();
+    displayText.innerText = "Ants aren't scared anymore 🙀"
+    displayText.style.color = "yellow"
+    setTimeout(textClear, 3000)
+}
+
+let textClear = () => {
+    displayText.innerText = ""
+    displayText.style.color = "orangered"
+    displayText.style.backgroundColor = "black"
+}
 
 
