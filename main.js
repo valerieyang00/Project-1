@@ -183,8 +183,8 @@ clear : function() {
 // setting up canvas for game start
 
 function startGame () {
-treasure = new component(365, 295, 100, 80, "./media/pngegg.png", "image", true)
-kitty = new component (150, 150, 90, 90, "./media/Cat 15.png", "image", true)
+treasure = new component(345, 285, 140, 100, "./media/treasure.png", "image", true)
+kitty = new component (150, 150, 100, 100, "./media/Cat 15.png", "image", true)
 fish = new component(100, 100, 60, 40, "./media/fish.png", "image", false, "item")
 trap = new component(900, 100, 70, 50, "./media/trap.png", "image", false, "item")
 baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
@@ -360,12 +360,13 @@ function detectHit(objOne, objTwo) {
         return false
     }
 }
+
 //collision between kitty and treasure to adjust for empty pixels around treasure
 function detectHitKT(objOne, objTwo) {
-    const left = objOne.x + objOne.width >= objTwo.x + 50
-    const right = objOne.x <= objTwo.x + objTwo.width - 55
-    const top = objOne.y + objOne.height >= objTwo.y + 65
-    const bottom = objOne.y <= objTwo.y + objTwo.height - 65
+    const left = objOne.x + objOne.width >= objTwo.x + 40
+    const right = objOne.x <= objTwo.x + objTwo.width - 40
+    const top = objOne.y + objOne.height >= objTwo.y + 40
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 40
     // console.log(top, left, right, bottom)
     if (left && right && top && bottom) {
         return true

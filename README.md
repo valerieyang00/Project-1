@@ -33,4 +33,18 @@ The ants will come out from 4 side of the room, trying to reach the treasures pl
 * Having many different sets of timers will complicate the loops to be written
 * Setting ideal time for each game action that makes the game enjoyable
 
-
+### Images Used
+Background Image:
+<a href="https://www.freepik.com/vectors/perspective">Perspective vector created by rawpixel.com - www.freepik.com</a>
+Cat Image:
+Graphics Designed By Chatra Ardhisuryo From <a href="https://lovepik.com/image-450071496/cartoon-yellow-cat-vector-illustration.html">LovePik.com</a>
+Treasure Image:
+https://www.pngegg.com/en/png-wscab
+Red Ants Image:
+https://www.clipartmax.com/download/m2H7K9A0i8K9m2H7_ant-clip-art/
+Brown Ants Image:
+https://www.pngitem.com/so/ant/2/
+Fish Image:
+<a href="https://flyclipart.com/fish-emoji-fish-emoji-png-763466">Fish Emoji - Fish Emoji PNG</a>
+Trap Image:
+https://www.emojipng.com/preview/12914623
