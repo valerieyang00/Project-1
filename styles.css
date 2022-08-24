@@ -130,9 +130,9 @@ footer {
 }
 .instructions {    
     display: none;
-    background-color: black;
+    background-color:burlywood;
     margin: auto;
-    color: white;
+    color: black;
     height: 600px;
     width: 800px;
 
