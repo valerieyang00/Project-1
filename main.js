@@ -245,8 +245,9 @@ hitRedBlocks();}
 
 // Key events for game character
 let numH = 0;
+let keys = true;
 function movementHandler(e) {
-    if (inGame = true) {
+    if (keys = true) {
     const speed = 45;
         switch (e.keyCode) {
             case(38):
@@ -586,12 +587,15 @@ function endGame () {
     clearInterval(gameArea.timerInterval)
     antLoopAllF();
     allBasesT();
-    inGame = false;}
+    keys = false;}
 
 //Event Listeners for all buttons
 document.addEventListener("keydown", movementHandler)
 
 startBtn.addEventListener("click", () => {
+    textIns.style.display= "none"
+    canvas.style.display = ""
+    keys = true;
     startBtn.disabled = true;
     textStart();
     startGame();})
@@ -629,7 +633,8 @@ resetBtn.addEventListener("click", () => {
     startBtn.disabled = false;
     scoreTracker();
     displayTime.innerText = `Time: 00 : 00`
-    textClear();})
+    textClear();
+    keys = false;})
 
 // text area for messages
 
