@@ -175,8 +175,12 @@ baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
 mp3base = new sound("./media/basehit.mp3")
+mp3fish = new sound("./media/fish.mp3")
+mp3background = new sound("./media/background.mp3")
+mp3redblock = new sound("./media/redblocks.mp3")
 modeCheck();
 speedReg();
+mp3background.play();
 gameArea.start();}
 
 //variable set up by difficulty mode
@@ -231,11 +235,14 @@ class sound {
     constructor (src) {
     this.sound = document.createElement("audio");
     this.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "controls");
+    this.sound.setAttribute("autoplay", "false");
+    this.sound.setAttribute("controls", "false");
+    this.sound.setAttribute("volume", "0.5");
+    this.sound.setAttribute("src", this.src);
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);}    
         play() {
+        this.sound.load();
         this.sound.play();}
 
         stop() {
@@ -398,7 +405,6 @@ function allBasesT () {
         setTimeout(() => {baseTop.color = "#666868"}, 600)
         antLoop.T = false;
         antsTop = []
-        mp3base.play();
         score += 30;
         setTimeout(restartTop, 3000)
         stateBase.T = false;
@@ -410,6 +416,7 @@ function allBasesT () {
     if (stateBase.B) {
     if (detectHit(kitty,baseBtm)) {
         baseBtm.color = "lightgreen";
+        mp3base.play();
         setTimeout(() => {baseBtm.color = "#666868"}, 600)
         antLoop.B = false;
         antsBtm = []
@@ -424,6 +431,7 @@ function allBasesT () {
     if (stateBase.L) {
     if (detectHit(kitty,baseLeft)) {
         baseLeft.color = "lightgreen";
+        mp3base.play();
         setTimeout(() => {baseLeft.color = "#666868"}, 600)
         antLoop.L = false;
         antsLeft = []
@@ -438,6 +446,7 @@ function allBasesT () {
     if (stateBase.R) {
     if (detectHit(kitty,baseRight)) {
         baseRight.color = "lightgreen";
+        mp3base.play();
         setTimeout(() => {baseRight.color = "#666868"}, 600)
         antLoop.R = false;
         antsRight = []
@@ -477,7 +486,6 @@ function allBasesT () {
                     endGame();
                 } else {
                     speed.T = slowSpeed;
-                    // console.log(slowSpeed)
                     antTime.T = 3000;
                     setTimeout(restartTop, 3000)}}}
 
@@ -532,6 +540,7 @@ function itemFish () {
     if (stateFish) {    
         if (detectHit(kitty, fish)) {
         antLoopAllF();
+        mp3fish.play();
         stateFish = false;    
         fish.alive = false;
         score += 50;
@@ -593,6 +602,7 @@ function hitRedBlocks () {
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
+            mp3redblock.play();
             textRedBlocks();
             setTimeout(() => {stateRedBlocks = true}, 2000)}}}   
 
