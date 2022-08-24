@@ -238,80 +238,6 @@ itemTrap();
 hitRedBlocks();
 }
 
-
-//Event Listeners for all buttons
-let gameMode;
-startBtn.addEventListener("click", () => {
-    startBtn.disabled = true;
-    textStart();
-    for (radiobtn of radioBtns) {
-        if (radiobtn.checked) {
-            gameMode = radiobtn.value;
-            console.log(gameMode)
-            break}
-        }
-    switch(true) {
-        case(gameMode === "easy"):
-            startGame();
-            break
-        case(gameMode === "medium"):
-            randomRatio = 0.3;
-            regSpeed = 1.5;
-            slowSpeed = 0.3;
-            startGame();
-            trap.width = 100;
-            trap.height = 70;
-            break
-        case(gameMode === "hard"):
-            randomRatio = 0.4;
-            regSpeed = 1.5;
-            slowSpeed = 0.4;
-            startGame();
-            trap.width = 100;
-            trap.height = 70;
-            break
-    }
-
-
-})
-
-insBtn.addEventListener("click", () => {
-    textIns.style.display = "block"
-    canvas.style.display = "none"
-})
-
-hideIns.addEventListener("click", () => {
-    textIns.style.display= "none"
-    canvas.style.display = ""
-})
-
-
-resetBtn.addEventListener("click", () => {
-    antLoopAllF();
-    allBasesT();
-    inGame = false;
-    clearInterval(gameArea.interval)
-    clearInterval(gameArea.timerInterval)
-    gameArea.clear();
-    antsTop = []
-    antsBtm = []
-    antsLeft = []
-    antsRight = []
-    speedT = regSpeed;
-    speedB = regSpeed;
-    speedL = regSpeed;
-    speedR = regSpeed;
-    constructor = null
-    score = 0;
-    sec = 0;
-    min = 0;
-    numH = 0;
-    startBtn.disabled = false;
-    scoreTracker();
-    displayTime.innerText = `Time: 00 : 00`
-    textClear();
-})
-
 // Key events for game character
 let numH = 0;
 function movementHandler(e) {
@@ -372,8 +298,6 @@ function movementHandler(e) {
     }}}   
 
 
-document.addEventListener("keydown", movementHandler)
-
 //detect collision
 //basic function for all collisions
 function detectHit(objOne, objTwo) {
@@ -404,11 +328,11 @@ function detectHitKT(objOne, objTwo) {
 }
 
 //ants rendering function including detect hit between ants and treasure
-let easySpeed = 1.2
+let regSpeed = 1.2
 let slowSpeed = 0.1
 let noSpeed = 0
 
-let speedT = easySpeed;
+let speedT = regSpeed;
 let speedB = regSpeed;
 let speedL = regSpeed;
 let speedR = regSpeed;
@@ -688,7 +612,6 @@ function hitRedBlocks () {
             textRedBlocks();
             setTimeout(() => {stateRedBlocks = true}, 2000)}}
 }   
-    
 
 // game over before reset button
 function endGame () {
@@ -700,6 +623,87 @@ function endGame () {
     allBasesT();
     inGame = false;
 }
+
+//Event Listeners for all buttons
+document.addEventListener("keydown", movementHandler)
+
+let gameMode;
+startBtn.addEventListener("click", () => {
+    startBtn.disabled = true;
+    textStart();
+    for (radiobtn of radioBtns) {
+        if (radiobtn.checked) {
+            gameMode = radiobtn.value;
+            console.log(gameMode)
+            break}
+        }
+    switch(true) {
+        case(gameMode === "easy"):
+            console.log("EASYYYPEASY")
+            startGame(); 
+        break       
+        case(gameMode === "medium"):
+            console.log("mediummmmm")
+            randomRatio += 0.2;
+            regSpeed += 2;
+            slowSpeed += 0.3
+            startGame();
+            trap.width = 100;
+            trap.height = 70;
+            break
+         case(gameMode === "hard"):
+            console.log("HARRRD")
+            randomRatio += 0.2;
+            regSpeed += 4;
+            slowSpeed += 1;
+            startGame();
+            trap.width = 100;
+            trap.height = 70;
+            break
+    }})
+
+
+// })
+
+insBtn.addEventListener("click", () => {
+    textIns.style.display = "block"
+    canvas.style.display = "none"
+})
+
+hideIns.addEventListener("click", () => {
+    textIns.style.display= "none"
+    canvas.style.display = ""
+})
+
+
+resetBtn.addEventListener("click", () => {
+    antLoopAllF();
+    allBasesT();
+    inGame = false;
+    clearInterval(gameArea.interval)
+    clearInterval(gameArea.timerInterval)
+    gameArea.clear();
+    antsTop = []
+    antsBtm = []
+    antsLeft = []
+    antsRight = []
+    regSpeed = 1.2;
+    slowSpeed = 0.1;
+    randomRatio = 0.1;
+    speedT = regSpeed;
+    speedB = regSpeed;
+    speedL = regSpeed;
+    speedR = regSpeed;
+    constructor = null
+    score = 0;
+    sec = 0;
+    min = 0;
+    numH = 0;
+    startBtn.disabled = false;
+    scoreTracker();
+    displayTime.innerText = `Time: 00 : 00`
+    textClear();
+})
 
 // text area for messages
 

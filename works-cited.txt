@@ -1,3 +1,5 @@
+Images (Added to ReadMe & Footer) -
+
 Background Image:
 <a href="https://www.freepik.com/vectors/perspective">Perspective vector created by rawpixel.com - www.freepik.com</a>
 
@@ -19,3 +21,8 @@ Fish Image:
 
 Trap Image:
 https://www.emojipng.com/preview/12914623
+
+
+Reading materials to understand Canvas game -
+
+https://www.w3schools.com/graphics/game_intro.asp
