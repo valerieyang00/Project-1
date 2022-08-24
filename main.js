@@ -172,39 +172,32 @@ baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
 modeCheck();
+speedVar();
 gameArea.start();}
 
 //variable set up by difficulty mode
 let inGame = true;
 let gameMode;
 let regSpeed;
-let slowSpeed;
-let noSpeed = 0
+let slowSpeed = 0.1;
 
 function modeCheck() {
 for (radiobtn of radioBtns) {
     if (radiobtn.checked) {
-        gameMode = radiobtn.value;
-        console.log(gameMode)}}
-if (gameMode === "easy") {
-        regSpeed = 1.2;
-        slowSpeed = 0.1; 
+        gameMode = radiobtn.value;}}
+    if (gameMode === "easy") {
         randomRatio = 0.1;
-        console.log(gameMode)}
+        regSpeed = 1.2;} 
     else if (gameMode === "medium") {
         randomRatio = 0.2;
-        regSpeed = 10;
-        slowSpeed = 0.3
+        regSpeed = 1.5;
         trap.width = 100;
-        trap.height = 70;
-        console.log(gameMode)}
+        trap.height = 70;}
     else if (gameMode === "hard") {
-        randomRatio = 0.2;
-        regSpeed = 4;
-        slowSpeed = 1;
+        randomRatio = 0.3;
+        regSpeed = 1.8;
         trap.width = 100;
-        trap.height = 70;
-        console.log(gameMode)}} 
+        trap.height = 70;}} 
 
 class component {
 constructor (x, y, width, height, color, type, alive, desc) {
@@ -297,7 +290,7 @@ function movementHandler(e) {
                 antsRight = []
                 textHiss();}
                 else {textNoHiss()}
-                break}}}}   
+                break} else {noHissAllowed()}}}}   
 
 
 //detect collision
@@ -328,10 +321,15 @@ function detectHitKT(objOne, objTwo) {
     }}
 
 //ants rendering function including detect hit between ants and treasure
-let speedT = regSpeed;
-let speedB = regSpeed;
-let speedL = regSpeed;
-let speedR = regSpeed;
+let speedT;
+let speedB;
+let speedL;
+let speedR;
+let speedVar = () => {
+    speedT = regSpeed
+    speedB = regSpeed
+    speedL = regSpeed
+    speedR = regSpeed}
 
 function hitAntTreasure () {
     for(let i = 0; i < antsTop.length; i++) {
@@ -455,6 +453,7 @@ function hitAntTreasure () {
                     endGame();
                 } else {
                     speedT = slowSpeed;
+                    // console.log(slowSpeed)
                     antTimeTop = 3000;
                     setTimeout(restartTop, 3000)}}}
 
@@ -512,10 +511,10 @@ function itemFish () {
         stateFish = false;    
         fish.alive = false;
         score += 50;
-        speedB = noSpeed;
-        speedL = noSpeed;
-        speedR = noSpeed;
-        speedT = noSpeed;
+        speedB = 0;
+        speedL = 0;
+        speedR = 0;
+        speedT = 0;
         textFish();
         setTimeout(() => {
             antLoopAllT();
@@ -616,13 +615,12 @@ resetBtn.addEventListener("click", () => {
     antsBtm = []
     antsLeft = []
     antsRight = []
-    regSpeed = 0
-    slowSpeed = 0
-    randomRatio = 0
-    speedT = regSpeed;
-    speedB = regSpeed;
-    speedL = regSpeed;
-    speedR = regSpeed;
+    regSpeed;
+    randomRatio;
+    speedT;
+    speedB;
+    speedL;
+    speedR;
     constructor = null
     score = 0;
     sec = 0;
@@ -701,5 +699,11 @@ let textClear = () => {
     displayText.innerText = ""
     displayText.style.color = "#D2B4DE"
     displayText.style.backgroundColor = "black"}
+
+let noHissAllowed = () => {
+    textClear();
+    displayText.innerText = "Hissing is not allowed in this mode 😿"
+    displayText.style.color = "#EC7063"
+    setTimeout(textClear, 3000)}
 
 
