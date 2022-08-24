@@ -147,6 +147,7 @@ function redPush(location) {
 let gameArea = {
 canvas : document.querySelector("canvas"),
 start : function () {
+    mp3background.play();
     this.canvas.width = 800;
     this.canvas.height = 600;
     this.context = this.canvas.getContext("2d");
@@ -176,11 +177,9 @@ baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
 mp3base = new sound("./media/basehit.mp3")
 mp3fish = new sound("./media/fish.mp3")
-mp3background = new sound("./media/background.mp3")
-mp3redblock = new sound("./media/redblocks.mp3")
+mp3background = new sound("./media/background.mp3", "background")
 modeCheck();
 speedReg();
-mp3background.play();
 gameArea.start();}
 
 //variable set up by difficulty mode
@@ -232,15 +231,22 @@ if (type == "image") {
         ctx.fillRect(this.x, this.y, this.width, this.height)}}}}
 
 class sound {
-    constructor (src) {
+    constructor (src, type) {
     this.sound = document.createElement("audio");
     this.src = src;
-    this.sound.setAttribute("autoplay", "false");
+    this.type = type;
+    this.sound.setAttribute("autostart", "0");
     this.sound.setAttribute("controls", "false");
-    this.sound.setAttribute("volume", "0.5");
+    this.sound.setAttribute("volume", "0.3");
     this.sound.setAttribute("src", this.src);
+    this.sound.setAttribute("paused", "true")
     this.sound.style.display = "none";
-    document.body.appendChild(this.sound);}    
+    if (this.type === "background") {
+        this.sound.setAttribute("loop", "true");
+        this.sound.setAttribute("volume", "0.1");
+    }
+    document.body.appendChild(this.sound);}   
+
         play() {
         this.sound.load();
         this.sound.play();}
@@ -602,7 +608,6 @@ function hitRedBlocks () {
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
-            mp3redblock.play();
             textRedBlocks();
             setTimeout(() => {stateRedBlocks = true}, 2000)}}}   
 
@@ -614,7 +619,8 @@ function endGame () {
     clearInterval(gameArea.timerInterval)
     antLoopAllF();
     allBasesT();
-    keys = false;}
+    keys = false;
+    mp3background.stop();}
 
 //Event Listeners for all buttons
 document.addEventListener("keydown", movementHandler)
@@ -658,7 +664,8 @@ resetBtn.addEventListener("click", () => {
     scoreTracker();
     displayTime.innerText = `Time: 00 : 00`
     textClear();
-    keys = false;})
+    keys = false;
+    mp3background.stop();})
 
 // text area for messages
 
