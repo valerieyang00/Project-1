@@ -30,7 +30,7 @@ function countSeconds () {
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
         textWin(); 
-        endGame();
+        endGameWin();
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -69,8 +69,7 @@ let antTime = {
     R: 1000}
 
 function resetAntsTime () {
-    Object.keys(antTime).forEach(key => antTime[key] = 1000)
-    }
+    Object.keys(antTime).forEach(key => antTime[key] = 1000)}
 
 let antLoop = {
     T: true,
@@ -156,7 +155,6 @@ start : function () {
     this.interval = setInterval(updateGameArea, 60);
     antLoopAllT();
     inGame = true;
-    redBlocks = []
     this.topInterval = setTimeout(randomTop, antTime.T)
     this.btmInterval = setTimeout(randomBtm, antTime.B)
     this.leftInterval = setTimeout(randomLeft, antTime.L)
@@ -178,6 +176,11 @@ baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
 mp3base = new sound("./media/basehit.mp3")
 mp3fish = new sound("./media/fish.mp3")
 mp3background = new sound("./media/background.mp3", "background")
+mp3redblocks = new sound("./media/redblocks.mp3")
+mp3ants = new sound("./media/ants.mp3")
+mp3gameover = new sound("./media/gameover.mp3")
+mp3gamewin = new sound("./media/gamewin.mp3")
+mp3hiss = new sound("./media/hiss.mp3")
 modeCheck();
 speedReg();
 gameArea.start();}
@@ -248,7 +251,6 @@ class sound {
     document.body.appendChild(this.sound);}   
 
         play() {
-        this.sound.load();
         this.sound.play();}
 
         stop() {
@@ -320,6 +322,7 @@ function movementHandler(e) {
                 antsBtm = []
                 antsLeft = []
                 antsRight = []
+                mp3hiss.play();
                 textHiss();
                 allBasesT();}
                 else {textNoHiss()}
@@ -364,8 +367,6 @@ function speedReg () {
 function speedZero () {
     Object.keys(speed).forEach(key => speed[key] = 0)}
 
-
-
 function hitAntTreasure () {
     for(let i = 0; i < antsTop.length; i++) {
         antsTop[i].y += speed.T
@@ -407,7 +408,6 @@ function allBasesT () {
     if (detectHit(kitty,baseTop)) {
         baseTop.color = "lightgreen";
         mp3base.play();
-        console.log(mp3base)
         setTimeout(() => {baseTop.color = "#666868"}, 600)
         antLoop.T = false;
         antsTop = []
@@ -493,6 +493,7 @@ function allBasesT () {
                 } else {
                     speed.T = slowSpeed;
                     antTime.T = 3000;
+                    mp3ants.play();
                     setTimeout(restartTop, 3000)}}}
 
         for(let i = 0; i < antsBtm.length; i++) {
@@ -503,6 +504,7 @@ function allBasesT () {
                 } else {
                     speed.B = slowSpeed;
                     antTime.B = 3000;
+                    mp3ants.play();
                     setTimeout(restartBtm, 3000)}}}
 
         for(let i = 0; i < antsLeft.length; i++) {
@@ -513,6 +515,7 @@ function allBasesT () {
                 } else {
                     speed.L = slowSpeed;
                     antTime.L = 3000;
+                    mp3ants.play();
                     setTimeout(restartLeft, 3000)}}}
 
         for(let i = 0; i < antsRight.length; i++) {
@@ -523,6 +526,7 @@ function allBasesT () {
                 } else {
                     speed.R = slowSpeed;
                     antTime.R = 3000;
+                    mp3ants.play();
                     setTimeout(restartRight, 3000)}}}  
                 }
 
@@ -608,6 +612,7 @@ function hitRedBlocks () {
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
+            mp3redblocks.play();
             textRedBlocks();
             setTimeout(() => {stateRedBlocks = true}, 2000)}}}   
 
@@ -619,8 +624,21 @@ function endGame () {
     clearInterval(gameArea.timerInterval)
     antLoopAllF();
     allBasesT();
+    redBlocks = []
     keys = false;
-    mp3background.stop();}
+    mp3background.stop();
+    mp3gameover.play();}
+
+function endGameWin () {
+    bestScore.push(score)
+    bestScoreCalc();
+    clearInterval(gameArea.interval)
+    clearInterval(gameArea.timerInterval)
+    antLoopAllF();
+    allBasesT();
+    keys = false;
+    mp3background.stop();
+    mp3gamewin.play();}
 
 //Event Listeners for all buttons
 document.addEventListener("keydown", movementHandler)
@@ -652,6 +670,7 @@ resetBtn.addEventListener("click", () => {
     antsBtm = []
     antsLeft = []
     antsRight = []
+    redBlocks = []
     regSpeed;
     randomRatio;
     speedZero();
