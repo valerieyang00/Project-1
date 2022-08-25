@@ -4,7 +4,7 @@ Help the kitty guard its treasures from the ants!
 ## Game Plan
 The ants will come out from 4 side of the room, trying to reach the treasures placed in the middle of the room. Kitty is to move around the room stopping the ants from getting to the treasure. Kitty is able to attack the 4 ant bases, which will stop the ants for 3 seconds. Kitty can also cut through the ants, which will slow down the ants for 3 seconds. However it can only attack brown ants, kitty will die if it stops the poisonous red ants. Kitty can scare the ants 2 times in 1 game. Press "h" to Hiss, it will scare the cats away for 2 seconds. Player's score goes up as kitty makes each attack until they lose the game. Maximum game time is 1 minute.
 
-![game frame](./media/Screen%20Shot%202022-08-18%20at%209.46.00%20PM.png)
+![game frame](./media/initial wireframe.png)
 =======
 
 ## Tech being used

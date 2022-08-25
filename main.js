@@ -12,9 +12,6 @@ const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
 const radioBtns = document.querySelectorAll('input[name="mode"]')
 
-// canvas.addEventListener("click", (e) => {
-//     console.log(e.offsetX, e.offsetY)})
-
 //Time Display including score increases per every 10 seconds played
 let sec = 0;
 let min = 0;
@@ -58,12 +55,13 @@ function bestScoreCalc () {
     displayNo3.innerText = `3. ${bestScore[2]}`}}
 
 
-// Ants set up
+// Ants set up --- empty arrays for each base where ants will be "pushed" into once game starts
 let antsTop = []
 let antsBtm = []
 let antsLeft = []
 let antsRight = []
 
+// Ants set up --- time for each intervals stored as variables (to be adjusted throughout the game based on kitty/brown ant collision)
 let antTime = {
     T: 1000,
     B: 1000,
@@ -72,6 +70,8 @@ let antTime = {
 
 function resetAntsTime () {
     Object.keys(antTime).forEach(key => antTime[key] = 1000)}
+
+//Ants set up --- Loop boolean set up to turn true/false based on collision activity to detect each collision activity only once at a time & start/stop pushing ants freely throughout the game
 
 let antLoop = {
     T: true,
@@ -86,7 +86,7 @@ function antLoopAllF () {
     Object.keys(antLoop).forEach(key => antLoop[key] = false)}
 
 
-//function for randomizing ants generator
+//function for ants generator including randomRatio for red ants getting mixed-in
 let randomRatio;
 let randomTop = () => {
     if (antLoop.T) {
@@ -144,7 +144,7 @@ function redPush(location) {
         setTimeout(randomRight, antTime.B)
         break}}    
 
-//game area set up    
+//game area set up, to be run once game startGame function is triggered    
 let gameArea = {
 canvas : document.querySelector("canvas"),
 start : function () {
@@ -171,7 +171,7 @@ start : function () {
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);}}
 
-// setting up canvas for game start
+// setting up canvas for game start once start button is clicked by player
 function startGame () {
 treasure = new component(345, 285, 140, 100, "./media/treasure.png", "image", true)
 kitty = new component (150, 150, 100, 100, "./media/Cat 15.png", "image", true)
@@ -193,8 +193,8 @@ modeCheck();
 speedReg();
 gameArea.start();}
 
-//variable set up by difficulty mode
-let inGame;
+//variable set up for different difficulty mode (stretch goal)
+let inGame; // boolean to be used to make sure when game stops, all time/interval activities stop immediately
 let gameMode;
 let regSpeed;
 let slowSpeed = 0.1;
@@ -216,6 +216,8 @@ else if (gameMode === "hard") {
     regSpeed = 1.8;
     trap.width = 100;
     trap.height = 70;}} 
+
+// OOP -- game pieces and sound setup
 
 class component {
 constructor (x, y, width, height, color, type, alive, desc) {
@@ -266,7 +268,7 @@ class sound {
         this.sound.pause();}  
     }
 
-//Game Loop
+//Game Loop -- where all game pieces and collision detections are ran
 function updateGameArea() {
 if(inGame) {
 gameArea.clear();
@@ -287,7 +289,7 @@ detectTrap();
 detectHitRed();}}
 
 
-// Key events for game character
+// "Key" events for game character (kitty) and detection between kitty/treasure
 let numH = 0;
 function movementHandler(e) {
     if (inGame) {
@@ -352,7 +354,7 @@ function detectHit(objOne, objTwo) {
         return false
     }}
 
-//collision between kitty and treasure to adjust for empty pixels around treasure
+//collision between kitty and treasure to adjust some pixels for more flexibility for kitty around the board
 function detectHitKT(objOne, objTwo) {
     const left = objOne.x + objOne.width >= objTwo.x + 40
     const right = objOne.x <= objTwo.x + objTwo.width - 40
@@ -403,7 +405,7 @@ function hitAntTreasure () {
             textAntsWin();
             endGame();}}}
  
-// detect kitty and bases: <state> booleans to avoid multiple detection in one play    
+// detect kitty and bases: <state> booleans to avoid multiple detection in one collision    
 let stateBase = {
     T: true,
     B: true,
@@ -543,7 +545,7 @@ function allBasesF () {
                     mp3ants.play();
                     setTimeout(restartRight, 3000)}}}}}
 
-// set up items (fish/trap) to random axis
+// set up items (fish/trap) to random axis -- stretch goal
 let xArrFish = [533,650,700,505,304,297,104,189,74,313,532,542,244]
 let yArrFish = [235,114,454,566,411,118,117,442,555,459,132,154,228]
 
@@ -562,8 +564,6 @@ function itemFish () {
             fish.alive = false}, 3000)  
         if(inGame) {setTimeout(itemFish, 7000)}}
 
-
-
 function detectFish () {           
     if (fish.alive && detectHit(kitty, fish)) {
         antLoopAllF();
@@ -574,8 +574,7 @@ function detectFish () {
         textFish();
         setTimeout(() => {
             antLoopAllT();
-            speedReg();}, 2000)}}
-       
+            speedReg();}, 2000)}}       
 
 let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
 let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
@@ -596,7 +595,7 @@ function detectTrap () {
         endGame();
         textTrap();}}
 
-// random red blocks
+// random red blocks to appear throughout -- added feature to avoid player from running around the edges the whole game
 let stateRedBlocks = true; 
 let redBlocks = []
 
@@ -633,7 +632,7 @@ function detectHitRed () {
             textRedBlocks();
             setTimeout(() => {stateRedBlocks = true}, 2000)}}}
 
-// game over before reset button
+// Game over and Game Win to reset all items needed  prior to reset button is clicked to clear out the whole canvas and time/score
 function endGame () {
     resetVar();
     bestScore.push(score)
@@ -696,7 +695,7 @@ resetBtn.addEventListener("click", () => {
     textClear();
 })
 
-// text area for messages
+// Messages to be displayed in Text area according to activity through out the game
 
 let msgTrack;
 let textBaseHit = () => {
