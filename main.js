@@ -11,6 +11,7 @@ const textIns = document.querySelector(".instructions")
 const insBtn = document.querySelector("#insBtn")
 const hideIns = document.querySelector("#hideIns")
 const radioBtns = document.querySelectorAll('input[name="mode"]')
+
 // canvas.addEventListener("click", (e) => {
 //     console.log(e.offsetX, e.offsetY)})
 
@@ -155,15 +156,17 @@ start : function () {
     canvas.setAttribute('width', getComputedStyle(canvas)['width']);
     this.interval = setInterval(updateGameArea, 60);
     antLoopAllT();
+    allBasesT();
     inGame = true;
-    // this.topInterval = setTimeout(randomTop, antTime.T)
-    // this.btmInterval = setTimeout(randomBtm, antTime.B)
-    // this.leftInterval = setTimeout(randomLeft, antTime.L)
-    // this.rightInterval = setTimeout(randomRight, antTime.R)
+    stateRedBlocks = true;
+    this.topInterval = setTimeout(randomTop, antTime.T)
+    this.btmInterval = setTimeout(randomBtm, antTime.B)
+    this.leftInterval = setTimeout(randomLeft, antTime.L)
+    this.rightInterval = setTimeout(randomRight, antTime.R)
     this.timerInterval = setInterval(countSeconds, 1000)
     this.fishInterval = setTimeout(itemFish, 3000)
     this.trapInterval = setTimeout(itemTrap, 5000)
-    this.redBlocksInterval = setInterval(randomBlocks, 4000)},
+    this.redBlocksInterval = setInterval(randomBlocks, 7000)},
 
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);}}
@@ -178,21 +181,20 @@ baseTop = new component(325, 0, 180, 20, "#666868", "base", true)
 baseBtm = new component(325, 650, 180, 20, "#666868", "base", true)
 baseLeft = new component(0, 245, 20, 180, "#666868", "base", true)
 baseRight = new component(810, 245, 20, 180, "#666868", "base", true)
-mp3base = new sound("./media/basehit.mp3")
-mp3fish = new sound("./media/fish.mp3")
+mp3base = new sound("./media/basehit.mp3", "effect")
+mp3fish = new sound("./media/fish.mp3", "effect")
 mp3background = new sound("./media/background.mp3", "background")
-mp3redblocks = new sound("./media/redblocks.mp3")
-mp3ants = new sound("./media/ants.mp3")
-mp3gameover = new sound("./media/gameover.mp3")
-mp3gamewin = new sound("./media/gamewin.mp3")
-mp3hiss = new sound("./media/hiss.mp3")
+mp3redblocks = new sound("./media/redblocks.mp3", "effect")
+mp3ants = new sound("./media/ants.mp3", "effect")
+mp3gameover = new sound("./media/gameover.mp3", "effect")
+mp3gamewin = new sound("./media/gamewin.mp3", "effect")
+mp3hiss = new sound("./media/hiss.mp3", "effect")
 modeCheck();
 speedReg();
-allBasesT();
 gameArea.start();}
 
 //variable set up by difficulty mode
-let inGame = true;
+let inGame;
 let gameMode;
 let regSpeed;
 let slowSpeed = 0.1;
@@ -254,17 +256,19 @@ class sound {
         this.sound.setAttribute("loop", "true");
         this.sound.setAttribute("volume", "0.1");
     }
-    document.body.appendChild(this.sound);}   
-
+    document.body.appendChild(this.sound);
+    this.sound.load();
+    }  
         play() {
-        // this.sound.load();
         this.sound.play();}
 
         stop() {
-        this.sound.pause();}}   
+        this.sound.pause();}  
+    }
 
 //Game Loop
 function updateGameArea() {
+if(inGame) {
 gameArea.clear();
 baseTop.render();
 baseBtm.render();
@@ -280,7 +284,7 @@ hitBases();
 hitAnts();
 detectFish();
 detectTrap();
-detectHitRed();}
+detectHitRed();}}
 
 
 // Key events for game character
@@ -539,41 +543,32 @@ function allBasesF () {
                     mp3ants.play();
                     setTimeout(restartRight, 3000)}}}}}
 
-    // set up items (fish/trap) to random axis at certain times
+// set up items (fish/trap) to random axis
 let xArrFish = [533,650,700,505,304,297,104,189,74,313,532,542,244]
 let yArrFish = [235,114,454,566,411,118,117,442,555,459,132,154,228]
-// let stateFish;
+
 let stateTrap;
 let index;
 let indexF;
 let indexT;
 let indexRed;
 
-// function randomizer () {
-//     index = Math.random()}
-
 function itemFish () {
         indexF = Math.round(Math.random() * xArrFish.length)
-        console.log(indexF)
         fish.x = xArrFish[indexF]
         fish.y = yArrFish[indexF]
         fish.alive = true;
-        // if (fish.alive) {
         setTimeout(() => {
             fish.alive = false}, 3000)  
         if(inGame) {setTimeout(itemFish, 7000)}}
-        // stateFish = true;}
 
 
-function detectFish () {            
-    // if (fish.alive) {
-    //     // setTimeout(() => {
-    //     //     fish.alive = false}, 3000)            
+
+function detectFish () {           
     if (fish.alive && detectHit(kitty, fish)) {
         antLoopAllF();
         fish.alive = false;
-        mp3fish.play();
-        // stateFish = false;    
+        mp3fish.play(); 
         score += 50;
         speedZero();
         textFish();
@@ -587,22 +582,16 @@ let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
 
 function itemTrap () {
         indexT = Math.round(Math.random() * xArrTrap.length)
-        console.log(indexT)
         trap.x = xArrTrap[indexT]
         trap.y = yArrTrap[indexT]
         trap.alive = true;
         setTimeout(() => {
             trap.alive = false}, 3000) 
-        if(inGame) {setTimeout(itemTrap, 9000)}
-        // stateTrap = true;
+        if(inGame) {setTimeout(itemTrap, 10000)}
         }
 
 function detectTrap () {
-    // if (trap.alive) {    
-    //     setTimeout(() => {
-    //         trap.alive = false}, 3000)
-        if (trap.alive && detectHit(kitty, trap)) {
-        // stateTrap = false;    
+        if (trap.alive && detectHit(kitty, trap)) {  
         trap.alive = false;
         endGame();
         textTrap();}}
@@ -632,7 +621,7 @@ function randomBlocks() {
         redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))     
          break}
-    setTimeout(() => {redBlocks = []}, 7000)}
+    setTimeout(() => {redBlocks = []}, 5000)}
 
 function detectHitRed () {
         for (i = 0; i < redBlocks.length; i++) {        
@@ -709,12 +698,14 @@ resetBtn.addEventListener("click", () => {
 
 // text area for messages
 
+let msgTrack;
 let textBaseHit = () => {
     textClear();
     displayText.innerText = "Base Attack! +30"
     displayText.style.color = "green"
     displayText.style.backgroundColor = "lightgreen"
-    setTimeout(textClear, 2000)}
+    msgTrack = 1
+    if (inGame) {setTimeout(() => {if (msgTrack === 1) {textClear}}, 2000)}}
 
 let textAntsWin = () => {
     textClear();
@@ -733,7 +724,8 @@ let textFish = () => {
     displayText.innerText = "Yummy!😺 +50"
     displayText.style.color = "#AED6F1"
     displayText.style.backgroundColor = "#2E86C1"
-    setTimeout(textClear, 3000)}
+    msgTrack = 2
+    if (inGame) {setTimeout(() => {if (msgTrack === 2) {textClear}}, 2000)}}
 
 let textTrap = () => {
     textClear();
@@ -745,13 +737,15 @@ let textRedBlocks = () => {
     textClear();
     displayText.innerText = "Red Block Alert -30 "
     displayText.style.color = "#CB4335"
-    setTimeout(textClear, 3000)}
+    msgTrack = 3
+    if (inGame) {setTimeout(() => {if (msgTrack === 3) {textClear}}, 2000)}}
 
 let textStart = () => {
     textClear();
     displayText.innerText = "Start! Good Luck Kitty 🍀"
     displayText.style.color = "#16A085"
-    setTimeout(textClear, 3000)}
+    msgTrack = 4
+    if (inGame) {setTimeout(() => {if (msgTrack === 4) {textClear}}, 2000)}}
 
 let textWin = () => {
     textClear();
@@ -763,19 +757,22 @@ let textHiss = () => {
     textClear();
     displayText.innerText = "Hiss Hiss 😼"
     displayText.style.color = "#F7DC6F"
-    setTimeout(textClear, 3000)}
+    msgTrack = 5
+    if (inGame) {setTimeout(() => {if (msgTrack === 5) {textClear}}, 2000)}}
 
 let textNoHiss = () => {
     textClear();
     displayText.innerText = "Ants are not scared anymore 🙀"
     displayText.style.color = "#EC7063"
-    setTimeout(textClear, 3000)}
+    msgTrack = 6
+    if (inGame) {setTimeout(() => {if (msgTrack === 6) {textClear}}, 2000)}}
     
 let noHissAllowed = () => {
     textClear();
     displayText.innerText = "Hissing is not allowed in this mode 😿"
     displayText.style.color = "#EC7063"
-    setTimeout(textClear, 3000)}
+    msgTrack = 7
+    if (inGame) {setTimeout(() => {if (msgTrack === 7) {textClear}}, 2000)}}
 
 let textClear = () => {
     displayText.innerText = ""
