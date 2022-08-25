@@ -156,10 +156,10 @@ start : function () {
     this.interval = setInterval(updateGameArea, 60);
     antLoopAllT();
     inGame = true;
-    this.topInterval = setTimeout(randomTop, antTime.T)
-    this.btmInterval = setTimeout(randomBtm, antTime.B)
-    this.leftInterval = setTimeout(randomLeft, antTime.L)
-    this.rightInterval = setTimeout(randomRight, antTime.R)
+    // this.topInterval = setTimeout(randomTop, antTime.T)
+    // this.btmInterval = setTimeout(randomBtm, antTime.B)
+    // this.leftInterval = setTimeout(randomLeft, antTime.L)
+    // this.rightInterval = setTimeout(randomRight, antTime.R)
     this.timerInterval = setInterval(countSeconds, 1000)
     this.fishInterval = setTimeout(itemFish, 3000)
     this.trapInterval = setTimeout(itemTrap, 5000)
@@ -558,15 +558,18 @@ function itemFish () {
         fish.x = xArrFish[indexF]
         fish.y = yArrFish[indexF]
         fish.alive = true;
-        if(inGame) {setTimeout(itemFish, 6000)}}
+        // if (fish.alive) {
+        setTimeout(() => {
+            fish.alive = false}, 3000)  
+        if(inGame) {setTimeout(itemFish, 7000)}}
         // stateFish = true;}
 
 
 function detectFish () {            
-    if (fish.alive) {
-        setTimeout(() => {
-            fish.alive = false}, 3000)            
-        if (detectHit(kitty, fish)) {
+    // if (fish.alive) {
+    //     // setTimeout(() => {
+    //     //     fish.alive = false}, 3000)            
+    if (fish.alive && detectHit(kitty, fish)) {
         antLoopAllF();
         fish.alive = false;
         mp3fish.play();
@@ -576,7 +579,7 @@ function detectFish () {
         textFish();
         setTimeout(() => {
             antLoopAllT();
-            speedReg();}, 2000)}}}
+            speedReg();}, 2000)}}
        
 
 let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
@@ -588,19 +591,21 @@ function itemTrap () {
         trap.x = xArrTrap[indexT]
         trap.y = yArrTrap[indexT]
         trap.alive = true;
-        if(inGame) {setTimeout(itemTrap, 7000)}
+        setTimeout(() => {
+            trap.alive = false}, 3000) 
+        if(inGame) {setTimeout(itemTrap, 9000)}
         // stateTrap = true;
         }
 
 function detectTrap () {
-    if (trap.alive) {    
-        setTimeout(() => {
-            trap.alive = false}, 3000)
-        if (detectHit(kitty, trap)) {
+    // if (trap.alive) {    
+    //     setTimeout(() => {
+    //         trap.alive = false}, 3000)
+        if (trap.alive && detectHit(kitty, trap)) {
         // stateTrap = false;    
         trap.alive = false;
         endGame();
-        textTrap();}}}
+        textTrap();}}
 
 // random red blocks
 let stateRedBlocks = true; 
@@ -626,12 +631,12 @@ function randomBlocks() {
         redBlocks.push(new component(810, 20, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))     
-         break}}
+         break}
+    setTimeout(() => {redBlocks = []}, 7000)}
 
 function detectHitRed () {
         for (i = 0; i < redBlocks.length; i++) {        
         redBlocks[i].render();
-        setTimeout(() => {redBlocks = []}, 8000)
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
