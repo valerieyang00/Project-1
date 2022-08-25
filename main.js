@@ -161,7 +161,10 @@ start : function () {
     this.leftInterval = setTimeout(randomLeft, antTime.L)
     this.rightInterval = setTimeout(randomRight, antTime.R)
     this.timerInterval = setInterval(countSeconds, 1000)
-    this.randomInterval = setInterval(randomizer, 1000)},
+    this.fishInterval = setTimeout(itemFish, 3000)
+    this.trapInterval = setTimeout(itemTrap, 5000)
+    this.redBlocksInterval = setInterval(randomBlocks, 4000)},
+
 clear : function() {
     this.context.clearRect(0,0,this.canvas.width, this.canvas.height);}}
 
@@ -275,9 +278,9 @@ trap.render();
 hitAntTreasure();
 hitBases();
 hitAnts();
-itemFish();
-itemTrap();
-hitRedBlocks();}
+detectFish();
+detectTrap();
+detectHitRed();}
 
 
 // Key events for game character
@@ -539,57 +542,62 @@ function allBasesF () {
     // set up items (fish/trap) to random axis at certain times
 let xArrFish = [533,650,700,505,304,297,104,189,74,313,532,542,244]
 let yArrFish = [235,114,454,566,411,118,117,442,555,459,132,154,228]
-let stateFish;
+// let stateFish;
 let stateTrap;
 let index;
 let indexF;
 let indexT;
 let indexRed;
 
-function randomizer () {
-    index = Math.random()}
+// function randomizer () {
+//     index = Math.random()}
 
 function itemFish () {
-    if (sec === 5 || sec === 15 || sec === 23 || sec === 38 || sec === 51) {
-        setInterval(() => {indexF = Math.round(index) * xArrFish.length}, 1000)
+        indexF = Math.round(Math.random() * xArrFish.length)
         console.log(indexF)
         fish.x = xArrFish[indexF]
         fish.y = yArrFish[indexF]
         fish.alive = true;
-        stateFish = true;
+        if(inGame) {setTimeout(itemFish, 6000)}}
+        // stateFish = true;}
+
+
+function detectFish () {            
+    if (fish.alive) {
         setTimeout(() => {
-            fish.alive = false
-            stateFish = false}, 4000)}
-    if (stateFish) {    
+            fish.alive = false}, 3000)            
         if (detectHit(kitty, fish)) {
         antLoopAllF();
-        mp3fish.play();
-        stateFish = false;    
         fish.alive = false;
+        mp3fish.play();
+        // stateFish = false;    
         score += 50;
         speedZero();
         textFish();
         setTimeout(() => {
             antLoopAllT();
             speedReg();}, 2000)}}}
+       
 
 let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
 let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
 
 function itemTrap () {
-    if (sec === 10 || sec === 25 || sec === 31 || sec === 43 || sec === 55) {
-        setInterval(() => {indexT = Math.round(index) * xArrTrap.length}, 1000)
+        indexT = Math.round(Math.random() * xArrTrap.length)
         console.log(indexT)
         trap.x = xArrTrap[indexT]
         trap.y = yArrTrap[indexT]
         trap.alive = true;
-        stateTrap = true;
+        if(inGame) {setTimeout(itemTrap, 7000)}
+        // stateTrap = true;
+        }
+
+function detectTrap () {
+    if (trap.alive) {    
         setTimeout(() => {
-            trap.alive = false
-            stateTrap = false}, 4000)}
-    if (stateTrap) {    
+            trap.alive = false}, 3000)
         if (detectHit(kitty, trap)) {
-        stateTrap = false;    
+        // stateTrap = false;    
         trap.alive = false;
         endGame();
         textTrap();}}}
@@ -599,42 +607,37 @@ let stateRedBlocks = true;
 let redBlocks = []
 
 function randomBlocks() {
-    setInterval(() => {indexRed = index * 4}, 1000)
-    console.log(indexRed)
+    indexRed = Math.random() * 4
     switch(true) {
-    case(indexRed <= 1) :        
+        case(indexRed <= 1) :        
         redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))
         redBlocks.push(new component(20, 0, 280, 20, "red", "base", true, "item"))
         redBlocks.push(new component(20, 650, 280, 20, "red", "base", true, "item"))
          break
-    case(indexRed <= 2 && indexRed > 1) :    
+        case(indexRed <= 2 && indexRed > 1) :    
         redBlocks.push(new component(540, 650, 280, 20, "red", "base", true, "item"))
         redBlocks.push(new component(20, 650, 280, 20, "red", "base", true, "item"))
-        redBlocks.push(new component(0, 450, 20, 200, "red", "base", true, "item"))
-         break
-    case(indexRed <= 3 && indexRed > 2) :    
+        break
+        case(indexRed <= 3 && indexRed > 2) :    
         redBlocks.push(new component(0, 20, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(0, 450, 20, 200, "red", "base", true, "item"))
-        redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item")) 
-         break
-    case(indexRed <= 3 && indexRed > 3) :
+        break
+        case(indexRed <= 3 && indexRed > 3) :
         redBlocks.push(new component(810, 20, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))     
          break}}
 
-function hitRedBlocks () {
-        if (sec === 3 || sec === 11 || sec === 18 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 50) {
-        randomBlocks();
+function detectHitRed () {
         for (i = 0; i < redBlocks.length; i++) {        
         redBlocks[i].render();
-        setTimeout(() => {redBlocks = []}, 10000)
+        setTimeout(() => {redBlocks = []}, 8000)
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
             stateRedBlocks = false;
             score -= 30;
             mp3redblocks.play();
             textRedBlocks();
-            setTimeout(() => {stateRedBlocks = true}, 2000)}}}}
+            setTimeout(() => {stateRedBlocks = true}, 2000)}}}
 
 // game over before reset button
 function endGame () {
@@ -661,8 +664,7 @@ function resetVar () {
     speedZero();
     resetAntsTime();
     mp3background.stop();
-    clearInterval(gameArea.randomInterval);
-}    
+    clearInterval(gameArea.redBlocksInterval);}
 
 //Event Listeners for all buttons
 document.addEventListener("keydown", movementHandler)
