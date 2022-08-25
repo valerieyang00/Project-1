@@ -29,8 +29,9 @@ function countSeconds () {
         sec = 0;
         score += 100;
         displayTime.innerText = `Time : 0${min} : 0${sec}`
-        textWin(); 
+        scoreTracker();
         endGameWin();
+        textWin(); 
     } else {
         displayTime.innerText = `Time : 00 : ${sec}`
         if (sec === 10 || sec === 20 || sec === 30 || sec === 40 || sec === 50) {
@@ -252,6 +253,7 @@ class sound {
     document.body.appendChild(this.sound);}   
 
         play() {
+        this.sound.load();
         this.sound.play();}
 
         stop() {
@@ -486,7 +488,7 @@ function allBasesF () {
         speed.R = regSpeed;}
 
 
-// detect kitty to ants (brown ants -- slow down speed to 0.2, red ants -- game over)    
+// detect kitty to ants (brown ants -- slow down speed to 0.1, red ants -- game over)    
     function hitAnts() {
         for(let i = 0; i < antsTop.length; i++) {
             if(detectHit(kitty, antsTop[i])) {
@@ -536,15 +538,14 @@ function allBasesF () {
     // set up items (fish/trap) to random axis at certain times
 let xArrFish = [533,650,700,505,304,297,104,189,74,313,532,542,244]
 let yArrFish = [235,114,454,566,411,118,117,442,555,459,132,154,228]
-let randomPos = Math.round(Math.random() * (xArrFish.length - 1))
 let stateFish;
 let stateTrap;
-
+let index = Math.round(Math.random() * (xArrFish.length - 1))
 function itemFish () {
-    let index = randomPos
-    if (sec === 5 || sec === 15 || sec === 38 || sec === 51) {
-        fish.x = xArrFish[index]
-        fish.y = yArrFish[index]
+    let indexF = index;
+    if (sec === 5 || sec === 15 || sec === 23 || sec === 38 || sec === 51) {
+        fish.x = xArrFish[indexF]
+        fish.y = yArrFish[indexF]
         fish.alive = true;
         stateFish = true;
         setTimeout(() => {
@@ -567,10 +568,10 @@ let xArrTrap = [103,734,748,258,636,243,645,236,211,694,487,321,315]
 let yArrTrap = [90,496,137,451,474,182,172,95,591,531,438,431,156]
 
 function itemTrap () {
-    let index = randomPos;
-    if (sec === 10 || sec === 25 || sec === 31 || sec === 55) {
-        trap.x = xArrTrap[index]
-        trap.y = yArrTrap[index]
+    let indexT = index;
+    if (sec === 10 || sec === 25 || sec === 31 || sec === 43 || sec === 55) {
+        trap.x = xArrTrap[indexT]
+        trap.y = yArrTrap[indexT]
         trap.alive = true;
         stateTrap = true;
         setTimeout(() => {
@@ -580,36 +581,50 @@ function itemTrap () {
         if (detectHit(kitty, trap)) {
         stateTrap = false;    
         trap.alive = false;
-        textTrap();
-        endGame();}}}
+        endGame();
+        textTrap();}}}
 
 // random red blocks
-let stateRedBlocks = true;   
+let stateRedBlocks = true; 
+let numGen = true;  
 let redBlocks = []
-let indexRed = Math.round(Math.random() * 4)
+let indexRed;
+function randomizer () {
+    indexRed = Math.random() * 4
+ 
+}
+
 function randomBlocks() {
+    randomizer ();
+    numGen = false;
+    setTimeout(() => {numGen = true}, 3000)  
     switch(true) {
     case(indexRed <= 1) :        
         redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))
         redBlocks.push(new component(20, 0, 280, 20, "red", "base", true, "item"))
+        redBlocks.push(new component(20, 650, 280, 20, "red", "base", true, "item"))
          break
     case(indexRed <= 2 && indexRed > 1) :    
         redBlocks.push(new component(540, 650, 280, 20, "red", "base", true, "item"))
         redBlocks.push(new component(20, 650, 280, 20, "red", "base", true, "item"))
+        redBlocks.push(new component(0, 450, 20, 200, "red", "base", true, "item"))
          break
     case(indexRed <= 3 && indexRed > 2) :    
         redBlocks.push(new component(0, 20, 20, 200, "red", "base", true, "item"))
         redBlocks.push(new component(0, 450, 20, 200, "red", "base", true, "item"))
+        redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item")) 
          break
     case(indexRed <= 3 && indexRed > 3) :
         redBlocks.push(new component(810, 20, 20, 200, "red", "base", true, "item"))
-        redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))     
+        redBlocks.push(new component(810, 450, 20, 200, "red", "base", true, "item"))
+        redBlocks.push(new component(540, 0, 280, 20, "red", "base", true, "item"))     
          break}}
 
 function hitRedBlocks () {
-    if (sec === 3 || sec === 11 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 50) {
-    randomBlocks();}
-    for (i = 0; i < redBlocks.length; i++) {        
+    if (numGen) {
+        if (sec === 3 || sec === 11 || sec === 18 || sec === 23 || sec === 31 || sec === 38 || sec === 46 || sec === 50) {
+        randomBlocks();}}
+        for (i = 0; i < redBlocks.length; i++) {        
         redBlocks[i].render();
         setTimeout(() => {redBlocks = []}, 10000)
         if (stateRedBlocks && detectHit(kitty, redBlocks[i])) {
@@ -633,15 +648,16 @@ function endGameWin () {
     mp3gamewin.play();}
 
 function resetVar () {
+    inGame = false;
     antLoopAllF();
     allBasesF();
-    inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
     redBlocks = []
     regSpeed;
     randomRatio;
     speedZero();
+    resetAntsTime();
     mp3background.stop();
 }    
 

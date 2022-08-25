@@ -2,7 +2,7 @@ body {
     display: flex;
     text-align: center;
     background-color: black;
-    font-size: 20px;
+    font-size: 23px;
 }
 .grid {
     min-width: 80vh;
@@ -17,7 +17,7 @@ body {
                          "text text text text"
                          "footer footer footer footer";
     justify-content: center;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Play', sans-serif;
     color: blanchedalmond;
     
 }
@@ -130,17 +130,19 @@ footer {
 }
 .instructions {    
     display: none;
-    background-color:burlywood;
+    background-color:#C9D2D8;
     margin: auto;
     color: black;
     height: 600px;
     width: 800px;
+    text-align: center;
 
 }
 
 #ul {
     text-align: left;
-    font-size: 18px;
+    padding-left: 60px;
+    font-size: 22px;
     
 }
 
@@ -148,21 +150,20 @@ footer {
     margin-top: 0;
     margin-bottom: 10px;
     text-align: right;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 
 p {
-    background-color: lightcoral;
     color: black;
-    text-align: center;
     font-weight: bolder;
     font-style: italic;
 }
 
-.trick {
-    background-color: lightseagreen;
+h4 {
+    font-size: 26px;
 }
+
 
 
 
