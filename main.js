@@ -183,6 +183,7 @@ mp3gamewin = new sound("./media/gamewin.mp3")
 mp3hiss = new sound("./media/hiss.mp3")
 modeCheck();
 speedReg();
+allBasesT();
 gameArea.start();}
 
 //variable set up by difficulty mode
@@ -278,9 +279,8 @@ hitRedBlocks();}
 
 // Key events for game character
 let numH = 0;
-let keys = true;
 function movementHandler(e) {
-    if (keys = true) {
+    if (inGame) {
     const speed = 45;
         switch (e.keyCode) {
             case(38):
@@ -332,10 +332,10 @@ function movementHandler(e) {
 //detect collision
 //basic function for all collisions
 function detectHit(objOne, objTwo) {
-    const left = objOne.x + objOne.width >= objTwo.x + 20
-    const right = objOne.x <= objTwo.x + objTwo.width - 20
-    const top = objOne.y + objOne.height >= objTwo.y + 20
-    const bottom = objOne.y <= objTwo.y + objTwo.height - 20
+    const left = objOne.x + objOne.width >= objTwo.x + 15
+    const right = objOne.x <= objTwo.x + objTwo.width - 15
+    const top = objOne.y + objOne.height >= objTwo.y + 15
+    const bottom = objOne.y <= objTwo.y + objTwo.height - 15
     if (left && right && top && bottom) {
         return true
     } else {
@@ -401,13 +401,16 @@ let stateBase = {
     R: true}
  
 function allBasesT () {
-     Object.keys(stateBase).forEach(key => stateBase[key] = true)}   
+    Object.keys(stateBase).forEach(key => stateBase[key] = true)}   
+
+function allBasesF () {
+    Object.keys(stateBase).forEach(key => stateBase[key] = false)}        
 
  function hitBases () {
     if (stateBase.T) {
     if (detectHit(kitty,baseTop)) {
-        baseTop.color = "lightgreen";
         mp3base.play();
+        baseTop.color = "lightgreen";
         setTimeout(() => {baseTop.color = "#666868"}, 600)
         antLoop.T = false;
         antsTop = []
@@ -421,8 +424,8 @@ function allBasesT () {
         }}
     if (stateBase.B) {
     if (detectHit(kitty,baseBtm)) {
-        baseBtm.color = "lightgreen";
         mp3base.play();
+        baseBtm.color = "lightgreen";
         setTimeout(() => {baseBtm.color = "#666868"}, 600)
         antLoop.B = false;
         antsBtm = []
@@ -436,8 +439,8 @@ function allBasesT () {
         }}
     if (stateBase.L) {
     if (detectHit(kitty,baseLeft)) {
-        baseLeft.color = "lightgreen";
         mp3base.play();
+        baseLeft.color = "lightgreen";
         setTimeout(() => {baseLeft.color = "#666868"}, 600)
         antLoop.L = false;
         antsLeft = []
@@ -451,8 +454,8 @@ function allBasesT () {
         }}
     if (stateBase.R) {
     if (detectHit(kitty,baseRight)) {
-        baseRight.color = "lightgreen";
         mp3base.play();
+        baseRight.color = "lightgreen";
         setTimeout(() => {baseRight.color = "#666868"}, 600)
         antLoop.R = false;
         antsRight = []
@@ -488,8 +491,8 @@ function allBasesT () {
         for(let i = 0; i < antsTop.length; i++) {
             if(detectHit(kitty, antsTop[i])) {
                 if(antsTop[i].desc === "red"){
-                    textRedAnts();
                     endGame();
+                    textRedAnts();
                 } else {
                     speed.T = slowSpeed;
                     antTime.T = 3000;
@@ -499,8 +502,8 @@ function allBasesT () {
         for(let i = 0; i < antsBtm.length; i++) {
             if(detectHit(kitty, antsBtm[i])) {
                 if(antsBtm[i].desc === "red"){
-                    textRedAnts();
                     endGame();
+                    textRedAnts();
                 } else {
                     speed.B = slowSpeed;
                     antTime.B = 3000;
@@ -510,8 +513,8 @@ function allBasesT () {
         for(let i = 0; i < antsLeft.length; i++) {
             if(detectHit(kitty, antsLeft[i])) {
                 if(antsLeft[i].desc === "red"){
-                    textRedAnts();
                     endGame();
+                    textRedAnts();
                 } else {
                     speed.L = slowSpeed;
                     antTime.L = 3000;
@@ -521,8 +524,8 @@ function allBasesT () {
         for(let i = 0; i < antsRight.length; i++) {
             if(detectHit(kitty, antsRight[i])) {
                 if(antsRight[i].desc === "red"){
-                    textRedAnts();
                     endGame();
+                    textRedAnts();
                 } else {
                     speed.R = slowSpeed;
                     antTime.R = 3000;
@@ -618,27 +621,29 @@ function hitRedBlocks () {
 
 // game over before reset button
 function endGame () {
+    resetVar();
     bestScore.push(score)
     bestScoreCalc();
-    clearInterval(gameArea.interval)
-    clearInterval(gameArea.timerInterval)
-    antLoopAllF();
-    allBasesT();
-    redBlocks = []
-    keys = false;
-    mp3background.stop();
     mp3gameover.play();}
 
 function endGameWin () {
+    resetVar();
     bestScore.push(score)
     bestScoreCalc();
+    mp3gamewin.play();}
+
+function resetVar () {
+    antLoopAllF();
+    allBasesF();
+    inGame = false;
     clearInterval(gameArea.interval)
     clearInterval(gameArea.timerInterval)
-    antLoopAllF();
-    allBasesT();
-    keys = false;
+    redBlocks = []
+    regSpeed;
+    randomRatio;
+    speedZero();
     mp3background.stop();
-    mp3gamewin.play();}
+}    
 
 //Event Listeners for all buttons
 document.addEventListener("keydown", movementHandler)
@@ -646,7 +651,6 @@ document.addEventListener("keydown", movementHandler)
 startBtn.addEventListener("click", () => {
     textIns.style.display= "none"
     canvas.style.display = ""
-    keys = true;
     startBtn.disabled = true;
     textStart();
     startGame();})
@@ -660,20 +664,12 @@ hideIns.addEventListener("click", () => {
     canvas.style.display = ""})
 
 resetBtn.addEventListener("click", () => {
-    antLoopAllF();
-    allBasesT();
-    inGame = false;
-    clearInterval(gameArea.interval)
-    clearInterval(gameArea.timerInterval)
+    resetVar();
     gameArea.clear();
     antsTop = []
     antsBtm = []
     antsLeft = []
     antsRight = []
-    redBlocks = []
-    regSpeed;
-    randomRatio;
-    speedZero();
     constructor = null
     score = 0;
     sec = 0;
@@ -683,8 +679,7 @@ resetBtn.addEventListener("click", () => {
     scoreTracker();
     displayTime.innerText = `Time: 00 : 00`
     textClear();
-    keys = false;
-    mp3background.stop();})
+})
 
 // text area for messages
 
