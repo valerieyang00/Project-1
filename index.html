@@ -1,84 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitty Treasure Guard 😺</title>
-    <link rel="stylesheet" href="./styles.css">
-    <script defer src="./main.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap" rel="stylesheet">
 
-  </head>
-  <body>
-    <div class = "grid">
-        <div class = "header">
-        <h1>Kitty Treasure Guard</h1></div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitty Treasure Guard 😺</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./main.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap" rel="stylesheet">
+</head>
 
-        <div class = "start">
-        <div class = "radio">
-          <div id = "easy">
-            <label for = "easymode">Easy</label>
-            <input type = "radio" id="easy" name = "mode" value="easy" checked>
-          </div>
-          <div id = "medium">
-            <label for = "mediummode">Medium</label>
-            <input type = "radio" id="medium" name = "mode" value="medium">
-          </div>
-          <div id = "hard">
-            <label for = "hardmode">Hard</label>
-            <input type = "radio" id="hard" name = "mode" value="hard">
-          </div>
-        </div> 
-        <button id = "startBtn">START</button>
-        <button id = "resetBtn">RESET</button>
-        <button id = "insBtn">Instructions</button>
-        </div>
-
-        <div class = "aside-top-left">Time : 00 : 00</div>
-
-        <div class = "aside-top-right">Score : 0</div> 
-
-        <div class = "aside-right">Best Scores :<br>
-            <div id = "first">1.</div>
-            <div id = "second">2.</div>
-            <div id = "third">3.</div>        
-        </div>
-
-        <main>
-          <div class = "instructions">
-            <h4><span style="color: #D35400">Help the Kitty protect its Treasures</span></h4>
-            <ul id = "ul">
-              <li>Move Arrows <span style="color:#1A5276">Up/Down/Left/Right</span> to move the <span style="color:#D35400">Kitty</span></li>
-              <li>Hit any of the <span style="color:#1A5276">4 ant bases</span> to freeze the ants for 3 seconds <span style="color: #1A5276">(+30pts)</span></li>
-              <li>Hit any of the <span style="color: #6E2C00">Brown Ants</span> to slow them down for 3 seconds.</li>
-              <li>Eat the <span style="color: #1A5276">Fish</span> to freeze ants for 2 seconds <span style="color:#1A5276">(+50pts)</span></li>
-              <li><span style="color:#1A5276">Maximum game time : 1 minute. (+100pts)</span></li>
-              <p> <span style="background-color: lightcoral">Watch Out For: </span></p>
-              <li>Poisonous Red Ants : <span style="color:#922B21">Game Over</span></li>
-              <li>Kitty Trap : <span style="color: #922B21">Game Over</span></li>
-              <li>Red Blocks : <span style="color:#922B21">(-30pts)</span></li>
-              <p> <span style="background-color: lightseagreen">* Trick (in Easy Mode Only) *:</span></p>
-              <li>Press "h" key for <span style="color:#D35400">Kitty</span> to Hiss and scare the ants away! <span style="color: #922B21">(-10pts)</span> <br>Only allowed 2 times per game</li>
-            </ul> 
-            <button id = "hideIns">Hide Instructions</button>
-          </div> 
-            <canvas id="canvas">
-            </canvas>
-        </main>
-        
-
-        <div class = "aside-btm">Click START to begin! 😻</div>
-
-        <footer>
-          Graphics Designed By Chatra Ardhisuryo From <a href="https://lovepik.com/image-450071496/cartoon-yellow-cat-vector-illustration.html">LovePik.com</a><br>
-          <a href="https://www.freepik.com/vectors/perspective">Perspective vector created by rawpixel.com - www.freepik.com</a>
-        </footer>
+<body>
+  <div class="grid">
+    <div class="header">
+      <h1>Kitty Treasure Guard</h1>
     </div>
+    <div class="start">
+      <div class="radio">
+        <div id="easy">
+          <label for="easymode">Easy</label>
+          <input type="radio" id="easy" name="mode" value="easy" checked>
+        </div>
+        <div id="medium">
+          <label for="mediummode">Medium</label>
+          <input type="radio" id="medium" name="mode" value="medium">
+        </div>
+        <div id="hard">
+          <label for="hardmode">Hard</label>
+          <input type="radio" id="hard" name="mode" value="hard">
+        </div>
+      </div>
+      <button id="startBtn">START</button>
+      <button id="resetBtn">RESET</button>
+      <button id="insBtn">Instructions</button>
     </div>
-  </body>
+    <div class="aside-top-left">Time : 00 : 00</div>
+    <div class="aside-top-right">Score : 0</div>
+    <div class="aside-right">Best Scores :<br>
+      <div id="first">1.</div>
+      <div id="second">2.</div>
+      <div id="third">3.</div>
+    </div>
+
+    <main>
+      <div class="instructions">
+        <h4><span style="color: #D35400">Help the Kitty protect its Treasures</span></h4>
+        <ul id="ul">
+          <li>Move Arrows <span style="color:#1A5276">Up/Down/Left/Right</span> to move the <span
+              style="color:#D35400">Kitty</span></li>
+          <li>Hit any of the <span style="color:#1A5276">4 ant bases</span> to freeze the ants for 3 seconds <span
+              style="color: #1A5276">(+30pts)</span></li>
+          <li>Hit any of the <span style="color: #6E2C00">Brown Ants</span> to slow them down for 3 seconds.</li>
+          <li>Eat the <span style="color: #1A5276">Fish</span> to freeze ants for 2 seconds <span
+              style="color:#1A5276">(+50pts)</span></li>
+          <li><span style="color:#1A5276">Maximum game time : 1 minute. (+100pts)</span></li>
+          <p> <span style="background-color: lightcoral">Watch Out For: </span></p>
+          <li>Poisonous Red Ants : <span style="color:#922B21">Game Over</span></li>
+          <li>Kitty Trap : <span style="color: #922B21">Game Over</span></li>
+          <li>Red Blocks : <span style="color:#922B21">(-30pts)</span></li>
+          <p> <span style="background-color: lightseagreen">* Trick (in Easy Mode Only) *:</span></p>
+          <li>Press "h" key for <span style="color:#D35400">Kitty</span> to Hiss and scare the ants away! <span
+              style="color: #922B21">(-10pts)</span> <br>Only allowed 2 times per game</li>
+        </ul>
+        <button id="hideIns">Hide Instructions</button>
+      </div>
+      <canvas id="canvas">
+      </canvas>
+    </main>
+
+
+    <div class="aside-btm">Click START to begin! 😻</div>
+
+    <footer>
+      Graphics Designed By Chatra Ardhisuryo From <a
+        href="https://lovepik.com/image-450071496/cartoon-yellow-cat-vector-illustration.html">LovePik.com</a><br>
+      <a href="https://www.freepik.com/vectors/perspective">Perspective vector created by rawpixel.com -
+        www.freepik.com</a>
+    </footer>
+  </div>
+  </div>
+</body>
+
 </html>
