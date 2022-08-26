@@ -7,7 +7,7 @@ Help the kitty guard its treasures from the ants!
 Game begins with ants coming out from 4 bases, trying to reach the treasure placed in the middle of the room. Move the kitty around and stop the ants from getting to the treasure. Kitty is able to attack the 4 ant bases, which will clear the ants for 3 seconds. Kitty can also cut through the ants, which will slow down the ants for 3 seconds. However, it can only attack brown ants, as red ants are poisonous (game over). Kitty can hiss (press "h") to scare the ants 2 times in 1 game, and game will reset (only available in easy mode). Eat the fish to freeze ants for 2 seconds (+50 points) and avoid Traps which will end the game. Player's score goes up as kitty makes each attack until they lose the game. Avoid red blocks for higher score potential. Maximum game time is 1 minute (WIN!).
 
 ### Initial Wireframe
-![Game frame](./media/initial wireframe.png)
+![Wireframe](./media/initial wireframe.png)
 
 
 ## Tech Used
@@ -38,7 +38,7 @@ Game begins with ants coming out from 4 bases, trying to reach the treasure plac
 
 ### Final Look
 
-![Final look](./media/Final game.png)
+![Final](./media/Final game.png)
 
 
 ## Approach.. Roadblocks.. and Reflection
