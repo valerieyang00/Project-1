@@ -9,13 +9,16 @@ Game begins with ants coming out from 4 bases, trying to reach the treasure plac
 ### Initial Wireframe
 ![Wireframe](./media/initial%20wireframe.png)
 
+### Final Look
+
+![Final](./media/Final%20game.png)
 
 ## Tech Used
 
 * HTML/CSS - Canvas
 * Javascript
 
-## MVP Accomplished
+## Game Functionalities Built
 
 * Game start button / Reset button / Instructions 
 * A game canvas with treasure placed in middle
@@ -26,40 +29,12 @@ Game begins with ants coming out from 4 bases, trying to reach the treasure plac
 * Display loss and end the game if ants reach the treasure, or kitty stops a red ant
 * End the game when player lasts 1 minute - add +100 bonus points
 * Display scoreboard that tracks the player's score throughout the game and 3 best scores
-* Set "h" key to restart the game (time keeps running), limiting to 2 times per game only in Easy mode. 
-
-## Stretch Goals Accomplished
-
+* Set "h" key to restart the game (time keeps running), limiting to 2 times per game only in Easy mode.
 * Easy/Medium/Hard mode with different ants speed and increasing ratio of red ants.
 * Fish appears randomly throughout the game -  if Kitty eats the fish, ants are frozen for 2 seconds + 50 bonus points
 * Traps appear randomly throughout the game - Game over at collision
 * Added red blocks to appear randomly as new feature to avoid player from running around the edge the whole game
 * Added background audio and sound effects for each move
-
-### Final Look
-
-![Final](./media/Final%20game.png)
-
-
-## Approach.. Roadblocks.. and Reflection
-
-I started out by writing out the game plan and listing different game pieces and logics I am going to need. Then I wrote out the basic HTML and CSS using Grid/Flexbox to have a layout and designated canvas area for the game to happen.
-
-First roadblock came early over the weekend as none of my codes for canvas seemed to work the way I imagined to be. At that point I realized that I need to gain more understanding of canvas and overall game logics (loops). I read through W3School's canvas tutorial which helped me understand how everything works and come together in a game.
-I had a slow start in javascript due to the initial hiccups, but used the weekend to speed up the process. I wrote out on paper everything that needs to be done and grouped them into list of tasks, as a way to manage the project without getting overwhelmed. Having the project broken down to several small projects helped me to stay on track, and also feel small accomplishments along the way.
-
-Second roadblock was various issues around adding images as game pieces. After spending hours with no luck, I switched gears to use rectangles and continued to build out all the game logics first. Then when I tried the images after, it worked like magic. When I couldn't figure out collision detections for a while, I proceeded to add timer, scoreboard, instructions, and some more CSS styles to shut off my brain from crazy game logics for a while, which helped me to think with a fresh mind once I returned to it. I learned that sometimes, it helped me to go around a roadblock whether it's stepping away from the computer, or switching  gear to different pieces of the job and attempt to resolve again later. 
-
-Third roadblock was with the many setTimeouts and setIntervals I had to use since my game plan had a lot of time controlled features. I ended up using many boolean variables to control collision detection to only once per action and to avoid infinite loops. This was the most painful roadblock as I seemed to always break one, as I fixed one. For the future, I'd love to learn if there are better ways to control this aspect of the game, rather than using ifs on boolean variables for every detection.
-
-After I built out general game logics that included everything in the MVP, I started testing to make sure I had built a functioning game before moving on to stretch goals. It had some little bugs that I sorted out one by one. I learned alot during the debugging process as there were many occasions where computer was taking codes differently than I imagined. I feel I got a bit closer to javascript.
-
-Once I had a functioning game, with minimal bugs, I added in the stretch goals I planned (fish, trap, game mode). As the logic worked similarly, but I had major trouble with setting the randomizer to give different value for each appearance of items without getting loops mixed up. Then I added some sound effects and background music to enhance the game experience as my last step. After this point, I started to test repetitively. I came across many little bugs which mostly had to do with setTimeouts and setIntervals, which I resolved to the best I can, in the time I had left.
-
-### Post-project - Growth Areas and Looking Forward
----
-After finishing the project and reviewing all my codes, one thing I definitely want to get better at is DRYing my codes. I tried to eliminate as much repetitiveness as possible, but because I had 4 ant bases that had to work separately, I felt like I had to repeat many functions and variables. I am excited for the journey ahead to learn and write more efficient codes. Also, if I build another game in the future, I would love to use more animation and movements such as gravity and jump.
-
 
 ## Works Cited
 
